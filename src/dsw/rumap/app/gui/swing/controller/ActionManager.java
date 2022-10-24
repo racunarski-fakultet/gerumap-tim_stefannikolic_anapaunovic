@@ -2,19 +2,18 @@ package dsw.rumap.app.gui.swing.controller;
 
 import lombok.Getter;
 
-import java.awt.*;
 @Getter
 public class ActionManager {
 
-    private RenameAction renameAction;
-    private NewProjectAction newProjectAction;
+    private InfoAction infoAction;
+    private NewAction newAction;
 
     public ActionManager(){
         initialiseActions();
     }
 
     private void initialiseActions(){
-        renameAction = new RenameAction();
-        newProjectAction = new NewProjectAction();
+        infoAction = new InfoAction();
+        newAction = new NewAction();
     }
 }

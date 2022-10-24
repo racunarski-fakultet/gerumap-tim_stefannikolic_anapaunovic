@@ -1,4 +1,11 @@
 package dsw.rumap.app.gui.swing.controller;
 
-public class RenameAction {
+import java.awt.event.ActionEvent;
+
+public class RenameAction extends AbstractRumapActions {
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+
+    }
 }

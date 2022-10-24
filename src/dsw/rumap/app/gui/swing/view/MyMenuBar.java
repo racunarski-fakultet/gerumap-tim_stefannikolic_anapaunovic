@@ -9,10 +9,9 @@ public class MyMenuBar extends JMenuBar {
         super();
         JMenu fileMenu = new JMenu("File");
         fileMenu.setMnemonic(KeyEvent.VK_F);
-        //fileMenu.add(MainFrame.getInstance().getActionManager().getRenameAction());
-        //fileMenu.add(MainFrame.getInstance().getActionManager().getNewProjectAction());
-        //cekiceki
+        fileMenu.add(MainFrame.getInstance().getActionManager().getRenameAction());
+        fileMenu.add(MainFrame.getInstance().getActionManager().getNewProjectAction());
         this.add(fileMenu);
-
+        //asdf
     }
 }

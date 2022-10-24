@@ -34,7 +34,7 @@ public class MainFrame extends JFrame {
         setSize(screenWidth/2, screenHeight/2);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setTitle("RuMap app");
+        setTitle("RuMap");
         menu = new MyMenuBar();
         setJMenuBar(menu);
 

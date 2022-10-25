@@ -8,8 +8,8 @@ public class MyToolbar extends JToolBar {
         super(HORIZONTAL);
         setFloatable(false);
 
-        add(MainFrame.getInstance().getActionManager().getInfoAction());
         add(MainFrame.getInstance().getActionManager().getNewAction());
+        add(MainFrame.getInstance().getActionManager().getInfoAction());
 
     }
 }

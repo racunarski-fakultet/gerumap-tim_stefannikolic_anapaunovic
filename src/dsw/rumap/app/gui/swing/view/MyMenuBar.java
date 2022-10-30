@@ -8,9 +8,12 @@ public class MyMenuBar extends JMenuBar {
     public MyMenuBar() {
         super();
         JMenu fileMenu = new JMenu("File");
+        JMenu helpMenu = new JMenu("Help");
         fileMenu.setMnemonic(KeyEvent.VK_F);
+        helpMenu.setMnemonic(KeyEvent.VK_H);
         fileMenu.add(MainFrame.getInstance().getActionManager().getNewAction());
-        fileMenu.add(MainFrame.getInstance().getActionManager().getInfoAction());
+        helpMenu.add(MainFrame.getInstance().getActionManager().getInfoAction());
         this.add(fileMenu);
+        this.add(helpMenu);
     }
 }

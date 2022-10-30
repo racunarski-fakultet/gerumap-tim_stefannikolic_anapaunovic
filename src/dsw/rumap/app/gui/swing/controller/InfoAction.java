@@ -18,7 +18,7 @@ public class InfoAction extends AbstractRumapActions {
     @Override
     public void actionPerformed(ActionEvent e) {
         Icon ico = loadIcon("images/stefan.jpeg");
-        JOptionPane.showMessageDialog(MainFrame.getInstance(), "Stefan i Ana", "Info", JOptionPane.INFORMATION_MESSAGE, ico);
+        JOptionPane.showMessageDialog(MainFrame.getInstance(), "Stefan Nikolic 127/21RN\nAna Paunovic 110/20RN", "Info", JOptionPane.INFORMATION_MESSAGE, ico);
 
     }
 }

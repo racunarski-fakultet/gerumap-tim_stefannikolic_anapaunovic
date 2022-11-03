@@ -9,6 +9,10 @@ public class MindMap extends MapNodeC {
 
     private boolean template;
 
+    public MindMap(String name, MapNode parent) {
+        super(name, parent);
+    }
+
     @Override
     protected void add(MapNode child) {
         if(child instanceof Element &&

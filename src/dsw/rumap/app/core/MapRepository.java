@@ -1,5 +1,7 @@
 package dsw.rumap.app.core;
 
+import dsw.rumap.app.maprepository.implementation.ProjectExp;
+
 public interface MapRepository {
-    public void getProjectExp();
+    public ProjectExp getProjectExp();
 }

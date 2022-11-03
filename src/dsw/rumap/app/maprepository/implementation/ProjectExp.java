@@ -7,9 +7,13 @@ import java.util.List;
 
 public class ProjectExp extends MapNodeC {
 
+    public ProjectExp(String name) {
+        super(name, null);
+    }
+
     @Override
     protected void add(MapNode child) {
-        if(child instanceof Project &&
+        if(child != null && child instanceof Project &&
                 !(this.getChildren().contains(child)))
             this.getChildren().add(child);
         return;
@@ -17,7 +21,7 @@ public class ProjectExp extends MapNodeC {
 
     @Override
     protected void delete(MapNode child) {
-        if(child instanceof Project &&
+        if(child != null && child instanceof Project &&
                 !(this.getChildren().contains(child)))
             this.getChildren().remove(child);
         return;

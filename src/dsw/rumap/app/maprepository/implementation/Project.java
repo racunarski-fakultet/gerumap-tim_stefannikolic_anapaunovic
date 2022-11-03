@@ -7,6 +7,10 @@ import java.util.List;
 
 public class Project extends MapNodeC {
 
+    public Project(String name, MapNode parent) {
+        super(name, parent);
+    }
+
     @Override
     protected void add(MapNode child) {
         if(child instanceof MindMap &&

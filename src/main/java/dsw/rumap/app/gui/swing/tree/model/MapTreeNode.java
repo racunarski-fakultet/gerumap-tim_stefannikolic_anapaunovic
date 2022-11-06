@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.swing.tree.DefaultMutableTreeNode;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 @Getter
 @Setter
@@ -24,4 +26,6 @@ public class MapTreeNode extends DefaultMutableTreeNode {
     public void setName(String name){
         this.mapNode.setName(name);
     }
+
+
 }

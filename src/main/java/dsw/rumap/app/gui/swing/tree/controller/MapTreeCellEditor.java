@@ -10,6 +10,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.EventObject;
 
 public class MapTreeCellEditor extends DefaultTreeCellEditor implements ActionListener {
@@ -43,5 +44,6 @@ public class MapTreeCellEditor extends DefaultTreeCellEditor implements ActionLi
 
         MapTreeNode node = (MapTreeNode) clickedOn;
         node.setName(e.getActionCommand());
+
     }
 }

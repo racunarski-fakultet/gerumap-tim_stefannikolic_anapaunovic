@@ -14,16 +14,21 @@ public class ProjectExplorer extends MapNodeC {
     @Override
     public void add(MapNode child) {
         if(child != null && child instanceof Project &&
-                !(this.getChildren().contains(child)))
+                !(this.getChildren().contains(child))){
             this.getChildren().add(child);
+            this.notify(this);
+        }
         return;
     }
 
     @Override
     public void delete(MapNode child) {
         if(child != null && child instanceof Project &&
-                !(this.getChildren().contains(child)))
+                !(this.getChildren().contains(child))){
             this.getChildren().remove(child);
+            this.notify(this);
+        }
+
         return;
     }
 }

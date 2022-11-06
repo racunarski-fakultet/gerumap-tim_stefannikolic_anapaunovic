@@ -19,6 +19,9 @@ public class MainFrame extends JFrame {
     private JToolBar toolBar;
     private MapTree mapTree;
 
+    private ProjectView projectView;
+    private JPanel desktop;
+
     private MainFrame(){}
 
     public static MainFrame getInstance(){
@@ -51,7 +54,9 @@ public class MainFrame extends JFrame {
         this.add(toolBar, BorderLayout.NORTH);
 
         JTree explorerTree = mapTree.generateTree(AppCore.getInstance().getMapRepository().getProjectExplorer());
-        JPanel desktop = new JPanel();
+        desktop = new JPanel();
+        projectView = new ProjectView();
+        desktop.add(projectView);
 
         JScrollPane scPane = new JScrollPane(explorerTree);
         scPane.setMinimumSize(new Dimension(200, 150));

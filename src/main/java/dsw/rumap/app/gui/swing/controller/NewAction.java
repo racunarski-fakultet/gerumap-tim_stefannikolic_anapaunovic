@@ -1,5 +1,6 @@
 package dsw.rumap.app.gui.swing.controller;
 
+import com.sun.tools.javac.Main;
 import dsw.rumap.app.AppCore;
 import dsw.rumap.app.gui.swing.tree.model.MapTreeNode;
 import dsw.rumap.app.gui.swing.view.MainFrame;
@@ -21,9 +22,13 @@ public class NewAction extends AbstractRumapActions{
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        MapTreeNode selected = (MapTreeNode) MainFrame.getInstance().getMapTree().getSelectedNode();
-        MapNode child = AppCore.getInstance().getMapRepository().createChild(selected.getMapNode());
-        MainFrame.getInstance().getMapTree().addChild(selected, child);
 
+        if(MainFrame.getInstance().getMapTree().getSelectedNode() != null){
+            MapTreeNode selected = (MapTreeNode) MainFrame.getInstance().getMapTree().getSelectedNode();
+            MapNode child = AppCore.getInstance().getMapRepository().createChild(selected.getMapNode());
+            MainFrame.getInstance().getMapTree().addChild(selected, child);
+
+        }
+        //mozemo da dodamo dijalog
     }
 }

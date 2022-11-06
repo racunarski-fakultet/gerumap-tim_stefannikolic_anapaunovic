@@ -8,12 +8,15 @@ public class ActionManager {
     private InfoAction infoAction;
     private NewAction newAction;
 
+    private RenameAutorAction renameAutor;
+
     public ActionManager(){
         initialiseActions();
     }
 
     private void initialiseActions(){
-        infoAction = new InfoAction();
-        newAction = new NewAction();
+        this.infoAction = new InfoAction();
+        this.newAction = new NewAction();
+        this.renameAutor = new RenameAutorAction();
     }
 }

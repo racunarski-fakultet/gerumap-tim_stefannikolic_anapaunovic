@@ -2,16 +2,20 @@ package dsw.rumap.app.maprepository.implementation;
 
 import dsw.rumap.app.maprepository.composite.MapNode;
 import dsw.rumap.app.maprepository.composite.MapNodeC;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
 
+@Getter
+@Setter
 public class Project extends MapNodeC {
 
     private String autor;
 
     public Project(String name, MapNode parent) {
         super(name, parent);
-        autor = new String();
+        this.autor = new String("Unesite naziv autora");
     }
 
     @Override
@@ -34,5 +38,10 @@ public class Project extends MapNodeC {
         }
 
         return;
+    }
+
+    public void setAutor(String autor) {
+        this.autor = autor;
+        this.notify(this);
     }
 }

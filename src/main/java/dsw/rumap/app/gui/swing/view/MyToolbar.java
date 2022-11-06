@@ -1,5 +1,7 @@
 package dsw.rumap.app.gui.swing.view;
 
+import com.sun.tools.javac.Main;
+
 import javax.swing.*;
 
 public class MyToolbar extends JToolBar {
@@ -10,6 +12,7 @@ public class MyToolbar extends JToolBar {
 
         add(MainFrame.getInstance().getActionManager().getNewAction());
         add(MainFrame.getInstance().getActionManager().getInfoAction());
+        add(MainFrame.getInstance().getActionManager().getRenameAutor());
 
     }
 }

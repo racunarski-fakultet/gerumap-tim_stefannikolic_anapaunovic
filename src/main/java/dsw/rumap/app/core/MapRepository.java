@@ -8,4 +8,5 @@ public interface MapRepository {
     public void addChild(MapNode parent, MapNode child);
     public void removeChild(MapNode parent, MapNode child);
     public MapNode createChild(MapNode parent);
+    public void setAutor(String autor, MapNode proj);
 }

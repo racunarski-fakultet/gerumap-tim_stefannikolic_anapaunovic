@@ -7,8 +7,11 @@ import java.util.List;
 
 public class Project extends MapNodeC {
 
+    private String autor;
+
     public Project(String name, MapNode parent) {
         super(name, parent);
+        autor = new String();
     }
 
     @Override

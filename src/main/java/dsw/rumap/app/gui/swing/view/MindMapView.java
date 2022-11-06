@@ -11,7 +11,8 @@ public class MindMapView extends JPanel implements ISubscriber {
 
     public MindMapView(){
         int width = MainFrame.getInstance().getDesktop().getWidth();
-        this.setPreferredSize(new Dimension(width - 5,200));
+        int h = MainFrame.getInstance().getDesktop().getHeight();
+        this.setPreferredSize(new Dimension(width - 5,h - 20));
 
     }
 

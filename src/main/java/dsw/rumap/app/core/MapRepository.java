@@ -5,5 +5,7 @@ import dsw.rumap.app.maprepository.implementation.ProjectExplorer;
 
 public interface MapRepository {
     ProjectExplorer getProjectExplorer();
-    void addChild(MapNode child);
+    public void addChild(MapNode parent, MapNode child);
+    public void removeChild(MapNode parent, MapNode child);
+    public MapNode createChild(MapNode parent);
 }

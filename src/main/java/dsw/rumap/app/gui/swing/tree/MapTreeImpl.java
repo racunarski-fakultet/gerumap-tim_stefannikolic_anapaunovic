@@ -1,5 +1,6 @@
 package dsw.rumap.app.gui.swing.tree;
 
+import dsw.rumap.app.AppCore;
 import dsw.rumap.app.gui.swing.tree.model.MapTreeModel;
 import dsw.rumap.app.gui.swing.tree.model.MapTreeNode;
 import dsw.rumap.app.gui.swing.tree.view.MapTreeView;
@@ -10,6 +11,7 @@ import dsw.rumap.app.maprepository.implementation.Element;
 import dsw.rumap.app.maprepository.implementation.MindMap;
 import dsw.rumap.app.maprepository.implementation.Project;
 import dsw.rumap.app.maprepository.implementation.ProjectExplorer;
+import lombok.Getter;
 
 import javax.swing.*;
 import java.awt.event.MouseAdapter;
@@ -17,7 +19,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.DoubleSummaryStatistics;
 import java.util.Random;
-
+@Getter
 public class MapTreeImpl implements MapTree {
 
     private MapTreeView mapTreeView;
@@ -34,29 +36,14 @@ public class MapTreeImpl implements MapTree {
     }
 
     @Override
-    public void addChild(MapTreeNode parent) {
+    public void addChild(MapTreeNode parent, MapNode child) {
         if(parent == null || !(parent.getMapNode() instanceof MapNodeC))
             return;
 
-        MapNode child = createChild(parent.getMapNode());
         parent.add(new MapTreeNode(child));
-        ((MapNodeC) parent.getMapNode()).add(child);
-        mapTreeView.expandPath(mapTreeView.getSelectionPath());
-        SwingUtilities.updateComponentTreeUI(mapTreeView);
+        AppCore.getInstance().getMapRepository().addChild(parent.getMapNode(), child);
     }
 
-    private MapNode createChild(MapNode parent){
-        if(parent instanceof ProjectExplorer)
-            return new Project("Project" + (((ProjectExplorer) parent).getChildren().size()+1), parent);
-
-        else if(parent instanceof Project)
-            return new MindMap("MindMap " + (((Project) parent).getChildren().size()+1), parent);
-
-        else if(parent instanceof MindMap)
-            return new Element("Element " + (((MindMap) parent).getChildren().size()+1), parent);
-
-        return null;
-    }
 
     @Override
     public MapTreeNode getSelectedNode() {

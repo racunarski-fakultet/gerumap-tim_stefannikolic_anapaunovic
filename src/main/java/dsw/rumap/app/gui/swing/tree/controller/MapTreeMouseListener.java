@@ -21,6 +21,7 @@ public class MapTreeMouseListener implements MouseListener {
             if(node instanceof Project){
                 MainFrame.getInstance().getProjectView().setModel((Project)node);
             }
+            else return;
 
         }
     }

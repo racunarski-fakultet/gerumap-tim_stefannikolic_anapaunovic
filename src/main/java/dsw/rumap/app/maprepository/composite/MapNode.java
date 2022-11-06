@@ -15,11 +15,12 @@ public abstract class MapNode implements IPublisher {
     private String name;
     private MapNode parent;
 
-    protected transient List<ISubscriber> subscribers=new ArrayList<>();
+    protected transient List<ISubscriber> subscribers;
 
     public MapNode(String name, MapNode parent){
         this.name = name;
         this.parent = parent;
+        this.subscribers=new ArrayList<>();
     }
 
     @Override
@@ -33,7 +34,8 @@ public abstract class MapNode implements IPublisher {
 
     @Override
     public void addSubscriber(ISubscriber sub) {
-        this.subscribers.add(sub);
+        if(!subscribers.contains(sub))
+            this.subscribers.add(sub);
 
     }
 

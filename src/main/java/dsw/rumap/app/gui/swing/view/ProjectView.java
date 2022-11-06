@@ -20,43 +20,34 @@ public class ProjectView extends JPanel implements ISubscriber {
 
 
     public ProjectView(){
-        label = new JLabel();
-        autor = new JLabel();
+        label = new JLabel("Selektujte projekat");
         tabbedPane = new JTabbedPane();
         this.setLayout(new BorderLayout());
         this.add(label,BorderLayout.NORTH);
-        this.add(tabbedPane,BorderLayout.CENTER);
-        this.setVisible(true);
+
+
     }
 
     public void setModel(Project model){
 
-        this.model = model;
-        this.model.addSubscriber(this);
-        this.removeAll();
-
-        this.setLayout(new BorderLayout());
-        this.label.setText(model.getName());
-        this.add(label,BorderLayout.NORTH);
-        this.tabbedPane.removeAll();
-
-        for(MapNode node: model.getChildren()){
-            MindMapView mapView = new MindMapView();
-            tabbedPane.addTab(node.getName(),mapView);
-        }
-
-        this.add(tabbedPane, BorderLayout.CENTER);
-
-        SwingUtilities.updateComponentTreeUI(this);
+        this.fillView(model);
 
     }
 
     @Override
     public void update(Object notification) {
 
+        this.setModel((Project) notification);
+
+    }
+
+    public void fillView(Project model){
+
+        this.model = model;
+        this.model.addSubscriber(this);
         this.removeAll();
+
         this.setLayout(new BorderLayout());
-        //this.model = model;
         this.label.setText(model.getName());
         this.add(label,BorderLayout.NORTH);
         this.tabbedPane.removeAll();

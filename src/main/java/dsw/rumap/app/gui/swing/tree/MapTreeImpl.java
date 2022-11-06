@@ -29,20 +29,6 @@ public class MapTreeImpl implements MapTree {
         mapTreeModel = new MapTreeModel(root);
         mapTreeView = new MapTreeView(mapTreeModel);
 
-        mapTreeView.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                if(e.getClickCount() == 2){
-                    MapTreeNode treeNode = MainFrame.getInstance().getMapTree().getSelectedNode();
-                    MapNode node = treeNode.getMapNode();
-
-                    if(node instanceof Project){
-                        MainFrame.getInstance().getProjectView().setModel((Project)node);
-                    }
-
-                }
-            }
-        });
         return mapTreeView;
 
     }

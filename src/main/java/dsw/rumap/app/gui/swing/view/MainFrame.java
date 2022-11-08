@@ -1,5 +1,6 @@
 package dsw.rumap.app.gui.swing.view;
 
+import com.sun.nio.sctp.MessageInfo;
 import dsw.rumap.app.AppCore;
 import dsw.rumap.app.gui.swing.controller.AbstractRumapActions;
 import dsw.rumap.app.gui.swing.controller.ActionManager;
@@ -7,6 +8,10 @@ import dsw.rumap.app.gui.swing.controller.NewAction;
 import dsw.rumap.app.gui.swing.tree.MapTree;
 import dsw.rumap.app.gui.swing.tree.MapTreeImpl;
 import dsw.rumap.app.maprepository.MapReposImpl;
+import dsw.rumap.app.msggenerator.Message;
+import dsw.rumap.app.msggenerator.MessageGeneratorImpl;
+import dsw.rumap.app.msggenerator.MessageType;
+import dsw.rumap.app.observer.ISubscriber;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,7 +21,7 @@ import java.awt.event.ActionEvent;
 
 @Getter
 @Setter
-public class MainFrame extends JFrame {
+public class MainFrame extends JFrame implements ISubscriber {
     private static MainFrame instance;
     private ActionManager actionManager;
     private JMenuBar menu;
@@ -39,6 +44,7 @@ public class MainFrame extends JFrame {
     private void initialise(){
         actionManager = new ActionManager();
         mapTree = new MapTreeImpl();
+        AppCore.getInstance().getMsgGenerator().addSubscriber(this);
         initialiseGUI();
     }
 
@@ -72,5 +78,23 @@ public class MainFrame extends JFrame {
 
     public ActionManager getActionManager(){
         return actionManager;
+    }
+
+    @Override
+    public void update(Object notification) {
+        String message = ((Message)notification).getMessage();
+        MessageType type = ((Message)notification).getType();
+
+        if(type.equals(MessageType.INFORMATION)){
+            JOptionPane.showMessageDialog(this,message);
+        }
+        else if(type.equals(MessageType.WARNING)){
+            JOptionPane.showMessageDialog(this,message,"Warning",JOptionPane.WARNING_MESSAGE);
+        }
+        else if(type.equals(MessageType.ERROR)){
+            JOptionPane.showMessageDialog(this,message,"Error",JOptionPane.ERROR_MESSAGE);
+        }
+
+        System.out.println(((Message)notification).getMessage());
     }
 }

@@ -24,20 +24,15 @@ public class ProjectExplorer extends MapNodeC {
     @Override
     public void delete(MapNode child) {
         if(child != null && child instanceof Project &&
-                !(this.getChildren().contains(child))){
+                (this.getChildren().contains(child))){
             this.getChildren().remove(child);
             this.notify(this);
+            System.out.println(this.getChildren().size());
         }
 
         return;
     }
 
-    @Override
-    public boolean CheckName(String name) {
-        if(this.getChildren().contains(name))
-            return false;
-        else return true;
-    }
 
     @Override
     public void setName(String name) {

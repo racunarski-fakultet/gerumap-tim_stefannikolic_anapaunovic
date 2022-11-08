@@ -41,8 +41,11 @@ public class MapTreeNode extends DefaultMutableTreeNode {
         super.add(newChild);
         MapTreeView mapTreeView = ((MapTreeImpl) MainFrame.getInstance().getMapTree()).getMapTreeView();
         mapTreeView.expandPath(mapTreeView.getSelectionPath());
-        SwingUtilities.updateComponentTreeUI(mapTreeView);
     }
 
+    @Override
+    public void removeFromParent() {
+        super.removeFromParent();
+    }
 
 }

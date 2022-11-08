@@ -24,7 +24,7 @@ public class ProjectExplorer extends MapNodeC {
     @Override
     public void delete(MapNode child) {
         if(child != null && child instanceof Project &&
-                (this.getChildren().contains(child))){
+                this.getChildren().contains(child)){
             this.getChildren().remove(child);
             this.notify(this);
             System.out.println(this.getChildren().size());
@@ -32,8 +32,7 @@ public class ProjectExplorer extends MapNodeC {
 
         return;
     }
-
-
+    
     @Override
     public void setName(String name) {
         super.setName(name);

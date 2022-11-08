@@ -9,7 +9,6 @@ public class ActionManager {
     private NewAction newAction;
     private DeleteAction deleteAction;
     private RenameAutorAction renameAutor;
-
     private RenameAction renameNode;
 
     public ActionManager(){

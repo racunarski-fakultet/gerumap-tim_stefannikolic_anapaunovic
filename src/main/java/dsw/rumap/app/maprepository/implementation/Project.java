@@ -39,8 +39,7 @@ public class Project extends MapNodeC {
 
         return;
     }
-
-
+    
     public void setAutor(String autor) {
         this.autor = autor;
         this.notify(this);

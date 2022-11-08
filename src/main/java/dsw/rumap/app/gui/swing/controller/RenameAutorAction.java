@@ -16,9 +16,9 @@ public class RenameAutorAction extends AbstractRumapActions {
 
     public RenameAutorAction() {
         putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_A, ActionEvent.CTRL_MASK));
-        putValue(SMALL_ICON, loadIcon("/images/new.png"));
-        putValue(NAME, "RenameAutor");
-        putValue(SHORT_DESCRIPTION, "RenameAutor");
+        putValue(SMALL_ICON, loadIcon("/images/autor.png"));
+        putValue(NAME, "Autor");
+        putValue(SHORT_DESCRIPTION, "Change Autor");
     }
 
     @Override

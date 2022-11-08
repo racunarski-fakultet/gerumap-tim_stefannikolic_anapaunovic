@@ -14,7 +14,7 @@ public class DeleteAction extends AbstractRumapActions{
 
     public DeleteAction(){
         putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_D, ActionEvent.CTRL_MASK));
-        putValue(SMALL_ICON, loadIcon("/images/new.png"));
+        putValue(SMALL_ICON, loadIcon("/images/delete.png"));
         putValue(NAME, "Delete");
         putValue(SHORT_DESCRIPTION, "Delete");
     }

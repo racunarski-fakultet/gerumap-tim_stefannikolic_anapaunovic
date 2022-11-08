@@ -7,9 +7,15 @@ import dsw.rumap.app.maprepository.implementation.Element;
 import dsw.rumap.app.maprepository.implementation.MindMap;
 import dsw.rumap.app.maprepository.implementation.Project;
 import dsw.rumap.app.maprepository.implementation.ProjectExplorer;
+import dsw.rumap.app.maprepository.mapnodefactory.ElementFactory;
+import dsw.rumap.app.maprepository.mapnodefactory.MapNodeFactory;
+import dsw.rumap.app.maprepository.mapnodefactory.MindMapFactory;
+import dsw.rumap.app.maprepository.mapnodefactory.ProjectFactory;
+import lombok.Getter;
 
 public class MapReposImpl implements MapRepository {
 
+    private MapNodeFactory mapNodeFactory;
     private ProjectExplorer projectExplorer;
 
     public MapReposImpl(){
@@ -33,19 +39,19 @@ public class MapReposImpl implements MapRepository {
             ((MapNodeC) parent).delete(child);
     }
 
-    @Override
-    public MapNode createChild(MapNode parent) {
-        if(parent instanceof ProjectExplorer)
-            return new Project("Project" + (((ProjectExplorer) parent).getChildren().size()+1), parent);
-
-        else if(parent instanceof Project)
-            return new MindMap("MindMap " + (((Project) parent).getChildren().size()+1), parent);
-
-        else if(parent instanceof MindMap)
-            return new Element("Element " + (((MindMap) parent).getChildren().size()+1), parent);
-
-        return null;
-    }
+//    @Override
+//    public MapNode createChild(MapNode parent) {
+//        if(parent instanceof ProjectExplorer)
+//            return new Project("Project" + (((ProjectExplorer) parent).getChildren().size()+1), parent);
+//
+//        else if(parent instanceof Project)
+//            return new MindMap("MindMap " + (((Project) parent).getChildren().size()+1), parent);
+//
+//        else if(parent instanceof MindMap)
+//            return new Element("Element " + (((MindMap) parent).getChildren().size()+1), parent);
+//
+//        return null;
+//    }
 
     @Override
     public void setAutor(String autor, MapNode proj) {
@@ -66,6 +72,20 @@ public class MapReposImpl implements MapRepository {
             else return false;
         }
         return true;
+    }
+
+    @Override
+    public MapNodeFactory getMapNodeFactory(MapNode parent){
+        if(!(parent instanceof MapNodeC)) return null;
+        if(parent instanceof ProjectExplorer)
+            return new ProjectFactory();
+
+        else if(parent instanceof Project)
+            return new MindMapFactory();
+
+        else if(parent instanceof MindMap)
+            return new ElementFactory();
+        return null;
     }
 
 

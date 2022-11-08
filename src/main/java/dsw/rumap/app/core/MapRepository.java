@@ -10,6 +10,6 @@ public interface MapRepository {
     public void addChild(MapNode parent, MapNode child);
     public void removeChild(MapNode parent, MapNode child);
     public void setAutor(String autor, MapNode proj);
-    public void ChangeName(String name, MapNode node, MapNode parent);
     public MapNodeFactory getMapNodeFactory(MapNode parent);
+    public boolean changeName(String name, MapNode node, MapNode parent);
 }

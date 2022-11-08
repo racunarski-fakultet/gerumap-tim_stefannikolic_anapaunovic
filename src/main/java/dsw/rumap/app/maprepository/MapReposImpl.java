@@ -60,14 +60,18 @@ public class MapReposImpl implements MapRepository {
     }
 
     @Override
-    public void ChangeName(String name, MapNode node, MapNode parent) {
+    public boolean changeName(String name, MapNode node, MapNode parent) {
         if(parent == null)
             node.setName(name);
         else if(parent instanceof MapNodeC){
             if(((MapNodeC) parent).checkName(name) == true){
                 node.setName(name);
+                if(parent instanceof Project)
+                    parent.notify(parent);
             }
+            else return false;
         }
+        return true;
     }
 
     @Override

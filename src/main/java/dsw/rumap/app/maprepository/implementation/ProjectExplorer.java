@@ -27,11 +27,12 @@ public class ProjectExplorer extends MapNodeC {
                 this.getChildren().contains(child)){
             this.getChildren().remove(child);
             this.notify(this);
+            System.out.println(this.getChildren().size());
         }
 
         return;
     }
-
+    
     @Override
     public void setName(String name) {
         super.setName(name);

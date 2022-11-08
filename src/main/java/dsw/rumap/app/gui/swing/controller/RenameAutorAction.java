@@ -32,13 +32,16 @@ public class RenameAutorAction extends AbstractRumapActions {
 
                 if(autor != null && !autor.isEmpty())
                     AppCore.getInstance().getMapRepository().setAutor(autor,selected.getMapNode());
-                else return;
+                else {
+                    AppCore.getInstance().getMsgGenerator().createMessage("NAME_CANNOT_BE_EMPTY");
+                    return;
+                };
 
             }
-
-
         }
+        else AppCore.getInstance().getMsgGenerator().createMessage("NODE_IS_NOT_SELECTED");
         return;
+
 
     }
 }

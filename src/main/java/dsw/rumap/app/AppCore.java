@@ -1,10 +1,11 @@
 package dsw.rumap.app;
 
-import dsw.rumap.app.core.AppFramework;
-import dsw.rumap.app.core.Gui;
-import dsw.rumap.app.core.MapRepository;
+import dsw.rumap.app.core.*;
 import dsw.rumap.app.gui.swing.SwingGui;
+import dsw.rumap.app.logger.ConsoleLogger;
+import dsw.rumap.app.logger.FileLogger;
 import dsw.rumap.app.maprepository.MapReposImpl;
+import dsw.rumap.app.msggenerator.MessageGeneratorImpl;
 
 public class AppCore extends AppFramework {
     private static AppCore instance;
@@ -24,8 +25,13 @@ public class AppCore extends AppFramework {
     public static void main(String[] args){
         Gui gui = new SwingGui();
         MapRepository mapRepository = new MapReposImpl();
+        MessageGenerator msgGenerator = new MessageGeneratorImpl();
         AppFramework appCore = AppCore.getInstance();
-        appCore.initialise(gui, mapRepository);
+
+        appCore.initialise(gui, mapRepository, msgGenerator);
+        Logger consoleLogger = new ConsoleLogger();
+        Logger fileLogger = new FileLogger();
+        appCore.initialiseLogger(fileLogger, consoleLogger);
         appCore.run();
     }
 }

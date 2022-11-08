@@ -28,6 +28,7 @@ public class RenameAction extends AbstractRumapActions {
 
         if(MainFrame.getInstance().getMapTree().getSelectedNode() != null){
             MapTreeNode selected = (MapTreeNode) MainFrame.getInstance().getMapTree().getSelectedNode();
+            System.out.println(selected.getMapNode().getName());
             if(selected.getMapNode() instanceof ProjectExplorer){
                  parentNode = null;
             }
@@ -36,13 +37,19 @@ public class RenameAction extends AbstractRumapActions {
                 parentNode = parent.getMapNode();
             }
 
-
             String name = JOptionPane.showInputDialog("Unesite ime");
             if(name != null && !name.isEmpty()){
-                AppCore.getInstance().getMapRepository().ChangeName(name,selected.getMapNode(), parentNode);
+                if(AppCore.getInstance().getMapRepository().changeName(name,selected.getMapNode(), parentNode) == false)
+                    AppCore.getInstance().getMsgGenerator().createMessage("NAME_ALREADY_EXISTS");
+            }
+            else {
+                AppCore.getInstance().getMsgGenerator().createMessage("NAME_CANNOT_BE_EMPTY");
+                return;
             }
 
+            MainFrame.getInstance().getMapTree().refresh();
         }
-
+        else AppCore.getInstance().getMsgGenerator().createMessage("NODE_IS_NOT_SELECTED");
+        //return;
     }
 }

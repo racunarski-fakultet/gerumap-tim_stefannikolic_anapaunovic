@@ -1,6 +1,7 @@
 package dsw.rumap.app.gui.swing.view;
 
 import dsw.rumap.app.maprepository.composite.MapNode;
+import dsw.rumap.app.maprepository.implementation.MindMap;
 import dsw.rumap.app.maprepository.implementation.Project;
 import dsw.rumap.app.observer.ISubscriber;
 import lombok.Getter;
@@ -17,6 +18,7 @@ public class ProjectView extends JPanel implements ISubscriber {
     private JLabel autor;
     private Project model;
     private JTabbedPane tabbedPane;
+    private boolean create;
 
 
     public ProjectView(){
@@ -25,6 +27,7 @@ public class ProjectView extends JPanel implements ISubscriber {
         tabbedPane = new JTabbedPane();
         this.setLayout(new BorderLayout());
         this.add(label,BorderLayout.NORTH);
+        this.create = true;
     }
 
     public void setModel(Project model){
@@ -36,7 +39,7 @@ public class ProjectView extends JPanel implements ISubscriber {
     @Override
     public void update(Object notification) {
 
-        this.setModel((Project) notification);
+        this.fillView((Project)notification);
 
     }
 
@@ -56,7 +59,9 @@ public class ProjectView extends JPanel implements ISubscriber {
         for(MapNode node: model.getChildren()){
             MindMapView mapView = new MindMapView();
             tabbedPane.addTab(node.getName(),mapView);
+
         }
+
 
         this.add(tabbedPane, BorderLayout.SOUTH);
 

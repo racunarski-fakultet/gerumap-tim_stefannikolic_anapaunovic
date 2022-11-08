@@ -26,11 +26,19 @@ public abstract class MapNodeC extends MapNode{
         return null;
     }
 
+    public boolean checkName(String name) {
+        for (MapNode n: this.getChildren()){
+            if(n.getName().equals(name))
+                return false;
+        }
+        return true;
+    }
+
     public abstract void add(MapNode child);
 
     public abstract void delete(MapNode child);
 
-    public abstract boolean CheckName(String name);
+
 
 
 }

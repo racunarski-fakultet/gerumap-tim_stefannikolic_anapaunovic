@@ -7,10 +7,7 @@ public class ActionManager {
 
     private InfoAction infoAction;
     private NewAction newAction;
-<<<<<<
-=======
     private DeleteAction deleteAction;
->>>>>>
     private RenameAutorAction renameAutor;
 
     private RenameAction renameNode;

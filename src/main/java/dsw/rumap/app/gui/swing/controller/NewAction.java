@@ -5,6 +5,7 @@ import dsw.rumap.app.AppCore;
 import dsw.rumap.app.gui.swing.tree.model.MapTreeNode;
 import dsw.rumap.app.gui.swing.view.MainFrame;
 import dsw.rumap.app.maprepository.composite.MapNode;
+import dsw.rumap.app.maprepository.implementation.ProjectExplorer;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -29,6 +30,7 @@ public class NewAction extends AbstractRumapActions{
             MainFrame.getInstance().getMapTree().addChild(selected, child);
 
         }
-        //mozemo da dodamo dijalog
+        else AppCore.getInstance().getMsgGenerator().createMessage("NODE_IS_NOT_SELECTED");
+        return;
     }
 }

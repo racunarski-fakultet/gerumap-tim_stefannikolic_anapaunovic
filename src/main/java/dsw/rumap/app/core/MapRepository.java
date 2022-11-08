@@ -11,5 +11,5 @@ public interface MapRepository {
     public MapNode createChild(MapNode parent);
     public void setAutor(String autor, MapNode proj);
 
-    public void ChangeName(String name, MapNode node, MapNode parent);
+    public boolean changeName(String name, MapNode node, MapNode parent);
 }

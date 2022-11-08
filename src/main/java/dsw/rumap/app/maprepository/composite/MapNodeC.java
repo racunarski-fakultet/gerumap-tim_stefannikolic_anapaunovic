@@ -30,5 +30,7 @@ public abstract class MapNodeC extends MapNode{
 
     public abstract void delete(MapNode child);
 
+    public abstract boolean CheckName(String name);
+
 
 }

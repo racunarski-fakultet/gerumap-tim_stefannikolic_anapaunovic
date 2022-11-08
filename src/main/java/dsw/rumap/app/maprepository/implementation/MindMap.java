@@ -34,4 +34,17 @@ public class MindMap extends MapNodeC {
 
         return;
     }
+
+    @Override
+    public boolean CheckName(String name) {
+        if(this.getChildren().contains(name))
+        return false;
+        else return true;
+    }
+
+    @Override
+    public void setName(String name) {
+        super.setName(name);
+        this.notify(this);
+    }
 }

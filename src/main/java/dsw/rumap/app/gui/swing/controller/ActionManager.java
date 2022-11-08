@@ -7,8 +7,9 @@ public class ActionManager {
 
     private InfoAction infoAction;
     private NewAction newAction;
-
     private RenameAutorAction renameAutor;
+
+    private RenameAction renameNode;
 
     public ActionManager(){
         initialiseActions();
@@ -18,5 +19,6 @@ public class ActionManager {
         this.infoAction = new InfoAction();
         this.newAction = new NewAction();
         this.renameAutor = new RenameAutorAction();
+        this.renameNode = new RenameAction();
     }
 }

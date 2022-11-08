@@ -52,7 +52,17 @@ public class MapReposImpl implements MapRepository {
         if(proj instanceof Project)
             ((Project)proj).setAutor(autor);
 
+    }
 
+    @Override
+    public void ChangeName(String name, MapNode node, MapNode parent) {
+        if(parent == null)
+            node.setName(name);
+        else if(parent instanceof MapNodeC){
+            if(((MapNodeC) parent).CheckName(name) == true){
+                node.setName(name);
+            }
+        }
     }
 
 

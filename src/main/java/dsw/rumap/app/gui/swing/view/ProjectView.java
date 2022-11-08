@@ -21,6 +21,7 @@ public class ProjectView extends JPanel implements ISubscriber {
 
     public ProjectView(){
         label = new JLabel("Selektujte projekat");
+        autor = new JLabel(" ");
         tabbedPane = new JTabbedPane();
         this.setLayout(new BorderLayout());
         this.add(label,BorderLayout.NORTH);
@@ -49,7 +50,9 @@ public class ProjectView extends JPanel implements ISubscriber {
 
         this.setLayout(new BorderLayout());
         this.label.setText(model.getName());
+        this.autor.setText("Naziv autora: " + model.getAutor());
         this.add(label,BorderLayout.NORTH);
+        this.add(autor,BorderLayout.CENTER);
         this.tabbedPane.removeAll();
 
         for(MapNode node: model.getChildren()){
@@ -57,7 +60,7 @@ public class ProjectView extends JPanel implements ISubscriber {
             tabbedPane.addTab(node.getName(),mapView);
         }
 
-        this.add(tabbedPane, BorderLayout.CENTER);
+        this.add(tabbedPane, BorderLayout.SOUTH);
 
         SwingUtilities.updateComponentTreeUI(this);
 

@@ -47,5 +47,13 @@ public class MapReposImpl implements MapRepository {
         return null;
     }
 
+    @Override
+    public void setAutor(String autor, MapNode proj) {
+        if(proj instanceof Project)
+            ((Project)proj).setAutor(autor);
+
+
+    }
+
 
 }

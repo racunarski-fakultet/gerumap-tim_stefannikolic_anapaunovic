@@ -7,6 +7,10 @@ public class ActionManager {
 
     private InfoAction infoAction;
     private NewAction newAction;
+<<<<<<
+=======
+    private DeleteAction deleteAction;
+>>>>>>
     private RenameAutorAction renameAutor;
 
     private RenameAction renameNode;
@@ -20,5 +24,6 @@ public class ActionManager {
         this.newAction = new NewAction();
         this.renameAutor = new RenameAutorAction();
         this.renameNode = new RenameAction();
+        this.deleteAction = new DeleteAction();
     }
 }

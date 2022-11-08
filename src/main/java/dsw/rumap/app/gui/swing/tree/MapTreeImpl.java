@@ -42,12 +42,24 @@ public class MapTreeImpl implements MapTree {
 
         parent.add(new MapTreeNode(child));
         AppCore.getInstance().getMapRepository().addChild(parent.getMapNode(), child);
+        this.refresh();
     }
 
 
     @Override
     public MapTreeNode getSelectedNode() {
         return (MapTreeNode) mapTreeView.getLastSelectedPathComponent();
+    }
+
+    @Override
+    public void refresh() {
+        SwingUtilities.updateComponentTreeUI(mapTreeView);
+    }
+
+    @Override
+    public void removeTreeNode(MapTreeNode mapTreeNode) {
+        mapTreeNode.removeFromParent();
+        this.refresh();
     }
 
 

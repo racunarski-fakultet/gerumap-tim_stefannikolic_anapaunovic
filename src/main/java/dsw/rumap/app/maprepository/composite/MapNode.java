@@ -16,7 +16,7 @@ public abstract class MapNode implements IPublisher {
     private String name;
     private MapNode parent;
 
-    protected transient List<ISubscriber> subscribers;
+    protected List<ISubscriber> subscribers;
 
     public MapNode(String name, MapNode parent){
         this.name = name;

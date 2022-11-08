@@ -25,8 +25,6 @@ public class ProjectView extends JPanel implements ISubscriber {
         tabbedPane = new JTabbedPane();
         this.setLayout(new BorderLayout());
         this.add(label,BorderLayout.NORTH);
-
-
     }
 
     public void setModel(Project model){

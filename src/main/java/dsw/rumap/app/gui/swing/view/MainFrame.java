@@ -1,7 +1,9 @@
 package dsw.rumap.app.gui.swing.view;
 
 import dsw.rumap.app.AppCore;
+import dsw.rumap.app.gui.swing.controller.AbstractRumapActions;
 import dsw.rumap.app.gui.swing.controller.ActionManager;
+import dsw.rumap.app.gui.swing.controller.NewAction;
 import dsw.rumap.app.gui.swing.tree.MapTree;
 import dsw.rumap.app.gui.swing.tree.MapTreeImpl;
 import dsw.rumap.app.maprepository.MapReposImpl;
@@ -10,6 +12,8 @@ import lombok.Setter;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+
 @Getter
 @Setter
 public class MainFrame extends JFrame {

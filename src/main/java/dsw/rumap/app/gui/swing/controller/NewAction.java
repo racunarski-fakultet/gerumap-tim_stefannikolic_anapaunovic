@@ -5,6 +5,7 @@ import dsw.rumap.app.AppCore;
 import dsw.rumap.app.gui.swing.tree.model.MapTreeNode;
 import dsw.rumap.app.gui.swing.view.MainFrame;
 import dsw.rumap.app.maprepository.composite.MapNode;
+import dsw.rumap.app.maprepository.mapnodefactory.MapNodeFactory;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -23,12 +24,18 @@ public class NewAction extends AbstractRumapActions{
     @Override
     public void actionPerformed(ActionEvent e) {
 
-        if(MainFrame.getInstance().getMapTree().getSelectedNode() != null){
-            MapTreeNode selected = (MapTreeNode) MainFrame.getInstance().getMapTree().getSelectedNode();
-            MapNode child = AppCore.getInstance().getMapRepository().createChild(selected.getMapNode());
-            MainFrame.getInstance().getMapTree().addChild(selected, child);
-
+        if(MainFrame.getInstance().getMapTree().getSelectedNode() == null)
+            return;
+        MapTreeNode selected = MainFrame.getInstance().getMapTree().getSelectedNode();
+        MapNodeFactory mapNodeFactory = AppCore.getInstance().getMapRepository().getMapNodeFactory(selected.getMapNode());
+        if(mapNodeFactory == null) {
+            //TODO ako je child null ispisi gresku
+            return;
         }
+        mapNodeFactory.orderChild(selected.getMapNode());
+        MapNode child = mapNodeFactory.orderChild(selected.getMapNode());
+        AppCore.getInstance().getMapRepository().addChild(selected.getMapNode(),child);
+        MainFrame.getInstance().getMapTree().addChild(selected, child);
         //mozemo da dodamo dijalog
     }
 }

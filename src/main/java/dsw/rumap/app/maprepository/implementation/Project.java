@@ -40,13 +40,6 @@ public class Project extends MapNodeC {
         return;
     }
 
-    @Override
-    public boolean CheckName(String name) {
-        if(this.getChildren().contains(name))
-            return false;
-        else return true;
-    }
-
     public void setAutor(String autor) {
         this.autor = autor;
         this.notify(this);

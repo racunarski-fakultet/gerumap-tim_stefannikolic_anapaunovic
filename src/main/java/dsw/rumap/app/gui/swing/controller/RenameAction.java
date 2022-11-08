@@ -15,9 +15,9 @@ public class RenameAction extends AbstractRumapActions {
 
     public RenameAction() {
         putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_M, ActionEvent.CTRL_MASK));
-        putValue(SMALL_ICON, loadIcon("/images/new.png"));
-        putValue(NAME, "RenameNode");
-        putValue(SHORT_DESCRIPTION, "RenameNode");
+        putValue(SMALL_ICON, loadIcon("/images/rename.png"));
+        putValue(NAME, "Rename");
+        putValue(SHORT_DESCRIPTION, "Rename");
     }
 
     @Override

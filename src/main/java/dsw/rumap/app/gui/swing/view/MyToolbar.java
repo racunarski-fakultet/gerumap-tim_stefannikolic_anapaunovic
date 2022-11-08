@@ -13,6 +13,7 @@ public class MyToolbar extends JToolBar {
         add(MainFrame.getInstance().getActionManager().getNewAction());
         add(MainFrame.getInstance().getActionManager().getInfoAction());
         add(MainFrame.getInstance().getActionManager().getRenameAutor());
+        add(MainFrame.getInstance().getActionManager().getDeleteAction());
 
     }
 }

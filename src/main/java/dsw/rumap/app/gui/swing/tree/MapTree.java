@@ -6,7 +6,9 @@ import dsw.rumap.app.maprepository.composite.MapNode;
 import dsw.rumap.app.maprepository.implementation.ProjectExplorer;
 
 public interface MapTree {
-    MapTreeView generateTree(ProjectExplorer projectExplorer);
-    void addChild(MapTreeNode parent, MapNode child);
-    MapTreeNode getSelectedNode();
+    public MapTreeView generateTree(ProjectExplorer projectExplorer);
+    public void addChild(MapTreeNode parent, MapNode child);
+    public MapTreeNode getSelectedNode();
+    public void refresh();
+    public void removeTreeNode(MapTreeNode mapTreeNode);
 }

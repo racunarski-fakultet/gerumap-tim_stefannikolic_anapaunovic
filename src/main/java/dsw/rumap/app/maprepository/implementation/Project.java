@@ -4,6 +4,7 @@ import com.sun.tools.javac.Main;
 import dsw.rumap.app.gui.swing.view.MainFrame;
 import dsw.rumap.app.maprepository.composite.MapNode;
 import dsw.rumap.app.maprepository.composite.MapNodeC;
+import dsw.rumap.app.observer.ISubscriber;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,13 +12,13 @@ import java.util.List;
 
 @Getter
 @Setter
-public class Project extends MapNodeC {
+public class Project extends MapNodeC implements ISubscriber {
 
     private String autor;
 
     public Project(String name, MapNode parent) {
         super(name, parent);
-        this.autor = new String("Unesite naziv autora");
+        this.autor = new String("(Unesite naziv autora)");
     }
 
     @Override
@@ -25,8 +26,8 @@ public class Project extends MapNodeC {
         if(child != null && child instanceof MindMap &&
                 !(this.getChildren().contains(child))){
             this.getChildren().add(child);
-            //this.notify(this);
             this.callNotify();
+            child.addSubscriber(this);
         }
 
         return;
@@ -37,8 +38,6 @@ public class Project extends MapNodeC {
         if(child != null && child instanceof MindMap &&
                 this.getChildren().contains(child)){
             this.getChildren().remove(child);
-            //this.notify(this);
-            //this.callNotify();
         }
 
         return;
@@ -47,13 +46,12 @@ public class Project extends MapNodeC {
     public void setAutor(String autor) {
         this.autor = autor;
         this.callNotify();
-        //this.notify(this);
+        this.notify(this);
     }
     @Override
     public void setName(String name) {
         super.setName(name);
         this.callNotify();
-        //this.notify(this);
     }
 
     public void callNotify(){
@@ -65,4 +63,8 @@ public class Project extends MapNodeC {
 
     }
 
+    @Override
+    public void update(Object notification) {
+        this.notify(this);
+    }
 }

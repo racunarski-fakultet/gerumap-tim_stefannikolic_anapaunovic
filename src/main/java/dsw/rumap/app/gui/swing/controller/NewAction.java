@@ -7,6 +7,7 @@ import dsw.rumap.app.gui.swing.view.MainFrame;
 import dsw.rumap.app.maprepository.composite.MapNode;
 import dsw.rumap.app.maprepository.mapnodefactory.MapNodeFactory;
 import dsw.rumap.app.maprepository.implementation.ProjectExplorer;
+import dsw.rumap.app.msggenerator.Problem;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -26,13 +27,13 @@ public class NewAction extends AbstractRumapActions{
     public void actionPerformed(ActionEvent e) {
 
         if(MainFrame.getInstance().getMapTree().getSelectedNode() == null){
-            AppCore.getInstance().getMsgGenerator().createMessage("NODE_IS_NOT_SELECTED");
+            AppCore.getInstance().getMsgGenerator().createMessage(Problem.NODE_IS_NOT_SELECTED);
             return;
         }
         MapTreeNode selected = MainFrame.getInstance().getMapTree().getSelectedNode();
         MapNodeFactory mapNodeFactory = AppCore.getInstance().getMapRepository().getMapNodeFactory(selected.getMapNode());
         if(mapNodeFactory == null) {
-            //TODO ako je child null ispisi gresku
+            AppCore.getInstance().getMsgGenerator().createMessage(Problem.NODE_CANNOT_HAVE_CHILDREN);
             return;
         }
         mapNodeFactory.orderChild(selected.getMapNode());

@@ -26,10 +26,13 @@ public class ProjectView extends JPanel implements ISubscriber {
         label = new JLabel("Selektujte projekat");
         autor = new JLabel(" ");
         tabbedPane = new JTabbedPane();
-        //this.setLayout(new BorderLayout());
-        this.setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
+        BoxLayout box = new BoxLayout(this, BoxLayout.Y_AXIS);
+        this.setLayout(box);
+        this.add(Box.createVerticalStrut(5));
         this.add(label);
+        this.add(Box.createVerticalStrut(3));
         this.add(autor);
+        this.add(Box.createVerticalStrut(5));
         this.add(tabbedPane);
 
     }
@@ -44,40 +47,28 @@ public class ProjectView extends JPanel implements ISubscriber {
 
     @Override
     public void update(Object notification) {
-
         this.fillView();
-
     }
 
     public void fillView(){
 
-        //this.removeAll();
-
-        //this.setLayout(new BorderLayout());
         this.label.setText(model.getName());
-        this.autor.setText("Naziv autora: " + model.getAutor());
-        //this.add(label,BorderLayout.NORTH);
-        //this.add(autor,BorderLayout.CENTER);
-        //this.tabbedPane.removeAll();
+        this.autor.setText("Autor: " + model.getAutor());
 
         totalTabs = tabbedPane.getTabCount();
         i = 0;
         int hasCh = 0;
-        System.out.println( "total " + totalTabs);
 
         for(MapNode node: model.getChildren()){
             hasCh = 1;
-            System.out.println("udje");
             if(i < totalTabs){
                 tabbedPane.setTitleAt(i,node.getName());
                 tabbedPane.setComponentAt(i,new MindMapView((MindMap) node));
                 i++;
-                System.out.println("stari");
             }
             else {
                 MindMapView mapView = new MindMapView((MindMap) node);
                 tabbedPane.addTab(node.getName(),mapView);
-                System.out.println("novi");
             }
         }
         int deleteInd = i;
@@ -91,11 +82,6 @@ public class ProjectView extends JPanel implements ISubscriber {
             }
 
         }
-
-        System.out.println("i" + i);
-
-        //this.add(tabbedPane, BorderLayout.SOUTH);
         SwingUtilities.updateComponentTreeUI(this);
-
     }
 }

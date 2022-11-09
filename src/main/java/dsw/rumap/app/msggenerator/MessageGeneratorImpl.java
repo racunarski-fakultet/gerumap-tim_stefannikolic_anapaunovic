@@ -19,21 +19,23 @@ public class MessageGeneratorImpl implements MessageGenerator {
     }
 
     @Override
-    public void createMessage(String event) {
+    public void createMessage(Problem event) {
 
 
-        if(event.equals("NODE_CANNOT_BE_DELETED")){
-            message = new Message(MessageType.INFORMATION,event);
-        }
-        else if(event.equals("NODE_IS_NOT_SELECTED")){
-            message = new Message(MessageType.WARNING,event);
-        }
-        else if(event.equals("NAME_CANNOT_BE_EMPTY")){
+        if(event.equals(Problem.NODE_CANNOT_BE_DELETED))
+            message = new Message(MessageType.ERROR, event);
+
+        else if(event.equals(Problem.NODE_IS_NOT_SELECTED))
+            message = new Message(MessageType.ERROR, event);
+
+        else if(event.equals(Problem.NAME_CANNOT_BE_EMPTY))
+            message = new Message(MessageType.WARNING, event);
+
+        else if(event.equals(Problem.NAME_ALREADY_EXISTS))
+            message = new Message(MessageType.INFORMATION, event);
+
+        else if(event.equals(Problem.NODE_CANNOT_HAVE_CHILDREN))
             message = new Message(MessageType.ERROR,event);
-        }
-        else if(event.equals("NAME_ALREADY_EXISTS")){
-            message = new Message(MessageType.INFORMATION,event);
-        }
 
         this.notify(message);
     }

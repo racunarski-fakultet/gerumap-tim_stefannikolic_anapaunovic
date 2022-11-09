@@ -11,13 +11,14 @@ import dsw.rumap.app.maprepository.MapReposImpl;
 import dsw.rumap.app.msggenerator.Message;
 import dsw.rumap.app.msggenerator.MessageGeneratorImpl;
 import dsw.rumap.app.msggenerator.MessageType;
+import dsw.rumap.app.msggenerator.Problem;
 import dsw.rumap.app.observer.ISubscriber;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
+import java.awt.event.*;
 
 @Getter
 @Setter
@@ -27,9 +28,7 @@ public class MainFrame extends JFrame implements ISubscriber {
     private JMenuBar menu;
     private JToolBar toolBar;
     private MapTree mapTree;
-
     private ProjectView projectView;
-    private JPanel desktop;
 
     private MainFrame(){}
 
@@ -64,9 +63,7 @@ public class MainFrame extends JFrame implements ISubscriber {
         this.add(toolBar, BorderLayout.NORTH);
 
         JTree explorerTree = mapTree.generateTree(AppCore.getInstance().getMapRepository().getProjectExplorer());
-        //desktop = new JPanel();
         projectView = new ProjectView();
-       // desktop.add(projectView);
 
         JScrollPane scPane = new JScrollPane(explorerTree);
         scPane.setMinimumSize(new Dimension(200, 150));
@@ -74,6 +71,13 @@ public class MainFrame extends JFrame implements ISubscriber {
         getContentPane().add(splitPane, BorderLayout.CENTER);
         splitPane.setDividerLocation(250);
         splitPane.setOneTouchExpandable(true);
+        WindowListener exitListener = new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                AppCore.getInstance().getFileLogger().closeFileLogger();
+            }
+        };
+        this.addWindowListener(exitListener);
     }
 
     public ActionManager getActionManager(){
@@ -82,19 +86,18 @@ public class MainFrame extends JFrame implements ISubscriber {
 
     @Override
     public void update(Object notification) {
-        String message = ((Message)notification).getMessage();
+        Problem message = ((Message)notification).getMessage();
         MessageType type = ((Message)notification).getType();
 
         if(type.equals(MessageType.INFORMATION)){
-            JOptionPane.showMessageDialog(this,message);
+            JOptionPane.showMessageDialog(this,message,"Information", JOptionPane.INFORMATION_MESSAGE);
         }
         else if(type.equals(MessageType.WARNING)){
-            JOptionPane.showMessageDialog(this,message,"Warning",JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this,message,"Warning", JOptionPane.WARNING_MESSAGE);
         }
         else if(type.equals(MessageType.ERROR)){
             JOptionPane.showMessageDialog(this,message,"Error",JOptionPane.ERROR_MESSAGE);
         }
 
-        //System.out.println(((Message)notification).getMessage());
     }
 }

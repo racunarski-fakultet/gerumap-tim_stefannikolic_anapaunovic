@@ -5,6 +5,7 @@ import dsw.rumap.app.gui.swing.tree.model.MapTreeNode;
 import dsw.rumap.app.gui.swing.view.MainFrame;
 import dsw.rumap.app.maprepository.composite.MapNode;
 import dsw.rumap.app.maprepository.implementation.ProjectExplorer;
+import dsw.rumap.app.msggenerator.Problem;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -26,7 +27,7 @@ public class DeleteAction extends AbstractRumapActions{
             MapTreeNode selected = (MapTreeNode) MainFrame.getInstance().getMapTree().getSelectedNode();
 
             if(selected.getMapNode() instanceof ProjectExplorer){
-                AppCore.getInstance().getMsgGenerator().createMessage("NODE_CANNOT_BE_DELETED");
+                AppCore.getInstance().getMsgGenerator().createMessage(Problem.NODE_CANNOT_BE_DELETED);
                 return;
             }
 
@@ -35,9 +36,7 @@ public class DeleteAction extends AbstractRumapActions{
             MainFrame.getInstance().getMapTree().removeTreeNode(selected);
         }
         else
-            AppCore.getInstance().getMsgGenerator().createMessage("NODE_IS_NOT_SELECTED");
-
-       // return;
+            AppCore.getInstance().getMsgGenerator().createMessage(Problem.NODE_IS_NOT_SELECTED);
 
     }
 }

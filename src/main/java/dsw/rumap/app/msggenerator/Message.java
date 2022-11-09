@@ -10,11 +10,11 @@ import java.time.LocalDateTime;
 @Setter
 public class Message {
 
-    private String message;
+    private Problem message;
     private MessageType type;
     private LocalDateTime timeStamp;
 
-    public Message(MessageType type, String message) {
+    public Message(MessageType type, Problem message) {
         this.type = type;
         this.message = message;
         this.timeStamp = LocalDateTime.now();

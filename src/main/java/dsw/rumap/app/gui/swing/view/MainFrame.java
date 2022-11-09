@@ -64,13 +64,13 @@ public class MainFrame extends JFrame implements ISubscriber {
         this.add(toolBar, BorderLayout.NORTH);
 
         JTree explorerTree = mapTree.generateTree(AppCore.getInstance().getMapRepository().getProjectExplorer());
-        desktop = new JPanel();
+        //desktop = new JPanel();
         projectView = new ProjectView();
-        desktop.add(projectView);
+       // desktop.add(projectView);
 
         JScrollPane scPane = new JScrollPane(explorerTree);
         scPane.setMinimumSize(new Dimension(200, 150));
-        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, scPane, desktop);
+        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, scPane, projectView);
         getContentPane().add(splitPane, BorderLayout.CENTER);
         splitPane.setDividerLocation(250);
         splitPane.setOneTouchExpandable(true);
@@ -95,6 +95,6 @@ public class MainFrame extends JFrame implements ISubscriber {
             JOptionPane.showMessageDialog(this,message,"Error",JOptionPane.ERROR_MESSAGE);
         }
 
-        System.out.println(((Message)notification).getMessage());
+        //System.out.println(((Message)notification).getMessage());
     }
 }

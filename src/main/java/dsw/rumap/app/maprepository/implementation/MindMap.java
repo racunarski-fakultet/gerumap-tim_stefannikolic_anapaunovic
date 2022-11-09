@@ -39,6 +39,6 @@ public class MindMap extends MapNodeC {
     @Override
     public void setName(String name) {
         super.setName(name);
-        //obs
+        this.notify(this);
     }
 }

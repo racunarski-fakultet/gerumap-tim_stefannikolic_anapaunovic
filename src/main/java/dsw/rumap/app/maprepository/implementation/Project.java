@@ -1,5 +1,7 @@
 package dsw.rumap.app.maprepository.implementation;
 
+import com.sun.tools.javac.Main;
+import dsw.rumap.app.gui.swing.view.MainFrame;
 import dsw.rumap.app.maprepository.composite.MapNode;
 import dsw.rumap.app.maprepository.composite.MapNodeC;
 import lombok.Getter;
@@ -23,7 +25,8 @@ public class Project extends MapNodeC {
         if(child != null && child instanceof MindMap &&
                 !(this.getChildren().contains(child))){
             this.getChildren().add(child);
-            this.notify(this);
+            //this.notify(this);
+            this.callNotify();
         }
 
         return;
@@ -34,7 +37,8 @@ public class Project extends MapNodeC {
         if(child != null && child instanceof MindMap &&
                 this.getChildren().contains(child)){
             this.getChildren().remove(child);
-            this.notify(this);
+            //this.notify(this);
+            //this.callNotify();
         }
 
         return;
@@ -42,11 +46,23 @@ public class Project extends MapNodeC {
     
     public void setAutor(String autor) {
         this.autor = autor;
-        this.notify(this);
+        this.callNotify();
+        //this.notify(this);
     }
     @Override
     public void setName(String name) {
         super.setName(name);
-        this.notify(this);
+        this.callNotify();
+        //this.notify(this);
     }
+
+    public void callNotify(){
+        if(MainFrame.getInstance().getProjectView().getModel() == this){
+            this.notify(this);
+            System.out.println(MainFrame.getInstance().getProjectView().getModel());
+            System.out.println(this);
+        }
+
+    }
+
 }

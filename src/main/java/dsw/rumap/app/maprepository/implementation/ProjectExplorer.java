@@ -32,7 +32,6 @@ public class ProjectExplorer extends MapNodeC {
 
         return;
     }
-    
     @Override
     public void setName(String name) {
         super.setName(name);

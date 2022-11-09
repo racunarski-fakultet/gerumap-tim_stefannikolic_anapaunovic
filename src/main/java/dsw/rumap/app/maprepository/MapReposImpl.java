@@ -67,11 +67,17 @@ public class MapReposImpl implements MapRepository {
             if(((MapNodeC) parent).checkName(name) == true){
                 node.setName(name);
                 if(parent instanceof Project)
-                    parent.notify(parent);
+                    this.childChanged(parent);
             }
             else return false;
         }
         return true;
+    }
+
+    @Override
+    public void childChanged(MapNode parent) {
+        ((Project)parent).callNotify();
+        //parent.callNotify();
     }
 
     @Override

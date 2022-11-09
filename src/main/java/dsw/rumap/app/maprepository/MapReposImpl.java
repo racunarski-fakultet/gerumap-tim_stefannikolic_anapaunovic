@@ -37,21 +37,9 @@ public class MapReposImpl implements MapRepository {
     public void removeChild(MapNode parent, MapNode child) {
         if(parent instanceof MapNodeC)
             ((MapNodeC) parent).delete(child);
+        if(parent instanceof Project)
+            this.tabUpdate(parent);
     }
-
-//    @Override
-//    public MapNode createChild(MapNode parent) {
-//        if(parent instanceof ProjectExplorer)
-//            return new Project("Project" + (((ProjectExplorer) parent).getChildren().size()+1), parent);
-//
-//        else if(parent instanceof Project)
-//            return new MindMap("MindMap " + (((Project) parent).getChildren().size()+1), parent);
-//
-//        else if(parent instanceof MindMap)
-//            return new Element("Element " + (((MindMap) parent).getChildren().size()+1), parent);
-//
-//        return null;
-//    }
 
     @Override
     public void setAutor(String autor, MapNode proj) {
@@ -67,7 +55,7 @@ public class MapReposImpl implements MapRepository {
             if(((MapNodeC) parent).checkName(name) == true){
                 node.setName(name);
                 if(parent instanceof Project)
-                    this.childChanged(parent);
+                    this.tabUpdate(parent);
             }
             else return false;
         }
@@ -75,9 +63,8 @@ public class MapReposImpl implements MapRepository {
     }
 
     @Override
-    public void childChanged(MapNode parent) {
+    public void tabUpdate(MapNode parent) {
         ((Project)parent).callNotify();
-        //parent.callNotify();
     }
 
     @Override

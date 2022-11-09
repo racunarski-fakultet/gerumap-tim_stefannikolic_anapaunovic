@@ -17,7 +17,7 @@ public class Project extends MapNodeC {
 
     public Project(String name, MapNode parent) {
         super(name, parent);
-        this.autor = new String("Unesite naziv autora");
+        this.autor = new String("(Unesite naziv autora)");
     }
 
     @Override
@@ -25,7 +25,6 @@ public class Project extends MapNodeC {
         if(child != null && child instanceof MindMap &&
                 !(this.getChildren().contains(child))){
             this.getChildren().add(child);
-            //this.notify(this);
             this.callNotify();
         }
 
@@ -37,8 +36,6 @@ public class Project extends MapNodeC {
         if(child != null && child instanceof MindMap &&
                 this.getChildren().contains(child)){
             this.getChildren().remove(child);
-            //this.notify(this);
-            //this.callNotify();
         }
 
         return;
@@ -53,7 +50,6 @@ public class Project extends MapNodeC {
     public void setName(String name) {
         super.setName(name);
         this.callNotify();
-        //this.notify(this);
     }
 
     public void callNotify(){

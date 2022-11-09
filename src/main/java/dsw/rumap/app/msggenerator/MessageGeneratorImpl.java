@@ -34,7 +34,7 @@ public class MessageGeneratorImpl implements MessageGenerator {
         else if(event.equals(Problem.NAME_ALREADY_EXISTS))
             message = new Message(MessageType.INFORMATION, event);
 
-        else if(event.equals("NODE_CANNOT_HAVE_CHILDREN"))
+        else if(event.equals(Problem.NODE_CANNOT_HAVE_CHILDREN))
             message = new Message(MessageType.ERROR,event);
 
         this.notify(message);

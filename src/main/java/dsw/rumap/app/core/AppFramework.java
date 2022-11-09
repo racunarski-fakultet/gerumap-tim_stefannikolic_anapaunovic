@@ -21,9 +21,6 @@ abstract public class AppFramework {
         this.gui = gui;
         this.mapRepository = mapRepository;
         this.msgGenerator = msgGenerator;
-        //this.consoleLogger = consoleLogger;
-        //this.fileLogger = fileLogger;
-
 
     }
     public void initialiseLogger(Logger fileLogger, Logger consoleLogger){

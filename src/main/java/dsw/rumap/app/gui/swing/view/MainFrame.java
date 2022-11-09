@@ -90,10 +90,10 @@ public class MainFrame extends JFrame implements ISubscriber {
         MessageType type = ((Message)notification).getType();
 
         if(type.equals(MessageType.INFORMATION)){
-            JOptionPane.showMessageDialog(this,message);
+            JOptionPane.showMessageDialog(this,message,"Information", JOptionPane.INFORMATION_MESSAGE);
         }
         else if(type.equals(MessageType.WARNING)){
-            JOptionPane.showMessageDialog(this,message,"Warning",JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this,message,"Warning", JOptionPane.WARNING_MESSAGE);
         }
         else if(type.equals(MessageType.ERROR)){
             JOptionPane.showMessageDialog(this,message,"Error",JOptionPane.ERROR_MESSAGE);

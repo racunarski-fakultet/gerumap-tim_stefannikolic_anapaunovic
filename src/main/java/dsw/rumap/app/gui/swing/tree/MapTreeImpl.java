@@ -60,6 +60,7 @@ public class MapTreeImpl implements MapTree {
     @Override
     public void removeTreeNode(MapTreeNode mapTreeNode) {
         mapTreeNode.removeFromParent();
+        mapTreeView.setSelectionPath(null);
         this.refresh();
     }
 

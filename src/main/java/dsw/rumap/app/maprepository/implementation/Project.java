@@ -4,6 +4,7 @@ import com.sun.tools.javac.Main;
 import dsw.rumap.app.gui.swing.view.MainFrame;
 import dsw.rumap.app.maprepository.composite.MapNode;
 import dsw.rumap.app.maprepository.composite.MapNodeC;
+import dsw.rumap.app.observer.ISubscriber;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,7 +12,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class Project extends MapNodeC {
+public class Project extends MapNodeC implements ISubscriber {
 
     private String autor;
 
@@ -26,6 +27,7 @@ public class Project extends MapNodeC {
                 !(this.getChildren().contains(child))){
             this.getChildren().add(child);
             this.callNotify();
+            child.addSubscriber(this);
         }
 
         return;
@@ -44,7 +46,7 @@ public class Project extends MapNodeC {
     public void setAutor(String autor) {
         this.autor = autor;
         this.callNotify();
-        //this.notify(this);
+        this.notify(this);
     }
     @Override
     public void setName(String name) {
@@ -61,4 +63,8 @@ public class Project extends MapNodeC {
 
     }
 
+    @Override
+    public void update(Object notification) {
+        this.notify(this);
+    }
 }

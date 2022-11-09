@@ -16,7 +16,7 @@ public class FileLogger extends AbstractLogger {
 
     public FileLogger() {
         try {
-            fw = new FileWriter("logger.txt");
+            fw = new FileWriter("log.txt");
             bw = new BufferedWriter(fw);
         } catch (IOException e) {
             e.printStackTrace();

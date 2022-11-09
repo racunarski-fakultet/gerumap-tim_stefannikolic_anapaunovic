@@ -12,16 +12,16 @@ public class MindMapView extends JPanel implements ISubscriber {
 
     private MindMap model;
 
-    public MindMapView(){
-        int width = MainFrame.getInstance().getDesktop().getWidth();
-        int h = MainFrame.getInstance().getDesktop().getHeight();
+    public MindMapView(MindMap model){
+        this.model=model;
+        int width = MainFrame.getInstance().getProjectView().getWidth();
+        int h = MainFrame.getInstance().getProjectView().getHeight();
         this.setPreferredSize(new Dimension(width - 5,h - 40));
 
-        //this.model.addSubscriber(this);
+        this.model.addSubscriber(this);
 
     }
 
-    //kasnije - da u konstruktor stavimo setovanje modela i da dodamo subscribovanje na model
 
     @Override
     public void update(Object notification) {

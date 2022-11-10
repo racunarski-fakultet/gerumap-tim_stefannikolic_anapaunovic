@@ -21,8 +21,14 @@ public abstract class MapNode implements IPublisher {
     public MapNode(String name, MapNode parent){
         this.name = name;
         this.parent = parent;
-        this.subscribers=new ArrayList<>();
+        this.subscribers = new ArrayList<>();
     }
+
+    public MapNode(MapNode parent){
+
+    }
+
+
 
     @Override
     public boolean equals(Object obj){
@@ -53,6 +59,9 @@ public abstract class MapNode implements IPublisher {
 
     @Override
     public void notify(Object notification) {
+        if(subscribers.isEmpty())
+            return;
+        System.out.println(this.name + "1234");
         for (ISubscriber iSubscriber : subscribers) {
             iSubscriber.update(notification);
         }

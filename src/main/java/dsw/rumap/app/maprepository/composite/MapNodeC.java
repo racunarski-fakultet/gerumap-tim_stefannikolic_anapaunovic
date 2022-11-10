@@ -13,10 +13,16 @@ public abstract class MapNodeC extends MapNode{
         this.children = new ArrayList<MapNode>();
     }
 
+    public MapNodeC(MapNode parent){
+        super(parent);
+    }
+
     public MapNodeC(String name, MapNode parent, List<MapNode> children) {
         super(name, parent);
         this.children = children;
     }
+
+    public abstract Integer makeNameForChild();
 
     public MapNode getChildByName(MapNode name){
         for (MapNode child : this.getChildren()) {

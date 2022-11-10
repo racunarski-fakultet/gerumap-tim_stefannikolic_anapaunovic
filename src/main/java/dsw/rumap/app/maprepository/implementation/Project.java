@@ -18,7 +18,20 @@ public class Project extends MapNodeC implements ISubscriber {
 
     public Project(String name, MapNode parent) {
         super(name, parent);
-        this.autor = new String("(Unesite naziv autora)");
+        this.autor = new String("[Unesite naziv autora]");
+    }
+
+    public Project(MapNode parent){
+        this("Project" + ((MapNodeC)parent).makeNameForChild(), parent);
+    }
+
+    @Override
+    public Integer makeNameForChild() {
+        Integer nameNumber = this.getChildren().size() + 1;
+        while (this.checkName("MindMap" + nameNumber) == false) {
+            nameNumber++;
+        }
+        return nameNumber;
     }
 
     @Override
@@ -40,8 +53,7 @@ public class Project extends MapNodeC implements ISubscriber {
             this.getChildren().remove(child);
             this.notify(this);
         }
-
-        return;
+        this.notify(this);
     }
     
     public void setAutor(String autor) {
@@ -58,6 +70,5 @@ public class Project extends MapNodeC implements ISubscriber {
     public void update(Object notification) {
         this.notify(this);
     }
-
 
 }

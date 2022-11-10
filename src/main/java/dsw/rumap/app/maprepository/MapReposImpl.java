@@ -51,10 +51,10 @@ public class MapReposImpl implements MapRepository {
         if(parent == null)
             node.setName(name);
         else if(parent instanceof MapNodeC){
-            if(((MapNodeC) parent).checkName(name) == true){
-                node.setName(name);
+            if(((MapNodeC) parent).checkName(name) != true){
+                return false;
             }
-            else return false;
+            else node.setName(name);
         }
         return true;
     }

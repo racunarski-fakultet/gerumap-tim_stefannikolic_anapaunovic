@@ -18,7 +18,7 @@ public class MindMapView extends JPanel implements ISubscriber {
         int h = MainFrame.getInstance().getProjectView().getHeight();
         this.setPreferredSize(new Dimension(width - 5,h - 40));
 
-        this.model.addSubscriber(this);
+        //this.model.addSubscriber(this);
 
     }
 

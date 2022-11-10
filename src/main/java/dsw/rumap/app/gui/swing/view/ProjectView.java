@@ -1,8 +1,10 @@
 package dsw.rumap.app.gui.swing.view;
 
+import dsw.rumap.app.AppCore;
 import dsw.rumap.app.maprepository.composite.MapNode;
 import dsw.rumap.app.maprepository.implementation.MindMap;
 import dsw.rumap.app.maprepository.implementation.Project;
+import dsw.rumap.app.maprepository.implementation.ProjectExplorer;
 import dsw.rumap.app.observer.ISubscriber;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,7 +26,7 @@ public class ProjectView extends JPanel implements ISubscriber {
 
     public ProjectView(){
         label = new JLabel("Selektujte projekat");
-        autor = new JLabel(" ");
+        autor = new JLabel("");
         tabbedPane = new JTabbedPane();
         BoxLayout box = new BoxLayout(this, BoxLayout.Y_AXIS);
         this.setLayout(box);
@@ -34,7 +36,7 @@ public class ProjectView extends JPanel implements ISubscriber {
         this.add(autor);
         this.add(Box.createVerticalStrut(5));
         this.add(tabbedPane);
-
+        AppCore.getInstance().getMapRepository().getProjectExplorer().addSubscriber(this);
     }
 
     public void setModel(Project model){
@@ -47,10 +49,12 @@ public class ProjectView extends JPanel implements ISubscriber {
 
     @Override
     public void update(Object notification) {
-        this.fillView();
+        if(notification instanceof ProjectExplorer)
+            this.clean();
+        else this.fillView();
     }
 
-    public void fillView(){
+    private void fillView(){
 
         this.label.setText(model.getName());
         this.autor.setText("Autor: " + model.getAutor());
@@ -83,5 +87,11 @@ public class ProjectView extends JPanel implements ISubscriber {
 
         }
         SwingUtilities.updateComponentTreeUI(this);
+    }
+
+    private void clean(){
+        this.label.setText("Selektujte projekat");
+        this.autor.setText("");
+        this.tabbedPane.removeAll();
     }
 }

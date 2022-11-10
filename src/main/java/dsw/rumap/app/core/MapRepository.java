@@ -12,5 +12,4 @@ public interface MapRepository {
     public void setAutor(String autor, MapNode proj);
     public MapNodeFactory getMapNodeFactory(MapNode parent);
     public boolean changeName(String name, MapNode node, MapNode parent);
-    public void tabUpdate(MapNode parent);
 }

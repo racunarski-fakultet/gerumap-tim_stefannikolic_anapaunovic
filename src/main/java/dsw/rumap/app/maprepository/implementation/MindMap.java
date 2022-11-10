@@ -14,6 +14,19 @@ public class MindMap extends MapNodeC {
         super(name, parent);
     }
 
+    public MindMap(MapNode parent){
+        this("MindMap" + ((MapNodeC)parent).makeNameForChild(), parent);
+    }
+
+    @Override
+    public Integer makeNameForChild() {
+        Integer nameNumber = this.getChildren().size() + 1;
+        while (this.checkName("Element" + nameNumber) == false) {
+            nameNumber++;
+        }
+        return nameNumber;
+    }
+
     @Override
     public void add(MapNode child) {
         if(child != null && child instanceof Element &&
@@ -21,8 +34,6 @@ public class MindMap extends MapNodeC {
             this.getChildren().add(child);
             this.notify(this);
         }
-
-        return;
     }
 
     @Override
@@ -32,8 +43,6 @@ public class MindMap extends MapNodeC {
             this.getChildren().remove(child);
             this.notify(this);
         }
-
-        return;
     }
 
     @Override

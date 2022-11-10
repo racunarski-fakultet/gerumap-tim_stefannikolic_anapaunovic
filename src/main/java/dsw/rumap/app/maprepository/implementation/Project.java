@@ -18,7 +18,20 @@ public class Project extends MapNodeC implements ISubscriber {
 
     public Project(String name, MapNode parent) {
         super(name, parent);
-        this.autor = new String("(Unesite naziv autora)");
+        this.autor = new String("[Unesite naziv autora]");
+    }
+
+    public Project(MapNode parent){
+        this("Project" + ((MapNodeC)parent).makeNameForChild(), parent);
+    }
+
+    @Override
+    public Integer makeNameForChild() {
+        Integer nameNumber = this.getChildren().size() + 1;
+        while (this.checkName("MindMap" + nameNumber) == false) {
+            nameNumber++;
+        }
+        return nameNumber;
     }
 
     @Override
@@ -26,7 +39,7 @@ public class Project extends MapNodeC implements ISubscriber {
         if(child != null && child instanceof MindMap &&
                 !(this.getChildren().contains(child))){
             this.getChildren().add(child);
-            this.callNotify();
+            this.notify(this);
             child.addSubscriber(this);
         }
 
@@ -39,32 +52,22 @@ public class Project extends MapNodeC implements ISubscriber {
                 this.getChildren().contains(child)){
             this.getChildren().remove(child);
         }
-
-        return;
+        this.notify(this);
     }
     
     public void setAutor(String autor) {
         this.autor = autor;
-        this.callNotify();
         this.notify(this);
     }
     @Override
     public void setName(String name) {
         super.setName(name);
-        this.callNotify();
-    }
-
-    public void callNotify(){
-        if(MainFrame.getInstance().getProjectView().getModel() == this){
-            this.notify(this);
-            System.out.println(MainFrame.getInstance().getProjectView().getModel());
-            System.out.println(this);
-        }
-
+        this.notify(this);
     }
 
     @Override
     public void update(Object notification) {
         this.notify(this);
     }
+
 }

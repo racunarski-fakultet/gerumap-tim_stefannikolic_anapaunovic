@@ -12,11 +12,20 @@ public class ProjectExplorer extends MapNodeC {
     }
 
     @Override
+    public Integer makeNameForChild() {
+        Integer nameNumber = this.getChildren().size() + 1;
+        while (this.checkName("Project" + nameNumber) == false) {
+            nameNumber++;
+        }
+        return nameNumber;
+    }
+
+    @Override
     public void add(MapNode child) {
         if(child != null && child instanceof Project &&
                 !(this.getChildren().contains(child))){
             this.getChildren().add(child);
-            this.notify(this);
+            //this.notify(this);
         }
         return;
     }
@@ -29,12 +38,11 @@ public class ProjectExplorer extends MapNodeC {
             this.notify(this);
             System.out.println(this.getChildren().size());
         }
-
-        return;
+        this.notify(this);
     }
+
     @Override
     public void setName(String name) {
         super.setName(name);
-        this.notify(this);
     }
 }

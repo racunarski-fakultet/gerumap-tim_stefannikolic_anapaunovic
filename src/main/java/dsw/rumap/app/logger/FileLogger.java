@@ -15,12 +15,7 @@ public class FileLogger extends AbstractLogger {
     BufferedWriter bw;
 
     public FileLogger() {
-        try {
-            fw = new FileWriter("log.txt");
-            bw = new BufferedWriter(fw);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
         AppCore.getInstance().getMsgGenerator().addSubscriber(this);
     }
 
@@ -28,8 +23,12 @@ public class FileLogger extends AbstractLogger {
     public void printMessage(Message message) {
         super.printMessage(message);
         try {
+            fw = new FileWriter("log.txt", true);
+            bw = new BufferedWriter(fw);
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
-            bw.write("["+ type + "] ["+ dtf.format(message.getTimeStamp()) + "] "+ print + "\n");
+            bw.append("["+ type + "] ["+ dtf.format(message.getTimeStamp()) + "] "+ print + "\n");
+            bw.close();
+            fw.close();
         } catch (IOException e) {
             e.printStackTrace();
         }

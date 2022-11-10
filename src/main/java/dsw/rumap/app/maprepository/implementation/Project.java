@@ -26,8 +26,8 @@ public class Project extends MapNodeC implements ISubscriber {
         if(child != null && child instanceof MindMap &&
                 !(this.getChildren().contains(child))){
             this.getChildren().add(child);
-            this.callNotify();
             child.addSubscriber(this);
+            this.notify(this);
         }
 
         return;
@@ -38,6 +38,7 @@ public class Project extends MapNodeC implements ISubscriber {
         if(child != null && child instanceof MindMap &&
                 this.getChildren().contains(child)){
             this.getChildren().remove(child);
+            this.notify(this);
         }
 
         return;
@@ -45,26 +46,18 @@ public class Project extends MapNodeC implements ISubscriber {
     
     public void setAutor(String autor) {
         this.autor = autor;
-        this.callNotify();
         this.notify(this);
     }
     @Override
     public void setName(String name) {
         super.setName(name);
-        this.callNotify();
-    }
-
-    public void callNotify(){
-        if(MainFrame.getInstance().getProjectView().getModel() == this){
-            this.notify(this);
-            System.out.println(MainFrame.getInstance().getProjectView().getModel());
-            System.out.println(this);
-        }
-
+        this.notify(this);
     }
 
     @Override
     public void update(Object notification) {
         this.notify(this);
     }
+
+
 }

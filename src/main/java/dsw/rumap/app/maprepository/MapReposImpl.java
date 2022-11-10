@@ -37,8 +37,7 @@ public class MapReposImpl implements MapRepository {
     public void removeChild(MapNode parent, MapNode child) {
         if(parent instanceof MapNodeC)
             ((MapNodeC) parent).delete(child);
-        if(parent instanceof Project)
-            this.tabUpdate(parent);
+
     }
 
     @Override
@@ -54,18 +53,12 @@ public class MapReposImpl implements MapRepository {
         else if(parent instanceof MapNodeC){
             if(((MapNodeC) parent).checkName(name) == true){
                 node.setName(name);
-                if(parent instanceof Project)
-                    this.tabUpdate(parent);
             }
             else return false;
         }
         return true;
     }
 
-    @Override
-    public void tabUpdate(MapNode parent) {
-        ((Project)parent).callNotify();
-    }
 
     @Override
     public MapNodeFactory getMapNodeFactory(MapNode parent){

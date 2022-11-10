@@ -2,6 +2,7 @@ package dsw.rumap.app.maprepository.implementation;
 
 import dsw.rumap.app.maprepository.composite.MapNode;
 import dsw.rumap.app.maprepository.composite.MapNodeC;
+import dsw.rumap.app.observer.ISubscriber;
 
 import javax.swing.*;
 import java.util.List;
@@ -41,4 +42,5 @@ public class MindMap extends MapNodeC {
         super.setName(name);
         this.notify(this);
     }
+
 }

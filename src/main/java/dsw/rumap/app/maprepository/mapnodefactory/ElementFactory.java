@@ -9,11 +9,7 @@ import dsw.rumap.app.maprepository.implementation.Project;
 public class ElementFactory extends MapNodeFactory{
     @Override
     MapNode createChild(MapNodeC parent) {
-        Integer nameNumber = (((MindMap) parent).getChildren().size()+1);
-        while(parent.checkName("MindMap" + nameNumber) == false){
-            nameNumber++;
-        }
-        MapNode newNode = new Element("Element" + nameNumber, parent);
+        MapNode newNode = new Element(parent);
         return newNode;
     }
 }

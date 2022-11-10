@@ -10,11 +10,7 @@ public class MindMapFactory extends MapNodeFactory{
 
     @Override
     MapNode createChild(MapNodeC parent) {
-        Integer nameNumber = (((Project) parent).getChildren().size()+1);
-        while(parent.checkName("MindMap" + nameNumber) == false){
-            nameNumber++;
-        }
-        MapNode newNode = new MindMap("MindMap" + nameNumber, parent);
+        MapNode newNode = new MindMap(parent);
         return newNode;
     }
 }

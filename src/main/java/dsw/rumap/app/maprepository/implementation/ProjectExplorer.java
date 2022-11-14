@@ -2,6 +2,7 @@ package dsw.rumap.app.maprepository.implementation;
 
 import dsw.rumap.app.maprepository.composite.MapNode;
 import dsw.rumap.app.maprepository.composite.MapNodeC;
+import dsw.rumap.app.observer.ISubscriber;
 
 import java.util.List;
 
@@ -45,4 +46,5 @@ public class ProjectExplorer extends MapNodeC {
     public void setName(String name) {
         super.setName(name);
     }
+
 }

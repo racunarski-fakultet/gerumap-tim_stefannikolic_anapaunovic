@@ -32,6 +32,7 @@ public abstract class MapNodeC extends MapNode{
         return null;
     }
 
+
     public boolean checkName(String name) {
         for (MapNode n: this.getChildren()){
             if(n.getName().equals(name))

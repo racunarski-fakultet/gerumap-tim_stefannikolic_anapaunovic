@@ -6,12 +6,14 @@ import dsw.rumap.app.maprepository.implementation.MindMap;
 import dsw.rumap.app.maprepository.implementation.Project;
 import dsw.rumap.app.maprepository.implementation.ProjectExplorer;
 import dsw.rumap.app.observer.ISubscriber;
+import dsw.rumap.app.observer.notification.MyNotification;
+import dsw.rumap.app.observer.notification.NotificationType;
 import lombok.Getter;
 import lombok.Setter;
 
 
 import javax.swing.*;
-import java.awt.*;
+
 @Getter
 @Setter
 public class ProjectView extends JPanel implements ISubscriber {
@@ -22,6 +24,8 @@ public class ProjectView extends JPanel implements ISubscriber {
     private JTabbedPane tabbedPane;
     private Integer totalTabs;
     private Integer i;
+    private Integer deleteInd;
+    private NotificationType n;
 
 
     public ProjectView(){
@@ -41,50 +45,83 @@ public class ProjectView extends JPanel implements ISubscriber {
 
     public void setModel(Project model){
 
+        if(this.model == model)
+            return;
+
+        if(this.model != null){
+
+            this.model.removeSubscriber(this);
+            for(MapNode node: this.model.getChildren()){
+                node.removeSubscriber(this);
+            }
+        }
         this.model = model;
         this.model.addSubscriber(this);
-        this.fillView();
+        this.fillView(model);
 
     }
 
     @Override
     public void update(Object notification) {
+
         if(notification instanceof ProjectExplorer)
             this.clean();
-        else this.fillView();
+
+        else if(notification instanceof Project)
+            fillView((Project) notification);
+
+        else if(notification instanceof MyNotification){
+            n = ((MyNotification) notification).getType();
+            Object info =  ((MyNotification) notification).getInformation();
+
+            if(n.equals(NotificationType.UPDATE_AUTOR)) {
+                this.autor.setText(model.getAutor());
+
+            }
+            else if(n.equals(NotificationType.UPDATE_NAME)){
+                this.label.setText(model.getName());
+
+            }
+            else if(n.equals(NotificationType.MAP_ADDED)){
+                tabbedPane.addTab(model.getChildren().get((int)info).getName(),new MindMapView(((MindMap) model.getChildren().get((int)info))));
+                model.getChildren().get((int)info).addSubscriber(this);
+            }
+            else if(n.equals(NotificationType.MAP_DELETED)){
+                tabbedPane.remove((int) info);
+
+            }
+            else if(n.equals(NotificationType.UPDATE_MAP_NAME)){
+                tabbedPane.setTitleAt((int)info, this.model.getChildren().get((int)info).getName());
+
+            }
+
+       }
+
     }
 
-    private void fillView(){
+    private void fillView(Project model) {
 
         this.label.setText(model.getName());
         this.autor.setText("Autor: " + model.getAutor());
 
         totalTabs = tabbedPane.getTabCount();
         i = 0;
-        int hasCh = 0;
-
-        for(MapNode node: model.getChildren()){
-            hasCh = 1;
-            if(i < totalTabs){
-                tabbedPane.setTitleAt(i,node.getName());
-                tabbedPane.setComponentAt(i,new MindMapView((MindMap) node));
+        for (MapNode node : model.getChildren()) {
+            node.addSubscriber(this);
+            if (i < totalTabs) {
+                tabbedPane.setTitleAt(i, node.getName());
+                tabbedPane.setComponentAt(i, new MindMapView((MindMap) node));
                 i++;
-            }
-            else {
+            } else {
                 MindMapView mapView = new MindMapView((MindMap) node);
-                tabbedPane.addTab(node.getName(),mapView);
+                tabbedPane.addTab(node.getName(), mapView);
             }
         }
-        int deleteInd = i;
-        if(hasCh == 0){
-            tabbedPane.removeAll();
-        }
-        else if(i < totalTabs){
-            while(i < totalTabs){
-                tabbedPane.remove(deleteInd);
-                i++;
-            }
 
+        deleteInd = i;
+        while (i < totalTabs) {
+            tabbedPane.remove(deleteInd);
+            i++;
         }
         SwingUtilities.updateComponentTreeUI(this);
     }

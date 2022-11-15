@@ -1,5 +1,0 @@
-[ERROR] [10.11.2022 01:13] Morate selektovati polje.
-[ERROR] [10.11.2022 01:16] ProjectExplorer ne može biti obrisan.
-[WARNING] [10.11.2022 01:16] Morate uneti ime u polje.
-[ERROR] [10.11.2022 02:14] Morate selektovati polje.
-[ERROR] [10.11.2022 02:14] Elementu nije moguće dodati čvor.

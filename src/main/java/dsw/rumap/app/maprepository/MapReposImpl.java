@@ -37,6 +37,7 @@ public class MapReposImpl implements MapRepository {
     public void removeChild(MapNode parent, MapNode child) {
         if(parent instanceof MapNodeC)
             ((MapNodeC) parent).delete(child);
+
     }
 
     @Override
@@ -57,6 +58,7 @@ public class MapReposImpl implements MapRepository {
         }
         return true;
     }
+
 
     @Override
     public MapNodeFactory getMapNodeFactory(MapNode parent){

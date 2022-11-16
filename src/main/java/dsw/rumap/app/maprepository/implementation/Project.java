@@ -1,18 +1,15 @@
 package dsw.rumap.app.maprepository.implementation;
 
-import com.sun.tools.javac.Main;
-import dsw.rumap.app.gui.swing.view.MainFrame;
 import dsw.rumap.app.maprepository.composite.MapNode;
 import dsw.rumap.app.maprepository.composite.MapNodeC;
-import dsw.rumap.app.observer.ISubscriber;
+import dsw.rumap.app.observer.notification.MyNotification;
+import dsw.rumap.app.observer.notification.NotificationType;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
-
 @Getter
 @Setter
-public class Project extends MapNodeC implements ISubscriber {
+public class Project extends MapNodeC {
 
     private String autor;
 
@@ -39,8 +36,7 @@ public class Project extends MapNodeC implements ISubscriber {
         if(child != null && child instanceof MindMap &&
                 !(this.getChildren().contains(child))){
             this.getChildren().add(child);
-            this.notify(this);
-            child.addSubscriber(this);
+            this.notify(new MyNotification(NotificationType.MAP_ADDED,this.getChildren().size()-1));
         }
 
         return;
@@ -50,24 +46,21 @@ public class Project extends MapNodeC implements ISubscriber {
     public void delete(MapNode child) {
         if(child != null && child instanceof MindMap &&
                 this.getChildren().contains(child)){
+            this.notify(new MyNotification(NotificationType.MAP_DELETED,this.getChildren().indexOf(child)));
             this.getChildren().remove(child);
+
         }
-        this.notify(this);
     }
     
     public void setAutor(String autor) {
         this.autor = autor;
-        this.notify(this);
+        this.notify(new MyNotification(NotificationType.UPDATE_AUTOR));
     }
     @Override
     public void setName(String name) {
         super.setName(name);
-        this.notify(this);
+        this.notify(new MyNotification(NotificationType.UPDATE_NAME));
     }
 
-    @Override
-    public void update(Object notification) {
-        this.notify(this);
-    }
 
 }

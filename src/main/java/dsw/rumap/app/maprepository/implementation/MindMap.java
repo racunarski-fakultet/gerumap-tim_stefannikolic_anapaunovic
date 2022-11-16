@@ -2,6 +2,8 @@ package dsw.rumap.app.maprepository.implementation;
 
 import dsw.rumap.app.maprepository.composite.MapNode;
 import dsw.rumap.app.maprepository.composite.MapNodeC;
+import dsw.rumap.app.observer.notification.MyNotification;
+import dsw.rumap.app.observer.notification.NotificationType;
 
 import javax.swing.*;
 import java.util.List;
@@ -48,6 +50,6 @@ public class MindMap extends MapNodeC {
     @Override
     public void setName(String name) {
         super.setName(name);
-        this.notify(this);
+        this.notify(new MyNotification(NotificationType.UPDATE_MAP_NAME,((MapNodeC)this.getParent()).getChildren().indexOf(this)));
     }
 }

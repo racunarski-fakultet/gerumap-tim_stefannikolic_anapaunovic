@@ -7,19 +7,17 @@ import dsw.rumap.app.maprepository.implementation.Element;
 import dsw.rumap.app.maprepository.implementation.MindMap;
 import dsw.rumap.app.maprepository.implementation.Project;
 import dsw.rumap.app.maprepository.implementation.ProjectExplorer;
-import dsw.rumap.app.maprepository.mapnodefactory.ElementFactory;
-import dsw.rumap.app.maprepository.mapnodefactory.MapNodeFactory;
-import dsw.rumap.app.maprepository.mapnodefactory.MindMapFactory;
-import dsw.rumap.app.maprepository.mapnodefactory.ProjectFactory;
+import dsw.rumap.app.maprepository.mapnodefactory.*;
 import lombok.Getter;
 
 public class MapReposImpl implements MapRepository {
 
-    private MapNodeFactory mapNodeFactory;
+    private FactoryUtil factoryUtil;
     private ProjectExplorer projectExplorer;
 
     public MapReposImpl(){
         projectExplorer = new ProjectExplorer("My Project Explorer");
+        factoryUtil = new FactoryUtil();
     }
 
     @Override
@@ -63,15 +61,7 @@ public class MapReposImpl implements MapRepository {
     @Override
     public MapNodeFactory getMapNodeFactory(MapNode parent){
         if(!(parent instanceof MapNodeC)) return null;
-        if(parent instanceof ProjectExplorer)
-            return new ProjectFactory();
-
-        else if(parent instanceof Project)
-            return new MindMapFactory();
-
-        else if(parent instanceof MindMap)
-            return new ElementFactory();
-        return null;
+        else return factoryUtil.getMapNodeFactory(parent);
     }
 
 

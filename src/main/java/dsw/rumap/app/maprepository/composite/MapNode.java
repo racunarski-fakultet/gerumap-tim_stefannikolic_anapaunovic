@@ -24,9 +24,7 @@ public abstract class MapNode implements IPublisher {
         this.subscribers = new ArrayList<>();
     }
 
-    public MapNode(MapNode parent){
-
-    }
+    public MapNode(MapNode parent){}
 
 
     @Override
@@ -60,7 +58,6 @@ public abstract class MapNode implements IPublisher {
     public void notify(Object notification) {
         if(subscribers.isEmpty())
             return;
-        System.out.println(this.name + "1234");
         for (ISubscriber iSubscriber : subscribers) {
             iSubscriber.update(notification);
         }

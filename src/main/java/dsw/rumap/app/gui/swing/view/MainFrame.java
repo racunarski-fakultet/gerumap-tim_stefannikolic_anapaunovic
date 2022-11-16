@@ -71,13 +71,6 @@ public class MainFrame extends JFrame implements ISubscriber {
         getContentPane().add(splitPane, BorderLayout.CENTER);
         splitPane.setDividerLocation(250);
         splitPane.setOneTouchExpandable(true);
-        WindowListener exitListener = new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                AppCore.getInstance().getFileLogger().closeFileLogger();
-            }
-        };
-        this.addWindowListener(exitListener);
     }
 
     public ActionManager getActionManager(){

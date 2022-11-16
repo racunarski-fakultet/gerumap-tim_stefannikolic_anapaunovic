@@ -26,6 +26,7 @@ public abstract class MapNode implements IPublisher {
 
     public MapNode(MapNode parent){}
 
+
     @Override
     public boolean equals(Object obj){
         if(obj != null && obj instanceof MapNode){
@@ -61,6 +62,7 @@ public abstract class MapNode implements IPublisher {
             iSubscriber.update(notification);
         }
     }
+
 
 
 }

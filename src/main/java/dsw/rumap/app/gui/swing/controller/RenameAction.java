@@ -29,7 +29,6 @@ public class RenameAction extends AbstractRumapActions {
 
         if(MainFrame.getInstance().getMapTree().getSelectedNode() != null){
             MapTreeNode selected = (MapTreeNode) MainFrame.getInstance().getMapTree().getSelectedNode();
-            System.out.println(selected.getMapNode().getName());
             if(selected.getMapNode() instanceof ProjectExplorer){
                  parentNode = null;
             }

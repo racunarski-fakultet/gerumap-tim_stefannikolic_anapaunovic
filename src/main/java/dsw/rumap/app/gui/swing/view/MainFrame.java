@@ -91,6 +91,5 @@ public class MainFrame extends JFrame implements ISubscriber {
         else if(type.equals(MessageType.ERROR)){
             JOptionPane.showMessageDialog(this,message,"Error",JOptionPane.ERROR_MESSAGE);
         }
-
     }
 }

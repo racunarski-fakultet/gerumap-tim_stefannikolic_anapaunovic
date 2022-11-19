@@ -37,6 +37,9 @@ public class MessageGeneratorImpl implements MessageGenerator {
         else if(event.equals(Problem.NODE_CANNOT_HAVE_CHILDREN))
             message = new Message(MessageType.ERROR,event);
 
+        else if(event.equals(Problem.SELECTED_NODE_IS_NOT_PROJECT))
+            message = new Message(MessageType.ERROR,event);
+
         this.notify(message);
     }
 

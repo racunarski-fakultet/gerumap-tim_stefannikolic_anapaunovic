@@ -82,11 +82,9 @@ public class ProjectView extends JPanel implements ISubscriber {
 
             if(n.equals(NotificationType.UPDATE_AUTOR)) {
                 this.autor.setText(model.getAutor());
-
             }
             else if(n.equals(NotificationType.UPDATE_NAME)){
                 this.label.setText(model.getName());
-
             }
             else if(n.equals(NotificationType.MAP_ADDED)){
                 MindMapView mapV = new MindMapView(((MindMap) model.getChildren().get((int)info)));
@@ -96,15 +94,11 @@ public class ProjectView extends JPanel implements ISubscriber {
             }
             else if(n.equals(NotificationType.MAP_DELETED)){
                 tabbedPane.remove((int) info);
-
             }
             else if(n.equals(NotificationType.UPDATE_MAP_NAME)){
                 tabbedPane.setTitleAt((int)info, this.model.getChildren().get((int)info).getName());
-
             }
-
        }
-
     }
 
     private void fillView(Project model) {

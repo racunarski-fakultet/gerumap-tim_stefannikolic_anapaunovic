@@ -37,6 +37,9 @@ public abstract class AbstractLogger implements Logger {
         else if(msg.equals(Problem.NODE_CANNOT_HAVE_CHILDREN))
             print = "Elementu nije moguće dodati čvor.";
 
+        else if(msg.equals(Problem.SELECTED_NODE_IS_NOT_PROJECT))
+            print = "Selektovani čvor nije projekat.";
+
         dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
     }
 

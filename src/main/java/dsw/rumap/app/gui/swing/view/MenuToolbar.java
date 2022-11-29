@@ -4,9 +4,9 @@ import com.sun.tools.javac.Main;
 
 import javax.swing.*;
 
-public class MyToolbar extends JToolBar {
+public class MenuToolbar extends JToolBar {
 
-    public MyToolbar(){
+    public MenuToolbar(){
         super(HORIZONTAL);
         setFloatable(false);
 

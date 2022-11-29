@@ -25,7 +25,6 @@ public class MindMapView extends JPanel implements ISubscriber {
 
     @Override
     public void update(Object notification) {
-
         SwingUtilities.updateComponentTreeUI(this);
     }
 }

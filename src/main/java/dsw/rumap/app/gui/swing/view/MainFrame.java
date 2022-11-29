@@ -1,15 +1,10 @@
 package dsw.rumap.app.gui.swing.view;
 
-import com.sun.nio.sctp.MessageInfo;
 import dsw.rumap.app.AppCore;
-import dsw.rumap.app.gui.swing.controller.AbstractRumapActions;
 import dsw.rumap.app.gui.swing.controller.ActionManager;
-import dsw.rumap.app.gui.swing.controller.NewAction;
 import dsw.rumap.app.gui.swing.tree.MapTree;
 import dsw.rumap.app.gui.swing.tree.MapTreeImpl;
-import dsw.rumap.app.maprepository.MapReposImpl;
 import dsw.rumap.app.msggenerator.Message;
-import dsw.rumap.app.msggenerator.MessageGeneratorImpl;
 import dsw.rumap.app.msggenerator.MessageType;
 import dsw.rumap.app.msggenerator.Problem;
 import dsw.rumap.app.observer.ISubscriber;
@@ -18,7 +13,6 @@ import lombok.Setter;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
 
 @Getter
 @Setter
@@ -26,7 +20,8 @@ public class MainFrame extends JFrame implements ISubscriber {
     private static MainFrame instance;
     private ActionManager actionManager;
     private JMenuBar menu;
-    private JToolBar toolBar;
+    private JToolBar menuToolBar;
+    private JToolBar mindMapToolBar;
     private MapTree mapTree;
     private ProjectView projectView;
 
@@ -59,8 +54,11 @@ public class MainFrame extends JFrame implements ISubscriber {
         menu = new MyMenuBar();
         setJMenuBar(menu);
 
-        toolBar = new MyToolbar();
-        this.add(toolBar, BorderLayout.NORTH);
+        menuToolBar = new MenuToolbar();
+        this.add(menuToolBar, BorderLayout.NORTH);
+
+        mindMapToolBar = new MindMapToolBar();
+        this.add(mindMapToolBar, BorderLayout.EAST);
 
         JTree explorerTree = mapTree.generateTree(AppCore.getInstance().getMapRepository().getProjectExplorer());
         projectView = new ProjectView();

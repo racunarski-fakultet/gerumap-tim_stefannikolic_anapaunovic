@@ -4,20 +4,28 @@ import dsw.rumap.app.maprepository.composite.MapNode;
 import dsw.rumap.app.maprepository.composite.MapNodeC;
 import dsw.rumap.app.observer.notification.MyNotification;
 import dsw.rumap.app.observer.notification.NotificationType;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.swing.*;
 import java.util.List;
+import java.util.Random;
 
+@Getter
+@Setter
 public class MindMap extends MapNodeC {
 
     private boolean template;
+    private Integer num;
 
     public MindMap(String name, MapNode parent) {
         super(name, parent);
+        num = new Random().nextInt();
     }
 
     public MindMap(MapNode parent){
         this("MindMap" + ((MapNodeC)parent).makeNameForChild(), parent);
+        num = new Random().nextInt();
     }
 
     @Override
@@ -51,5 +59,8 @@ public class MindMap extends MapNodeC {
     public void setName(String name) {
         super.setName(name);
         this.notify(new MyNotification(NotificationType.UPDATE_MAP_NAME,((MapNodeC)this.getParent()).getChildren().indexOf(this)));
+    }
+    public Integer getNum() {
+        return num;
     }
 }

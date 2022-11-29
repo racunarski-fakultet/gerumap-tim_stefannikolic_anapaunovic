@@ -13,6 +13,7 @@ import lombok.Setter;
 
 
 import javax.swing.*;
+import java.util.HashMap;
 
 @Getter
 @Setter
@@ -26,6 +27,9 @@ public class ProjectView extends JPanel implements ISubscriber {
     private Integer i;
     private Integer deleteInd;
     private NotificationType n;
+    private HashMap<Integer,MindMapView> mapViews;
+
+    private Integer key;
 
 
     public ProjectView(){
@@ -41,6 +45,8 @@ public class ProjectView extends JPanel implements ISubscriber {
         this.add(Box.createVerticalStrut(5));
         this.add(tabbedPane);
         AppCore.getInstance().getMapRepository().getProjectExplorer().addSubscriber(this);
+        mapViews = new HashMap<>();
+
     }
 
     public void setModel(Project model){
@@ -81,8 +87,10 @@ public class ProjectView extends JPanel implements ISubscriber {
                 this.label.setText(model.getName());
             }
             else if(n.equals(NotificationType.MAP_ADDED)){
-                tabbedPane.addTab(model.getChildren().get((int)info).getName(),new MindMapView(((MindMap) model.getChildren().get((int)info))));
+                MindMapView mapV = new MindMapView(((MindMap) model.getChildren().get((int)info)));
+                tabbedPane.addTab(model.getChildren().get((int)info).getName(),mapV);
                 model.getChildren().get((int)info).addSubscriber(this);
+                mapViews.put(((MindMap) model.getChildren().get((int)info)).getNum(),mapV);
             }
             else if(n.equals(NotificationType.MAP_DELETED)){
                 tabbedPane.remove((int) info);
@@ -102,13 +110,31 @@ public class ProjectView extends JPanel implements ISubscriber {
         i = 0;
         for (MapNode node : model.getChildren()) {
             node.addSubscriber(this);
+            key = ((MindMap) node).getNum();
             if (i < totalTabs) {
                 tabbedPane.setTitleAt(i, node.getName());
-                tabbedPane.setComponentAt(i, new MindMapView((MindMap) node));
+                if(mapViews.containsKey(key)){
+                    tabbedPane.setComponentAt(i, mapViews.get(key));
+
+                }
+                else {
+                    MindMapView mapV = new MindMapView((MindMap) node);
+                    tabbedPane.setComponentAt(i, mapV);
+                    mapViews.put(key,mapV);
+
+                }
                 i++;
             } else {
-                MindMapView mapView = new MindMapView((MindMap) node);
-                tabbedPane.addTab(node.getName(), mapView);
+                if(mapViews.containsKey(key)){
+                    tabbedPane.addTab(node.getName(),mapViews.get(key));
+
+                }
+                else {
+                    MindMapView mapView = new MindMapView((MindMap) node);
+                    tabbedPane.addTab(node.getName(), mapView);
+                    mapViews.put(key,mapView);
+
+                }
             }
         }
 

@@ -1,6 +1,7 @@
 package dsw.rumap.app.gui.swing.view;
 
 import dsw.rumap.app.AppCore;
+import dsw.rumap.app.gui.swing.state.StateManager;
 import dsw.rumap.app.maprepository.composite.MapNode;
 import dsw.rumap.app.maprepository.implementation.MindMap;
 import dsw.rumap.app.maprepository.implementation.Project;
@@ -28,8 +29,8 @@ public class ProjectView extends JPanel implements ISubscriber {
     private Integer deleteInd;
     private NotificationType n;
     private HashMap<Integer,MindMapView> mapViews;
-
     private Integer key;
+    private StateManager stateManager;
 
 
     public ProjectView(){
@@ -150,5 +151,19 @@ public class ProjectView extends JPanel implements ISubscriber {
         this.label.setText("Selektujte projekat");
         this.autor.setText("");
         this.tabbedPane.removeAll();
+    }
+
+    public void startAddRelationState(){this.stateManager.setAddRelationState();}
+
+    public void startAddTermState(){this.stateManager.setAddTermState();}
+
+    public void startDeleteElementState(){this.stateManager.setDeleteElementState();}
+
+    public void startSelectElementState(){this.stateManager.setSelectElementState();}
+
+    public void startMoveElementState(){this.stateManager.setMoveElementState();}
+
+    public void executeRequest(){
+        this.stateManager.getCurrentState().execute();
     }
 }

@@ -1,4 +1,10 @@
 package dsw.rumap.app.gui.swing.state.stateimpl;
 
-public class MoveElementState {
+import dsw.rumap.app.gui.swing.state.State;
+
+public class MoveElementState implements State {
+    @Override
+    public void execute() {
+
+    }
 }

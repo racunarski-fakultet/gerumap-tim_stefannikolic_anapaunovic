@@ -1,1 +1,4 @@
 [ERROR] [19.11.2022 23:41] ProjectExplorer ne može biti obrisan.
+[ERROR] [29.11.2022 14:51] Morate selektovati polje.
+[ERROR] [29.11.2022 14:51] Morate selektovati polje.
+[ERROR] [29.11.2022 14:51] Morate selektovati polje.

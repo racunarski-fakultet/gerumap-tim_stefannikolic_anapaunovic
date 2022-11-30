@@ -32,11 +32,12 @@ public class NewAction extends AbstractRumapActions{
         }
         MapTreeNode selected = MainFrame.getInstance().getMapTree().getSelectedNode();
         MapNodeFactory mapNodeFactory = AppCore.getInstance().getMapRepository().getMapNodeFactory(selected.getMapNode());
+
         if(mapNodeFactory == null) {
             AppCore.getInstance().getMsgGenerator().createMessage(Problem.NODE_CANNOT_HAVE_CHILDREN);
             return;
         }
-        //mapNodeFactory.orderChild(selected.getMapNode());
+
         MapNode child = mapNodeFactory.orderChild(selected.getMapNode());
         AppCore.getInstance().getMapRepository().addChild(selected.getMapNode(),child);
         MainFrame.getInstance().getMapTree().addChild(selected, child);

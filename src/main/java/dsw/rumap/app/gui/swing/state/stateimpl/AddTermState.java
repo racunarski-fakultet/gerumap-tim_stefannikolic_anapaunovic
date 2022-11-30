@@ -7,4 +7,8 @@ import javax.swing.*;
 
 public class AddTermState implements State {
 
+    @Override
+    public void execute() {
+
+    }
 }

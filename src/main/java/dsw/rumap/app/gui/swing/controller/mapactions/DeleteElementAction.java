@@ -1,6 +1,7 @@
 package dsw.rumap.app.gui.swing.controller.mapactions;
 
 import dsw.rumap.app.gui.swing.controller.AbstractRumapActions;
+import dsw.rumap.app.gui.swing.view.MainFrame;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -17,6 +18,6 @@ public class DeleteElementAction extends AbstractRumapActions {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
+        MainFrame.getInstance().getProjectView().startDeleteElementState();
     }
 }

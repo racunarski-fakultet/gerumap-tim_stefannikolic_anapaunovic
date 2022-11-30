@@ -1,4 +1,10 @@
 package dsw.rumap.app.gui.swing.state.stateimpl;
 
-public class DeleteElementState {
+import dsw.rumap.app.gui.swing.state.State;
+
+public class DeleteElementState implements State {
+    @Override
+    public void execute() {
+
+    }
 }

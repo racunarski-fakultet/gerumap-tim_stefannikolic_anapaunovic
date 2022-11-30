@@ -11,4 +11,19 @@ public class AddTermState implements State {
     public void execute() {
 
     }
+
+    @Override
+    public void stateMousePressed() {
+
+    }
+
+    @Override
+    public void stateMouseReleased() {
+
+    }
+
+    @Override
+    public void stateMouseDragged() {
+
+    }
 }

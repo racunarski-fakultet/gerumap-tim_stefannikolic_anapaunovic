@@ -7,8 +7,8 @@ import java.awt.*;
 
 public class TermElement extends Element {
 
-    private Dimension size;
-    private Point position;
+    private Pair<Integer, Integer> size;
+    private Pair<Integer, Integer> position;
 
     public TermElement(String name, MapNode parent) {
         super(name, parent);

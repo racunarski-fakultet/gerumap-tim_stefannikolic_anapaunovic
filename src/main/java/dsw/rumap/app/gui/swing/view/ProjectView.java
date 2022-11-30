@@ -24,13 +24,10 @@ public class ProjectView extends JPanel implements ISubscriber {
     private JLabel autor;
     private Project model;
     private JTabbedPane tabbedPane;
-    private Integer totalTabs;
-    private Integer i;
-    private Integer deleteInd;
-    private NotificationType n;
+    private NotificationType notificationType;
     private HashMap<Integer,MindMapView> mapViews;
-    private Integer key;
     private StateManager stateManager;
+    private MindMapView currentMindMap;
 
 
     public ProjectView(){
@@ -50,13 +47,47 @@ public class ProjectView extends JPanel implements ISubscriber {
 
     }
 
+    @Override
+    public void update(Object notification) {
+
+        if(notification instanceof ProjectExplorer)
+            this.clean();
+
+        else if(notification instanceof Project)
+            fillView((Project) notification);
+
+        else if(notification instanceof MyNotification){
+            notificationType = ((MyNotification) notification).getType();
+            Object info =  ((MyNotification) notification).getInformation();
+
+            if(notificationType.equals(NotificationType.UPDATE_AUTOR)) {
+                this.autor.setText(model.getAutor());
+            }
+            else if(notificationType.equals(NotificationType.UPDATE_NAME)){
+                this.label.setText(model.getName());
+            }
+            else if(notificationType.equals(NotificationType.MAP_ADDED)){
+                MindMapView mapV = new MindMapView(((MindMap) model.getChildren().get((int)info)));
+                tabbedPane.addTab(model.getChildren().get((int)info).getName(),mapV);
+                model.getChildren().get((int)info).addSubscriber(this);
+                mapViews.put(((MindMap) model.getChildren().get((int)info)).getKey(),mapV);
+            }
+            else if(notificationType.equals(NotificationType.MAP_DELETED)){
+                tabbedPane.remove((int) info);
+                mapViews.remove((int) info);
+            }
+            else if(notificationType.equals(NotificationType.UPDATE_MAP_NAME)){
+                tabbedPane.setTitleAt((int)info, this.model.getChildren().get((int)info).getName());
+            }
+        }
+    }
+
     public void setModel(Project model){
 
         if(this.model == model)
             return;
 
         if(this.model != null){
-
             this.model.removeSubscriber(this);
             for(MapNode node: this.model.getChildren()){
                 node.removeSubscriber(this);
@@ -68,83 +99,52 @@ public class ProjectView extends JPanel implements ISubscriber {
 
     }
 
-    @Override
-    public void update(Object notification) {
-
-        if(notification instanceof ProjectExplorer)
-            this.clean();
-
-        else if(notification instanceof Project)
-            fillView((Project) notification);
-
-        else if(notification instanceof MyNotification){
-            n = ((MyNotification) notification).getType();
-            Object info =  ((MyNotification) notification).getInformation();
-
-            if(n.equals(NotificationType.UPDATE_AUTOR)) {
-                this.autor.setText(model.getAutor());
-            }
-            else if(n.equals(NotificationType.UPDATE_NAME)){
-                this.label.setText(model.getName());
-            }
-            else if(n.equals(NotificationType.MAP_ADDED)){
-                MindMapView mapV = new MindMapView(((MindMap) model.getChildren().get((int)info)));
-                tabbedPane.addTab(model.getChildren().get((int)info).getName(),mapV);
-                model.getChildren().get((int)info).addSubscriber(this);
-                mapViews.put(((MindMap) model.getChildren().get((int)info)).getNum(),mapV);
-            }
-            else if(n.equals(NotificationType.MAP_DELETED)){
-                tabbedPane.remove((int) info);
-            }
-            else if(n.equals(NotificationType.UPDATE_MAP_NAME)){
-                tabbedPane.setTitleAt((int)info, this.model.getChildren().get((int)info).getName());
-            }
-       }
-    }
-
     private void fillView(Project model) {
 
         this.label.setText(model.getName());
         this.autor.setText("Autor: " + model.getAutor());
 
-        totalTabs = tabbedPane.getTabCount();
-        i = 0;
-        for (MapNode node : model.getChildren()) {
-            node.addSubscriber(this);
-            key = ((MindMap) node).getNum();
-            if (i < totalTabs) {
-                tabbedPane.setTitleAt(i, node.getName());
-                if(mapViews.containsKey(key)){
-                    tabbedPane.setComponentAt(i, mapViews.get(key));
+        Integer totalTabs = tabbedPane.getTabCount();
+        Integer tabCounter = 0;
+        for (MapNode mapNode : model.getChildren()) {
 
+            MindMap mindMap = (MindMap) mapNode;
+            mindMap.addSubscriber(this);
+            Integer key = mindMap.getKey();
+
+            if (tabCounter < totalTabs) {
+                tabbedPane.setTitleAt(tabCounter, mindMap.getName());
+                if(mapViews.containsKey(key)){
+                    tabbedPane.setComponentAt(tabCounter, mapViews.get(key));
                 }
                 else {
-                    MindMapView mapV = new MindMapView((MindMap) node);
-                    tabbedPane.setComponentAt(i, mapV);
-                    mapViews.put(key,mapV);
-
+                    tabbedPane.setComponentAt(tabCounter, createMindMapView(mindMap));
                 }
-                i++;
-            } else {
+                tabCounter++;
+            }
+            else {
                 if(mapViews.containsKey(key)){
-                    tabbedPane.addTab(node.getName(),mapViews.get(key));
-
+                    tabbedPane.addTab(mindMap.getName(), mapViews.get(key));
                 }
                 else {
-                    MindMapView mapView = new MindMapView((MindMap) node);
-                    tabbedPane.addTab(node.getName(), mapView);
-                    mapViews.put(key,mapView);
-
+                    tabbedPane.addTab(mindMap.getName(), createMindMapView(mindMap));
                 }
             }
         }
 
-        deleteInd = i;
-        while (i < totalTabs) {
+        Integer deleteInd = tabCounter;
+        while (tabCounter < totalTabs) {
             tabbedPane.remove(deleteInd);
-            i++;
+            tabCounter++;
         }
+
         SwingUtilities.updateComponentTreeUI(this);
+    }
+
+    private MindMapView createMindMapView(MindMap mindMap){
+        MindMapView mindMapView = new MindMapView(mindMap);
+        mapViews.put(mindMap.getKey(),mindMapView);
+        return mindMapView;
     }
 
     private void clean(){
@@ -166,4 +166,10 @@ public class ProjectView extends JPanel implements ISubscriber {
     public void executeRequest(){
         this.stateManager.getCurrentState().execute();
     }
+
+    public void medMousePressed(int x, int y){}
+
+    public void medMouseReleased(){}
+
+    public void medMouseDragged(){}
 }

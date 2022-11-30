@@ -2,6 +2,7 @@ package dsw.rumap.app.gui.swing.view;
 
 
 
+import dsw.rumap.app.gui.swing.controller.mapactions.MindMapMouseController;
 import dsw.rumap.app.gui.swing.view.painters.ElementPainter;
 import dsw.rumap.app.maprepository.implementation.MindMap;
 import dsw.rumap.app.observer.ISubscriber;
@@ -22,8 +23,9 @@ public class MindMapView extends JPanel implements ISubscriber {
         int h = MainFrame.getInstance().getProjectView().getHeight();
         this.setPreferredSize(new Dimension(width - 5,h - 40));
         painters = new ArrayList<>();
+        this.addMouseListener(new MindMapMouseController(this));
 
-        //this.model.addSubscriber(this);
+        this.model.addSubscriber(this);
     }
 
     @Override
@@ -39,6 +41,7 @@ public class MindMapView extends JPanel implements ISubscriber {
 
     @Override
     public void update(Object notification) {
+        repaint();
         SwingUtilities.updateComponentTreeUI(this);
     }
 }

@@ -7,8 +7,6 @@ import dsw.rumap.app.observer.notification.NotificationType;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.swing.*;
-import java.util.List;
 import java.util.Random;
 
 @Getter
@@ -16,16 +14,16 @@ import java.util.Random;
 public class MindMap extends MapNodeC {
 
     private boolean template;
-    private Integer num;
+    private Integer key;
 
     public MindMap(String name, MapNode parent) {
         super(name, parent);
-        num = new Random().nextInt();
+        key = new Random().nextInt();
     }
 
     public MindMap(MapNode parent){
         this("MindMap" + ((MapNodeC)parent).makeNameForChild(), parent);
-        num = new Random().nextInt();
+        key = new Random().nextInt();
     }
 
     @Override
@@ -48,6 +46,7 @@ public class MindMap extends MapNodeC {
 
     @Override
     public void delete(MapNode child) {
+        //this.notify(this);
         if(child != null && child instanceof Element &&
                 this.getChildren().contains(child)){
             this.getChildren().remove(child);
@@ -60,7 +59,7 @@ public class MindMap extends MapNodeC {
         super.setName(name);
         this.notify(new MyNotification(NotificationType.UPDATE_MAP_NAME,((MapNodeC)this.getParent()).getChildren().indexOf(this)));
     }
-    public Integer getNum() {
-        return num;
+    public Integer getKey() {
+        return key;
     }
 }

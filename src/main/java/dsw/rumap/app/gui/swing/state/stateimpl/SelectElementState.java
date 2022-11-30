@@ -7,4 +7,19 @@ public class SelectElementState implements State {
     public void execute() {
 
     }
+
+    @Override
+    public void stateMousePressed() {
+
+    }
+
+    @Override
+    public void stateMouseReleased() {
+
+    }
+
+    @Override
+    public void stateMouseDragged() {
+
+    }
 }

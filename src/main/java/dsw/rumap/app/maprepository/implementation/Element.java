@@ -4,9 +4,18 @@ import dsw.rumap.app.maprepository.composite.MapNode;
 
 import dsw.rumap.app.observer.ISubscriber;
 import dsw.rumap.app.maprepository.composite.MapNodeC;
+import lombok.Getter;
+import lombok.Setter;
 
+import java.awt.*;
 
-public class Element extends MapNode {
+@Getter
+@Setter
+public abstract class Element extends MapNode {
+
+    private Integer stroke;
+    private Color color;
+
     public Element(String name, MapNode parent) {
         super(name, parent);
     }

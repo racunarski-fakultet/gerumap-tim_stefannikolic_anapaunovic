@@ -9,7 +9,8 @@ import dsw.rumap.app.maprepository.implementation.Project;
 public class ElementFactory extends MapNodeFactory{
     @Override
     MapNode createChild(MapNodeC parent) {
-        MapNode newNode = new Element(parent);
-        return newNode;
+        //MapNode newNode = new Element(parent);
+        //return newNode;
+        return null;
     }
 }

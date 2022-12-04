@@ -6,11 +6,11 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Pair<K, V> {
-    private K fist;
+    private K first;
     private V second;
 
-    public Pair(K fist, V second) {
-        this.fist = fist;
+    public Pair(K first, V second) {
+        this.first = first;
         this.second = second;
     }
 }

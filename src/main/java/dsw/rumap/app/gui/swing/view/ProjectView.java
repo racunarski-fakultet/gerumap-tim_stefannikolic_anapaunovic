@@ -27,7 +27,7 @@ public class ProjectView extends JPanel implements ISubscriber {
     private NotificationType notificationType;
     private HashMap<Integer,MindMapView> mapViews;
     private StateManager stateManager;
-    private MindMapView currentMindMap;
+    //private MindMapView currentMindMap;
 
 
     public ProjectView(){
@@ -44,7 +44,7 @@ public class ProjectView extends JPanel implements ISubscriber {
         this.add(tabbedPane);
         AppCore.getInstance().getMapRepository().getProjectExplorer().addSubscriber(this);
         mapViews = new HashMap<>();
-
+        stateManager = new StateManager();
     }
 
     @Override
@@ -167,9 +167,9 @@ public class ProjectView extends JPanel implements ISubscriber {
         this.stateManager.getCurrentState().execute();
     }
 
-    public void medMousePressed(int x, int y){}
+    public void medMousePressed(int x, int y, MindMapView mindMapView){ this.stateManager.getCurrentState().stateMousePressed(x, y, mindMapView);}
 
-    public void medMouseReleased(){}
+    public void medMouseReleased(int x, int y, MindMapView mindMapView){}
 
-    public void medMouseDragged(){}
+    public void medMouseDragged(int x, int y, MindMapView mindMapView){}
 }

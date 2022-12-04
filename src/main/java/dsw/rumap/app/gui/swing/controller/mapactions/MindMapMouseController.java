@@ -19,7 +19,7 @@ public class MindMapMouseController extends MouseAdapter {
     public void mousePressed(MouseEvent e) {
 
         if (e.getButton()==MouseEvent.BUTTON1){
-            MainFrame.getInstance().getProjectView().medMousePressed(e.getX(), e.getY());
+            MainFrame.getInstance().getProjectView().medMousePressed(e.getX(), e.getY(), mindMapView);
             //MainFrame.getInstance().getProjectView().executeRequest();
         }
     }

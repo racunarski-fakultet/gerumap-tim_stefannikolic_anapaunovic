@@ -1,6 +1,5 @@
 package dsw.rumap.app.gui.swing.view.painters;
 
-import dsw.rumap.app.maprepository.composite.MapNode;
 import dsw.rumap.app.maprepository.implementation.Element;
 import dsw.rumap.app.maprepository.implementation.elements.TermElement;
 
@@ -10,6 +9,9 @@ import java.awt.geom.Ellipse2D;
 public class TermPainter extends ElementPainter{
     public TermPainter(Element element) {
         super(element);
+        TermElement termElement = (TermElement) element;
+        //shape = new Ellipse2D.Float(5,5,230,260);
+        shape = new Ellipse2D.Float(termElement.getPosition().getFirst(), termElement.getPosition().getSecond(), termElement.getSize().getFirst(), termElement.getSize().getSecond());
     }
 
 
@@ -18,8 +20,7 @@ public class TermPainter extends ElementPainter{
         //g.setPaint(element.getColor());
         g.setPaint(Color.CYAN);
         g.setStroke(new BasicStroke(element.getStroke()));
-        //g.draw(shape);
-        g.draw(new Ellipse2D.Float(0, 0, 230, 230));
+        g.draw(shape);
         //g.setPaint(element.getColor());
         g.setPaint(Color.CYAN);
         //g.fill(shape);

@@ -2,3 +2,4 @@
 [ERROR] [29.11.2022 14:51] Morate selektovati polje.
 [ERROR] [29.11.2022 14:51] Morate selektovati polje.
 [ERROR] [29.11.2022 14:51] Morate selektovati polje.
+[ERROR] [02.12.2022 15:33] Morate selektovati polje.

@@ -42,7 +42,7 @@ public class ProjectView extends JPanel implements ISubscriber {
         this.add(autor);
         this.add(Box.createVerticalStrut(5));
         this.add(tabbedPane);
-        AppCore.getInstance().getMapRepository().getProjectExplorer().addSubscriber(this);
+        AppCore.getInstance().getMapRepository().getProjectExplorer().subscribe(this);
         mapViews = new HashMap<>();
         stateManager = new StateManager();
     }
@@ -69,7 +69,7 @@ public class ProjectView extends JPanel implements ISubscriber {
             else if(notificationType.equals(NotificationType.MAP_ADDED)){
                 MindMapView mapV = new MindMapView(((MindMap) model.getChildren().get((int)info)));
                 tabbedPane.addTab(model.getChildren().get((int)info).getName(),mapV);
-                model.getChildren().get((int)info).addSubscriber(this);
+                model.getChildren().get((int)info).subscribe(this);
                 mapViews.put(((MindMap) model.getChildren().get((int)info)).getKey(),mapV);
             }
             else if(notificationType.equals(NotificationType.MAP_DELETED)){
@@ -88,13 +88,13 @@ public class ProjectView extends JPanel implements ISubscriber {
             return;
 
         if(this.model != null){
-            this.model.removeSubscriber(this);
+            this.model.unsubscribe(this);
             for(MapNode node: this.model.getChildren()){
-                node.removeSubscriber(this);
+                node.unsubscribe(this);
             }
         }
         this.model = model;
-        this.model.addSubscriber(this);
+        this.model.subscribe(this);
         this.fillView(model);
 
     }
@@ -109,7 +109,7 @@ public class ProjectView extends JPanel implements ISubscriber {
         for (MapNode mapNode : model.getChildren()) {
 
             MindMap mindMap = (MindMap) mapNode;
-            mindMap.addSubscriber(this);
+            mindMap.subscribe(this);
             Integer key = mindMap.getKey();
 
             if (tabCounter < totalTabs) {
@@ -169,7 +169,7 @@ public class ProjectView extends JPanel implements ISubscriber {
 
     public void medMousePressed(int x, int y, MindMapView mindMapView){ this.stateManager.getCurrentState().stateMousePressed(x, y, mindMapView);}
 
-    public void medMouseReleased(int x, int y, MindMapView mindMapView){}
+    public void medMouseDragged(int x, int y, MindMapView mindMapView){ this.stateManager.getCurrentState().stateMouseDragged(x, y, mindMapView);}
 
-    public void medMouseDragged(int x, int y, MindMapView mindMapView){}
+    public void medMouseReleased(int x, int y, MindMapView mindMapView){ this.stateManager.getCurrentState().stateMouseReleased(x, y, mindMapView);}
 }

@@ -1,10 +1,7 @@
 package dsw.rumap.app.logger;
 
 import dsw.rumap.app.AppCore;
-import dsw.rumap.app.core.Logger;
 import dsw.rumap.app.msggenerator.Message;
-import dsw.rumap.app.msggenerator.MessageType;
-import dsw.rumap.app.msggenerator.Problem;
 
 import java.io.*;
 import java.time.format.DateTimeFormatter;
@@ -16,7 +13,7 @@ public class FileLogger extends AbstractLogger {
 
     public FileLogger() {
 
-        AppCore.getInstance().getMsgGenerator().addSubscriber(this);
+        AppCore.getInstance().getMsgGenerator().subscribe(this);
     }
 
     @Override

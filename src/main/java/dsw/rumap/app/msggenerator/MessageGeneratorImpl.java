@@ -44,13 +44,13 @@ public class MessageGeneratorImpl implements MessageGenerator {
     }
 
     @Override
-    public void addSubscriber(ISubscriber sub) {
+    public void subscribe(ISubscriber sub) {
         if(!subscribers.contains(sub))
             this.subscribers.add(sub);
     }
 
     @Override
-    public void removeSubscriber(ISubscriber sub) {
+    public void unsubscribe(ISubscriber sub) {
         if(subscribers.contains(sub))subscribers.remove(sub);
     }
 

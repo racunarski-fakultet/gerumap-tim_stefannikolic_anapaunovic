@@ -5,32 +5,45 @@ package dsw.rumap.app.gui.swing.view;
 import dsw.rumap.app.gui.swing.controller.mapactions.MindMapMouseController;
 import dsw.rumap.app.gui.swing.view.painters.ElementPainter;
 import dsw.rumap.app.maprepository.implementation.MindMap;
+import dsw.rumap.app.maprepository.implementation.elements.MapSelectionModel;
 import dsw.rumap.app.observer.ISubscriber;
-import lombok.Getter;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
-@Getter
+
+
 public class MindMapView extends JPanel implements ISubscriber {
 
     private MindMap model;
+    private MapSelectionModel mapSelectionModel;
     private List<ElementPainter> painters;
 
     public MindMapView(MindMap model){
         this.model=model;
+        this.mapSelectionModel = new MapSelectionModel();
+        mapSelectionModel.subscribe(this);
         int width = MainFrame.getInstance().getProjectView().getWidth();
-        int h = MainFrame.getInstance().getProjectView().getHeight();
-        this.setPreferredSize(new Dimension(width - 5,h - 40));
+        int height = MainFrame.getInstance().getProjectView().getHeight();
+        this.setPreferredSize(new Dimension(width - 5,height - 40));
         painters = new ArrayList<>();
-        this.addMouseListener(new MindMapMouseController(this));
-
-        this.model.addSubscriber(this);
+        MindMapMouseController mmmC = new MindMapMouseController(this);
+        this.addMouseListener(mmmC);
+        this.addMouseMotionListener(mmmC);
+        this.model.subscribe(this);
     }
 
     public void addPainter(ElementPainter painter){
         painters.add(painter);
+        painter.getElement().subscribe(this);
+        this.repaint();
+    }
+
+    public void removePainter(ElementPainter painter){
+        painters.remove(painter);
+        painter.getElement().unsubscribe(this);
+        this.repaint();
     }
 
     @Override
@@ -40,7 +53,13 @@ public class MindMapView extends JPanel implements ISubscriber {
         Graphics2D g2d = (Graphics2D) g;
         for (ElementPainter ep :
                 painters) {
-            ep.draw(g2d);
+            if(mapSelectionModel.isSelected(ep.getElement())){
+                Color prev = ep.getElement().getColor();
+                ep.getElement().setColor(Color.RED);
+                ep.draw(g2d);
+                ep.getElement().setColor(prev);
+            }
+            else ep.draw(g2d);
         }
     }
 
@@ -48,5 +67,15 @@ public class MindMapView extends JPanel implements ISubscriber {
     public void update(Object notification) {
         this.repaint();
         SwingUtilities.updateComponentTreeUI(this);
+    }
+
+    public List<ElementPainter> getPainters(){
+        return painters;
+    }
+    public MapSelectionModel getSelectedElements(){
+        return mapSelectionModel;
+    }
+    public MindMap getModel(){
+        return this.model;
     }
 }

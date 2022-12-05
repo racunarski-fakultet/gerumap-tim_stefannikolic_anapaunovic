@@ -57,7 +57,6 @@ public class MapReposImpl implements MapRepository {
         return true;
     }
 
-
     @Override
     public MapNodeFactory getMapNodeFactory(MapNode parent){
         if(!(parent instanceof MapNodeC)) return null;

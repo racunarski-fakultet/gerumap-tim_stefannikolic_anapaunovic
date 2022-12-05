@@ -26,7 +26,6 @@ public class AddTermState implements State {
         Element element = new TermElement(mindMap, x, y);
         ElementPainter painter = new TermPainter(element);
         mindMapView.addPainter(painter);
-        mindMapView.update(1);
         //TODO treba da se prodje kroz listu cvorova u stablu da se nadje taj i da se doda
         //MainFrame.getInstance().getMapTree().addChild(mindMap, element);
 

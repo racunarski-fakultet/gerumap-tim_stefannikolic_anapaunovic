@@ -21,6 +21,7 @@ public class TermElement extends Element {
         super(parent);
         this.setStroke(3);
         position = new Pair<>(x, y);
-        size = new Pair<>(200, 100);
+        size = new Pair<>(this.getName().length()*3+60, 30);
+        setColor(Color.CYAN);
     }
 }

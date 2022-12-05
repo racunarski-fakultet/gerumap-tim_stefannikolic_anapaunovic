@@ -22,9 +22,22 @@ public class MapOptionsAction extends AbstractRumapActions {
     public void actionPerformed(ActionEvent e) {
         JDialog dialog = new JDialog(MainFrame.getInstance(), "Options", true);
         dialog.setLocation((int)MainFrame.getInstance().getLocation().getX()+MainFrame.getInstance().getWidth()/6, (int)MainFrame.getInstance().getLocation().getY()+MainFrame.getInstance().getHeight()/6);
-        dialog.setMinimumSize(new Dimension(650, 460));
-        dialog.setMaximumSize(new Dimension(650, 460));
-        dialog.setLayout(new BoxLayout(dialog.getContentPane(), BoxLayout.Y_AXIS));
+        dialog.setMinimumSize(new Dimension(650, 490));
+        dialog.setMaximumSize(new Dimension(650, 490));
+        dialog.setLayout(new BorderLayout(5, 15));
+
+        JPanel centerPanel = new JPanel();
+        centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
+        dialog.add(centerPanel, BorderLayout.CENTER);
+
+        JPanel southPanel = new JPanel();
+        dialog.add(southPanel, BorderLayout.SOUTH);
+
+        Button okBtn = new Button("OK");
+        Button cancelBtn = new Button("Cancel");
+
+        southPanel.add(okBtn);
+        southPanel.add(cancelBtn);
 
         JPanel strokePanel = new JPanel();
         JPanel colorPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -47,9 +60,9 @@ public class MapOptionsAction extends AbstractRumapActions {
         JColorChooser colorChooser = new JColorChooser();
         chooserPanel.add(colorChooser);
 
-        dialog.add(strokePanel);
-        dialog.add(colorPanel);
-        dialog.add(chooserPanel);
+        centerPanel.add(strokePanel);
+        centerPanel.add(colorPanel);
+        centerPanel.add(chooserPanel);
 
         dialog.setVisible(true);
 

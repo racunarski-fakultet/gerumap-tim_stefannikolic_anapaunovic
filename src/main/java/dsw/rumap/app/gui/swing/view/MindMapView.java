@@ -37,13 +37,11 @@ public class MindMapView extends JPanel implements ISubscriber {
     public void addPainter(ElementPainter painter){
         painters.add(painter);
         painter.getElement().subscribe(this);
-        this.repaint();
     }
 
     public void removePainter(ElementPainter painter){
         painters.remove(painter);
         painter.getElement().unsubscribe(this);
-        this.repaint();
     }
 
     @Override

@@ -1,14 +1,9 @@
 package dsw.rumap.app.gui.swing.view.painters;
 
-import dsw.rumap.app.maprepository.composite.MapNode;
 import dsw.rumap.app.maprepository.implementation.Element;
-import dsw.rumap.app.maprepository.implementation.elements.RelationElement;
-import dsw.rumap.app.maprepository.implementation.elements.TermElement;
-import dsw.rumap.app.observer.IPublisher;
 import dsw.rumap.app.observer.ISubscriber;
 import lombok.Getter;
 
-import javax.management.Notification;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;

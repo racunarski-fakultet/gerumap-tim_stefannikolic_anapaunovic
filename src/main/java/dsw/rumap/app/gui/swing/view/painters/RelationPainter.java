@@ -1,10 +1,7 @@
 package dsw.rumap.app.gui.swing.view.painters;
 
-import dsw.rumap.app.gui.swing.view.MindMapView;
-import dsw.rumap.app.maprepository.composite.MapNode;
 import dsw.rumap.app.maprepository.implementation.Element;
 import dsw.rumap.app.maprepository.implementation.elements.RelationElement;
-import dsw.rumap.app.maprepository.implementation.elements.TmpRelationElement;
 
 import java.awt.*;
 import java.awt.geom.Line2D;
@@ -18,7 +15,7 @@ public class RelationPainter extends ElementPainter{
     }
 
     private void setBounds(){
-        TmpRelationElement relationElement = (TmpRelationElement) element;
+        RelationElement relationElement = (RelationElement) element;
         shape = new Line2D.Float(relationElement.getStart().getFirst(), relationElement.getStart().getSecond(), relationElement.getEnd().getFirst(), relationElement.getEnd().getSecond());
     }
 

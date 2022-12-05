@@ -1,5 +1,6 @@
 package dsw.rumap.app.gui.swing.view.painters;
 
+import dsw.rumap.app.gui.swing.view.MindMapView;
 import dsw.rumap.app.maprepository.implementation.Element;
 import dsw.rumap.app.observer.ISubscriber;
 import lombok.Getter;
@@ -14,7 +15,7 @@ public abstract class ElementPainter {
     protected Shape shape;
     protected List<ISubscriber> subscribers;
 
-    public ElementPainter(Element element, MindMapView map) {
+    public ElementPainter(Element element) {
         this.element = element;
         subscribers = new ArrayList<>();
     }

@@ -6,6 +6,7 @@ import dsw.rumap.app.gui.swing.tree.model.MapTreeNode;
 import dsw.rumap.app.gui.swing.view.MainFrame;
 import dsw.rumap.app.maprepository.composite.MapNode;
 import dsw.rumap.app.maprepository.implementation.MindMap;
+import dsw.rumap.app.maprepository.implementation.Project;
 import dsw.rumap.app.maprepository.mapnodefactory.MapNodeFactory;
 import dsw.rumap.app.maprepository.implementation.ProjectExplorer;
 import dsw.rumap.app.msggenerator.Problem;

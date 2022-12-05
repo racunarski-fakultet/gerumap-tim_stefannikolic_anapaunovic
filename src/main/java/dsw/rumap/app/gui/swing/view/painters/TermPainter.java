@@ -15,8 +15,6 @@ public class TermPainter extends ElementPainter{
         shape = new Ellipse2D.Float(termElement.getPosition().getFirst(), termElement.getPosition().getSecond(), termElement.getSize().getFirst(), termElement.getSize().getSecond());
     }
 
-    }
-
     @Override
     public void draw(Graphics2D g) {
         g.setPaint(element.getColor());

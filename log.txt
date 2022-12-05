@@ -2,3 +2,4 @@
 [ERROR] [29.11.2022 14:51] Morate selektovati polje.
 [ERROR] [29.11.2022 14:51] Morate selektovati polje.
 [ERROR] [29.11.2022 14:51] Morate selektovati polje.
+[ERROR] [30.11.2022 20:27] Selektovani čvor nije projekat.

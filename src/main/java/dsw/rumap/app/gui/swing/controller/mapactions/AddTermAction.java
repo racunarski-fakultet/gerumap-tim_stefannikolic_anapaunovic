@@ -18,6 +18,7 @@ public class AddTermAction extends AbstractRumapActions {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+
         MainFrame.getInstance().getProjectView().startAddTermState();
     }
 }

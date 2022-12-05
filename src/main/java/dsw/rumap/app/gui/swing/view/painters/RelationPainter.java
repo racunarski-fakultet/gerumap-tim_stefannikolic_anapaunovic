@@ -1,5 +1,6 @@
 package dsw.rumap.app.gui.swing.view.painters;
 
+import dsw.rumap.app.gui.swing.view.MindMapView;
 import dsw.rumap.app.maprepository.composite.MapNode;
 import dsw.rumap.app.maprepository.implementation.Element;
 import dsw.rumap.app.maprepository.implementation.elements.RelationElement;
@@ -9,8 +10,10 @@ import java.awt.*;
 public class RelationPainter extends ElementPainter{
 
 
-    public RelationPainter(Element element) {
-        super(element);
+    public RelationPainter(Element element, MindMapView map) {
+
+        super(element,map);
+        
     }
 
     @Override

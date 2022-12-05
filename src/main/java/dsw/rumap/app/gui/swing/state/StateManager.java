@@ -25,15 +25,19 @@ public class StateManager {
     }
 
     public void setAddRelationState() {
+
         this.currentState = addRelationState;
+        System.out.println("addRel");
     }
 
     public void setAddTermState() {
         this.currentState = addTermState;
+        System.out.println("addTerm");
     }
 
     public void setDeleteElementState() {
         this.currentState = deleteElementState;
+        System.out.println("delElem");
     }
 
     public void setMoveElementState() {

@@ -10,18 +10,20 @@ public class MoveElementState implements State {
     }
 
     @Override
-    public void stateMousePressed(int x, int y, MindMapView mapView) {
+    public void stateMousePressed(int x, int y, MindMapView mindMapView) {
 
     }
 
 
     @Override
-    public void stateMouseReleased() {
+    public void stateMouseReleased(int x, int y, MindMapView mindMapView) {
 
     }
 
     @Override
-    public void stateMouseDragged() {
+    public void stateMouseDragged(int x, int y, MindMapView mindMapView) {
 
     }
+
+
 }

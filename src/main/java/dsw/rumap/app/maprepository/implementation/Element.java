@@ -2,6 +2,7 @@ package dsw.rumap.app.maprepository.implementation;
 
 import dsw.rumap.app.maprepository.composite.MapNode;
 
+import dsw.rumap.app.observer.IPublisher;
 import dsw.rumap.app.observer.ISubscriber;
 import dsw.rumap.app.maprepository.composite.MapNodeC;
 import lombok.Getter;
@@ -19,7 +20,6 @@ public abstract class Element extends MapNode {
     public Element(String name, MapNode parent) {
         super(name, parent);
         ((MapNodeC) parent).add(this);
-
     }
 
     public Element(MapNode parent){
@@ -33,5 +33,6 @@ public abstract class Element extends MapNode {
         super.setName(name);
         this.notify(this);
     }
+
 
 }

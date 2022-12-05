@@ -16,6 +16,7 @@ public class ActionManager {
     private DeleteElementAction deleteElementAction;
     private MoveElementAction moveElementAction;
     private SelectElementAction selectElementAction;
+    private MapOptionsAction mapOptionsAction;
 
     public ActionManager(){
         initialiseActions();
@@ -32,5 +33,6 @@ public class ActionManager {
         this.deleteElementAction = new DeleteElementAction();
         this.moveElementAction = new MoveElementAction();
         this.selectElementAction = new SelectElementAction();
+        this.mapOptionsAction = new MapOptionsAction();
     }
 }

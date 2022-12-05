@@ -2,6 +2,7 @@ package dsw.rumap.app.gui.swing.view;
 
 import dsw.rumap.app.AppCore;
 import dsw.rumap.app.gui.swing.controller.ActionManager;
+import dsw.rumap.app.gui.swing.controller.mapactions.MapOptionsAction;
 import dsw.rumap.app.gui.swing.tree.MapTree;
 import dsw.rumap.app.gui.swing.tree.MapTreeImpl;
 import dsw.rumap.app.msggenerator.Message;
@@ -38,7 +39,7 @@ public class MainFrame extends JFrame implements ISubscriber {
     private void initialise(){
         actionManager = new ActionManager();
         mapTree = new MapTreeImpl();
-        AppCore.getInstance().getMsgGenerator().addSubscriber(this);
+        AppCore.getInstance().getMsgGenerator().subscribe(this);
         initialiseGUI();
     }
 
@@ -58,7 +59,17 @@ public class MainFrame extends JFrame implements ISubscriber {
         this.add(menuToolBar, BorderLayout.NORTH);
 
         mindMapToolBar = new MindMapToolBar();
-        this.add(mindMapToolBar, BorderLayout.EAST);
+        add(mindMapToolBar, BorderLayout.EAST);
+
+        Button optionsBtn = new Button("Options");
+        optionsBtn.setPreferredSize(new Dimension(33, 33));
+        optionsBtn.addActionListener(actionManager.getMapOptionsAction());
+        JPanel eastPanel = new JPanel(new BorderLayout());
+        eastPanel.add(mindMapToolBar, BorderLayout.NORTH);
+        eastPanel.add(optionsBtn, BorderLayout.SOUTH);
+
+        this.add(eastPanel, BorderLayout.EAST);
+
 
         JTree explorerTree = mapTree.generateTree(AppCore.getInstance().getMapRepository().getProjectExplorer());
         projectView = new ProjectView();

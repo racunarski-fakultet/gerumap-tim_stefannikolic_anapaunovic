@@ -3,6 +3,7 @@ package dsw.rumap.app.gui.swing.state.stateimpl;
 import dsw.rumap.app.gui.swing.state.State;
 import dsw.rumap.app.gui.swing.view.MindMapView;
 import dsw.rumap.app.gui.swing.view.painters.ElementPainter;
+import dsw.rumap.app.maprepository.implementation.elements.MapSelectionModel;
 
 import java.awt.*;
 
@@ -13,33 +14,28 @@ public class SelectElementState implements State {
     }
 
     @Override
-    public void stateMousePressed(int x, int y, MindMapView mapView) {
-        Point pos = new Point(x,y);
-        ElementPainter p = null;
-
-        for(ElementPainter painter: mapView.getPainters()){
-            if(painter.elementAt(pos)){
-                p = painter;
+    public void stateMousePressed(int x, int y, MindMapView mindMapView) {
+        MapSelectionModel selectedElements = mindMapView.getSelectedElements();
+        for (ElementPainter ep :
+                mindMapView.getPainters()) {
+            if(ep.elementAt(new Point(x, y))) {
+                if(selectedElements.isSelected(ep.getElement()))
+                    selectedElements.unselect(ep.getElement());
+                else selectedElements.select(ep.getElement());
                 break;
             }
         }
-        if(p != null){
-
-           mapView.getSelected().add(p.getElement());
-           //kada se unselectuje?? tad treba i da se obrise
-            //kad sam u select stateu kliknem na element, ako se nalazi u listi selektovanih unselectujem
-            //ga, ako se ne nalazi dodajem ga u listi selektovnih
-        }
     }
 
 
     @Override
-    public void stateMouseReleased() {
+    public void stateMouseReleased(int x, int y, MindMapView mindMapView) {
 
     }
 
     @Override
-    public void stateMouseDragged() {
+    public void stateMouseDragged(int x, int y, MindMapView mindMapView) {
 
     }
+
 }

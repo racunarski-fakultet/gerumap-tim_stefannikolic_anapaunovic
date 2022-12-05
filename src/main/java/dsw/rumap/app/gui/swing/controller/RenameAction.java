@@ -41,8 +41,8 @@ public class RenameAction extends AbstractRumapActions {
             if(name == null)
                 return;
 
-            if(name != null && !name.isEmpty()){
-                if(AppCore.getInstance().getMapRepository().changeName(name,selected.getMapNode(), parentNode) == false)
+            if(!name.isEmpty()){
+                if(!AppCore.getInstance().getMapRepository().changeName(name, selected.getMapNode(), parentNode))
                     AppCore.getInstance().getMsgGenerator().createMessage(Problem.NAME_ALREADY_EXISTS);
             }
             else {

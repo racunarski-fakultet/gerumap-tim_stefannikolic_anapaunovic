@@ -18,10 +18,14 @@ public abstract class Element extends MapNode {
 
     public Element(String name, MapNode parent) {
         super(name, parent);
+        ((MapNodeC) parent).add(this);
+
     }
 
     public Element(MapNode parent){
+
         this("Element" + ((MapNodeC)parent).makeNameForChild(), parent);
+        ((MapNodeC) parent).add(this);
     }
 
     @Override

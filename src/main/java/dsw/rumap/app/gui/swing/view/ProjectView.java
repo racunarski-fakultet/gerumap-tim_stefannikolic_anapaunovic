@@ -44,6 +44,7 @@ public class ProjectView extends JPanel implements ISubscriber {
         this.add(tabbedPane);
         AppCore.getInstance().getMapRepository().getProjectExplorer().addSubscriber(this);
         mapViews = new HashMap<>();
+        this.stateManager = new StateManager();
 
     }
 
@@ -167,7 +168,9 @@ public class ProjectView extends JPanel implements ISubscriber {
         this.stateManager.getCurrentState().execute();
     }
 
-    public void medMousePressed(int x, int y){}
+    public void medMousePressed(int x, int y, MindMapView mapView){
+        this.stateManager.getCurrentState().stateMousePressed(x,y,mapView);
+    }
 
     public void medMouseReleased(){}
 

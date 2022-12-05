@@ -41,8 +41,11 @@ public class NewAction extends AbstractRumapActions{
             return;
         }
 
-        MapNode child = mapNodeFactory.orderChild(selected.getMapNode());
-        AppCore.getInstance().getMapRepository().addChild(selected.getMapNode(),child);
-        MainFrame.getInstance().getMapTree().addChild(selected, child);
+        if(selected.getMapNode() instanceof ProjectExplorer || selected.getMapNode() instanceof Project){
+            MapNode child = mapNodeFactory.orderChild(selected.getMapNode());
+            AppCore.getInstance().getMapRepository().addChild(selected.getMapNode(),child);
+            MainFrame.getInstance().getMapTree().addChild(selected, child);
+        }
+
     }
 }

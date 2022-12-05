@@ -52,6 +52,7 @@ public class DeleteElementState implements State {
         mindMapView.getModel().delete(currentPainter.getElement());
     }
 
+
     @Override
     public void stateMouseReleased(int x, int y, MindMapView mindMapView) {
 

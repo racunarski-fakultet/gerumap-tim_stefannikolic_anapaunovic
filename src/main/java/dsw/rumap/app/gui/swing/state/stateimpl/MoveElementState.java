@@ -14,6 +14,7 @@ public class MoveElementState implements State {
 
     }
 
+
     @Override
     public void stateMouseReleased(int x, int y, MindMapView mindMapView) {
 

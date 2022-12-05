@@ -1,6 +1,7 @@
 package dsw.rumap.app.maprepository.implementation.elements;
 
 import dsw.rumap.app.maprepository.composite.MapNode;
+import dsw.rumap.app.maprepository.composite.MapNodeC;
 import dsw.rumap.app.maprepository.implementation.Element;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,4 +25,6 @@ public class TermElement extends Element {
         size = new Pair<>(this.getName().length()*3+60, 30);
         setColor(Color.CYAN);
     }
+
+
 }

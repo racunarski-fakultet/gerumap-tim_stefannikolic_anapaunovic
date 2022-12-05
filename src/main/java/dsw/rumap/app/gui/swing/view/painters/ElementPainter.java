@@ -14,7 +14,7 @@ public abstract class ElementPainter {
     protected Shape shape;
     protected List<ISubscriber> subscribers;
 
-    public ElementPainter(Element element) {
+    public ElementPainter(Element element, MindMapView map) {
         this.element = element;
         subscribers = new ArrayList<>();
     }

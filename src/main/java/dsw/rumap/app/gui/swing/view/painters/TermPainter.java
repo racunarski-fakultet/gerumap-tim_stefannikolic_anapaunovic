@@ -6,6 +6,7 @@ import dsw.rumap.app.maprepository.implementation.elements.TermElement;
 
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.Rectangle2D;
 
 public class TermPainter extends ElementPainter{
     public TermPainter(Element element) {
@@ -14,6 +15,7 @@ public class TermPainter extends ElementPainter{
         shape = new Ellipse2D.Float(termElement.getPosition().getFirst(), termElement.getPosition().getSecond(), termElement.getSize().getFirst(), termElement.getSize().getSecond());
     }
 
+    }
 
     @Override
     public void draw(Graphics2D g) {
@@ -28,4 +30,6 @@ public class TermPainter extends ElementPainter{
         g.drawString(element.getName(), ((TermElement)element).getPosition().getFirst()+((TermElement)element).getSize().getFirst()/8,
                 ((TermElement)element).getPosition().getSecond()+((TermElement)element).getSize().getSecond()/2+5);
     }
+
+
 }

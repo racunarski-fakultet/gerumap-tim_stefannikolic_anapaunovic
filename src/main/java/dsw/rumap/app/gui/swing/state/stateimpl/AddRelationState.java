@@ -36,6 +36,7 @@ public class AddRelationState implements State {
         }
     }
 
+
     @Override
     public void stateMouseDragged(int x, int y, MindMapView mindMapView) {
         if(currentEP == null) return;

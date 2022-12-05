@@ -27,6 +27,7 @@ public class SelectElementState implements State {
         }
     }
 
+
     @Override
     public void stateMouseReleased(int x, int y, MindMapView mindMapView) {
 

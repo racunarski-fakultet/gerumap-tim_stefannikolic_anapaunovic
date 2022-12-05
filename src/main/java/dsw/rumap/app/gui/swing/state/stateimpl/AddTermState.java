@@ -28,8 +28,8 @@ public class AddTermState implements State {
         mindMapView.addPainter(painter);
         //TODO treba da se prodje kroz listu cvorova u stablu da se nadje taj i da se doda
         //MainFrame.getInstance().getMapTree().addChild(mindMap, element);
-
     }
+
 
     @Override
     public void stateMouseReleased(int x, int y, MindMapView mindMapView) {

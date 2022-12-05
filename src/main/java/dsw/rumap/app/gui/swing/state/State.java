@@ -8,5 +8,4 @@ public interface State {
     void stateMousePressed(int x, int y, MindMapView mindMapView);
     void stateMouseDragged(int x, int y, MindMapView mindMapView);
     void stateMouseReleased(int x, int y, MindMapView mindMapView);
-
 }

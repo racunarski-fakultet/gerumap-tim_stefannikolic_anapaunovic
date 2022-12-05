@@ -9,3 +9,5 @@
 [ERROR] [05.12.2022 06:09] Morate selektovati polje.
 [ERROR] [05.12.2022 06:09] Morate selektovati polje.
 [ERROR] [05.12.2022 06:09] Morate selektovati polje.
+
+

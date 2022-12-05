@@ -46,7 +46,6 @@ public class MindMap extends MapNodeC {
 
     @Override
     public void delete(MapNode child) {
-        //this.notify(this);
         if(child != null && child instanceof Element &&
                 this.getChildren().contains(child)){
             this.getChildren().remove(child);

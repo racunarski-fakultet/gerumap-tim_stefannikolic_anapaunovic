@@ -1,5 +1,6 @@
 package dsw.rumap.app.gui.swing.view.painters;
 
+
 import dsw.rumap.app.maprepository.implementation.Element;
 import dsw.rumap.app.maprepository.implementation.elements.RelationElement;
 
@@ -7,7 +8,6 @@ import java.awt.*;
 import java.awt.geom.Line2D;
 
 public class RelationPainter extends ElementPainter{
-
 
     public RelationPainter(Element element) {
         super(element);

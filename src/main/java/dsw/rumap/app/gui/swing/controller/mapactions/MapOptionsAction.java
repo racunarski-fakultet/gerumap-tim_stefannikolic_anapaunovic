@@ -8,6 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
 
 public class MapOptionsAction extends AbstractRumapActions {
 
@@ -65,6 +66,7 @@ public class MapOptionsAction extends AbstractRumapActions {
         centerPanel.add(chooserPanel);
 
         dialog.setVisible(true);
+
 
     }
 }

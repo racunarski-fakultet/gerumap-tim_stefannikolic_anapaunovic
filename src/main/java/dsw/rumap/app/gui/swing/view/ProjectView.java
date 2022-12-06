@@ -116,9 +116,11 @@ public class ProjectView extends JPanel implements ISubscriber {
                 tabbedPane.setTitleAt(tabCounter, mindMap.getName());
                 if(mapViews.containsKey(key)){
                     tabbedPane.setComponentAt(tabCounter, mapViews.get(key));
+                    //ovde
                 }
                 else {
                     tabbedPane.setComponentAt(tabCounter, createMindMapView(mindMap));
+                    //ovde
                 }
                 tabCounter++;
             }
@@ -141,10 +143,11 @@ public class ProjectView extends JPanel implements ISubscriber {
         SwingUtilities.updateComponentTreeUI(this);
     }
 
-    private MindMapView createMindMapView(MindMap mindMap){
+    private JScrollPane createMindMapView(MindMap mindMap){
         MindMapView mindMapView = new MindMapView(mindMap);
+        JScrollPane scrollPane = new JScrollPane(mindMapView);
         mapViews.put(mindMap.getKey(),mindMapView);
-        return mindMapView;
+        return scrollPane;
     }
 
     private void clean(){

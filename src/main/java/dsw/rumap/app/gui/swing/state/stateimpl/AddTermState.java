@@ -21,7 +21,7 @@ public class AddTermState implements State {
     }
 
     @Override
-    public void stateMousePressed(int x, int y, MindMapView mindMapView) {
+    public void stateMousePressed(int x, int y, MindMapView mindMapView, int clickCount) {
         MindMap mindMap = mindMapView.getModel();
         Element element = new TermElement(mindMap, x, y);
         ElementPainter painter = new TermPainter(element);

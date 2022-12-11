@@ -27,7 +27,7 @@ public class ProjectView extends JPanel implements ISubscriber {
     private NotificationType notificationType;
     private HashMap<Integer,MindMapView> mapViews;
     private StateManager stateManager;
-    //private MindMapView currentMindMap;
+    private MindMapView currentMindMap;
 
 
     public ProjectView(){
@@ -143,9 +143,9 @@ public class ProjectView extends JPanel implements ISubscriber {
         SwingUtilities.updateComponentTreeUI(this);
     }
 
-    private JScrollPane createMindMapView(MindMap mindMap){
+    private MapScroll createMindMapView(MindMap mindMap){
         MindMapView mindMapView = new MindMapView(mindMap);
-        JScrollPane scrollPane = new JScrollPane(mindMapView);
+        MapScroll scrollPane = new MapScroll(mindMapView);
         mapViews.put(mindMap.getKey(),mindMapView);
         return scrollPane;
     }
@@ -170,9 +170,15 @@ public class ProjectView extends JPanel implements ISubscriber {
         this.stateManager.getCurrentState().execute();
     }
 
-    public void medMousePressed(int x, int y, MindMapView mindMapView){ this.stateManager.getCurrentState().stateMousePressed(x, y, mindMapView);}
+    public void medMousePressed(int x, int y, MindMapView mindMapView, int clickCount){ this.stateManager.getCurrentState().stateMousePressed(x, y, mindMapView,clickCount);}
 
     public void medMouseDragged(int x, int y, MindMapView mindMapView){ this.stateManager.getCurrentState().stateMouseDragged(x, y, mindMapView);}
 
     public void medMouseReleased(int x, int y, MindMapView mindMapView){ this.stateManager.getCurrentState().stateMouseReleased(x, y, mindMapView);}
+
+    public MindMapView getCurrentMindMap() {
+        MapScroll ms = (MapScroll) tabbedPane.getSelectedComponent();
+        currentMindMap = ms.getMap();
+        return currentMindMap;
+    }
 }

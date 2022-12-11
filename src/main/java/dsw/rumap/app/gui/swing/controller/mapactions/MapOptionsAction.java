@@ -61,6 +61,7 @@ public class MapOptionsAction extends AbstractRumapActions {
         JColorChooser colorChooser = new JColorChooser();
         chooserPanel.add(colorChooser);
 
+
         centerPanel.add(strokePanel);
         centerPanel.add(colorPanel);
         centerPanel.add(chooserPanel);

@@ -4,11 +4,14 @@ import dsw.rumap.app.maprepository.implementation.Element;
 import dsw.rumap.app.maprepository.implementation.MindMap;
 import dsw.rumap.app.observer.IPublisher;
 import dsw.rumap.app.observer.ISubscriber;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
-
+@Getter
+@Setter
 public class MapSelectionModel implements IPublisher {
 
     private List<Element> selected;
@@ -36,6 +39,11 @@ public class MapSelectionModel implements IPublisher {
         if(selected.contains(element))
             return true;
         return false;
+    }
+
+    public void clear(){
+        selected.clear();
+        this.notify(this);
     }
 
     @Override

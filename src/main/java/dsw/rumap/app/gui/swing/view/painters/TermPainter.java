@@ -9,14 +9,17 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 
 public class TermPainter extends ElementPainter{
+
+    private TermElement termElement;
     public TermPainter(Element element) {
         super(element);
-        TermElement termElement = (TermElement) element;
+        termElement = (TermElement) element;
         shape = new Ellipse2D.Float(termElement.getPosition().getFirst(), termElement.getPosition().getSecond(), termElement.getSize().getFirst(), termElement.getSize().getSecond());
     }
 
     @Override
     public void draw(Graphics2D g) {
+        ((Ellipse2D)shape).setFrame(termElement.getPosition().getFirst(), termElement.getPosition().getSecond(), termElement.getSize().getFirst(), termElement.getSize().getSecond());
         g.setPaint(element.getColor());
         g.setStroke(new BasicStroke(element.getStroke()));
         g.draw(shape);

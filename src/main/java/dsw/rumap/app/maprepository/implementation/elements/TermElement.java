@@ -26,5 +26,16 @@ public class TermElement extends Element {
         setColor(Color.CYAN);
     }
 
-
+    public void setPosition(Pair<Integer, Integer> position) {
+        this.position = position;
+        this.notify(this);
+    }
+    public void setPosX(Integer x){
+        position.setFirst(x);
+    }
+    public void setPosY(Integer y, boolean obs){
+        position.setSecond(y);
+        if(obs == true)
+            this.notify(this);
+    }
 }

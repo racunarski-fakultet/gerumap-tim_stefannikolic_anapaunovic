@@ -5,7 +5,7 @@ import dsw.rumap.app.gui.swing.view.MindMapView;
 public interface State {
 
     void execute();
-    void stateMousePressed(int x, int y, MindMapView mindMapView);
+    void stateMousePressed(int x, int y, MindMapView mindMapView, int clickCount);
     void stateMouseDragged(int x, int y, MindMapView mindMapView);
     void stateMouseReleased(int x, int y, MindMapView mindMapView);
 }

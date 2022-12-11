@@ -7,18 +7,24 @@ import dsw.rumap.app.gui.swing.view.painters.ElementPainter;
 import dsw.rumap.app.maprepository.implementation.elements.MapSelectionModel;
 import dsw.rumap.app.maprepository.implementation.MindMap;
 import dsw.rumap.app.observer.ISubscriber;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
-
+@Getter
+@Setter
 public class MindMapView extends JPanel implements ISubscriber {
 
     private MindMap model;
     private MapSelectionModel mapSelectionModel;
     private List<ElementPainter> painters;
-    private MapSelectionModel selected;
+    private Rectangle2D selection;
+    private Rectangle2D lastRactangle;
+
 
     public MindMapView(MindMap model){
         this.model=model;
@@ -32,6 +38,7 @@ public class MindMapView extends JPanel implements ISubscriber {
         this.addMouseListener(mmmC);
         this.addMouseMotionListener(mmmC);
         this.model.subscribe(this);
+        lastRactangle = new Rectangle2D.Float(0,0,0,0);
     }
 
     public void addPainter(ElementPainter painter){
@@ -49,6 +56,8 @@ public class MindMapView extends JPanel implements ISubscriber {
         super.paintComponent(g);
 
         Graphics2D g2d = (Graphics2D) g;
+        if(selection != null)
+            g2d.draw(selection);
         for (ElementPainter ep :
                 painters) {
             if(mapSelectionModel.isSelected(ep.getElement())){
@@ -75,5 +84,21 @@ public class MindMapView extends JPanel implements ISubscriber {
     }
     public MindMap getModel(){
         return this.model;
+    }
+
+    public Rectangle2D getSelectionR(int x, int y, int h, int w) {
+        selection = new Rectangle2D.Float(x,y,h,w);
+        return selection;
+    }
+    public void setCoordinates(int x,int y, int w, int h){
+        if(selection != null){
+            selection.setRect(x,y,w,h);
+            this.repaint();
+        }
+
+    }
+    public void setLastCoordinates(int x, int y) {
+        if(selection != null)
+            this.lastRactangle.setRect(x,y,selection.getHeight(),selection.getWidth());
     }
 }

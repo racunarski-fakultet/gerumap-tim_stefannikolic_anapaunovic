@@ -3,13 +3,17 @@ package dsw.rumap.app.gui.swing.controller.mapactions;
 import com.sun.tools.javac.Main;
 import dsw.rumap.app.gui.swing.controller.AbstractRumapActions;
 import dsw.rumap.app.gui.swing.view.MainFrame;
+import lombok.Getter;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-
+@Getter
 public class MapOptionsAction extends AbstractRumapActions {
+
+    private JTextField strokeTF;
 
     public MapOptionsAction() {
         putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_O, ActionEvent.CTRL_MASK));
@@ -34,6 +38,13 @@ public class MapOptionsAction extends AbstractRumapActions {
         dialog.add(southPanel, BorderLayout.SOUTH);
 
         Button okBtn = new Button("OK");
+        okBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String stroke = MainFrame.getInstance().getActionManager().getMapOptionsAction().getStrokeTF().getText();
+                Integer strokeInt = Integer.parseInt(stroke);
+            }
+        });
         Button cancelBtn = new Button("Cancel");
 
         southPanel.add(okBtn);

@@ -13,11 +13,9 @@ public abstract class ElementPainter {
 
     protected Element element;
     protected Shape shape;
-    protected List<ISubscriber> subscribers;
 
     public ElementPainter(Element element) {
         this.element = element;
-        subscribers = new ArrayList<>();
     }
 
     public abstract void draw(Graphics2D g);

@@ -57,7 +57,7 @@ public class AddRelationState implements State {
             }
         }
 
-        if(!found){
+        if(!found || ((RelationElement) currentEP.getElement()).getFromTerm() == ((RelationElement) currentEP.getElement()).getToTerm()){
             mindMapView.removePainter(currentEP);
             mindMapView.getModel().delete(currentEP.getElement());
         }

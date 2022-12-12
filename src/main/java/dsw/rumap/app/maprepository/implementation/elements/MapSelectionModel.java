@@ -38,6 +38,10 @@ public class MapSelectionModel implements IPublisher {
         return false;
     }
 
+    public List<Element> getSelected() {
+        return selected;
+    }
+
     @Override
     public void subscribe(ISubscriber sub) {
         this.subscribers.add(sub);

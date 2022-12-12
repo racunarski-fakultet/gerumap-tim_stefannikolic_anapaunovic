@@ -27,7 +27,7 @@ public class ProjectView extends JPanel implements ISubscriber {
     private NotificationType notificationType;
     private HashMap<Integer,MindMapView> mapViews;
     private StateManager stateManager;
-    //private MindMapView currentMindMap;
+    private MindMapView currentMindMapView;
 
 
     public ProjectView(){
@@ -45,6 +45,7 @@ public class ProjectView extends JPanel implements ISubscriber {
         AppCore.getInstance().getMapRepository().getProjectExplorer().subscribe(this);
         mapViews = new HashMap<>();
         stateManager = new StateManager();
+        currentMindMapView = null;
     }
 
     @Override
@@ -151,6 +152,10 @@ public class ProjectView extends JPanel implements ISubscriber {
         this.label.setText("Selektujte projekat");
         this.autor.setText("");
         this.tabbedPane.removeAll();
+    }
+
+    public MindMapView getCurrentMindMapView() {
+        return (MindMapView) tabbedPane.getSelectedComponent();
     }
 
     public void startAddRelationState(){this.stateManager.setAddRelationState();}

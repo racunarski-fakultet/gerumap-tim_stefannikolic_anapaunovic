@@ -11,7 +11,6 @@ import lombok.Setter;
 import java.awt.*;
 
 @Getter
-@Setter
 public abstract class Element extends MapNode {
 
     private Integer stroke;
@@ -34,5 +33,13 @@ public abstract class Element extends MapNode {
         this.notify(this);
     }
 
+    public void setStroke(Integer stroke) {
+        this.stroke = stroke;
+        this.notify(this);
+    }
 
+    public void setColor(Color color) {
+        this.color = color;
+        this.notify(this);
+    }
 }

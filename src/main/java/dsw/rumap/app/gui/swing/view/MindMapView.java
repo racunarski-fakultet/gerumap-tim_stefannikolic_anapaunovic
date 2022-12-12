@@ -4,6 +4,9 @@ package dsw.rumap.app.gui.swing.view;
 
 import dsw.rumap.app.gui.swing.controller.mapactions.MindMapMouseController;
 import dsw.rumap.app.gui.swing.view.painters.ElementPainter;
+import dsw.rumap.app.gui.swing.view.painters.RelationPainter;
+import dsw.rumap.app.gui.swing.view.painters.TermPainter;
+import dsw.rumap.app.maprepository.implementation.Element;
 import dsw.rumap.app.maprepository.implementation.elements.MapSelectionModel;
 import dsw.rumap.app.maprepository.implementation.MindMap;
 import dsw.rumap.app.observer.ISubscriber;
@@ -18,7 +21,6 @@ public class MindMapView extends JPanel implements ISubscriber {
     private MindMap model;
     private MapSelectionModel mapSelectionModel;
     private List<ElementPainter> painters;
-    private MapSelectionModel selected;
 
     public MindMapView(MindMap model){
         this.model=model;
@@ -49,8 +51,17 @@ public class MindMapView extends JPanel implements ISubscriber {
         super.paintComponent(g);
 
         Graphics2D g2d = (Graphics2D) g;
+        List<ElementPainter> terms = new ArrayList<>();
+
         for (ElementPainter ep :
                 painters) {
+            if(ep instanceof TermPainter)
+                terms.add(ep);
+            else ep.draw(g2d);
+        }
+
+        for (ElementPainter ep :
+                terms) {
             if(mapSelectionModel.isSelected(ep.getElement())){
                 Color prev = ep.getElement().getColor();
                 ep.getElement().setColor(Color.RED);

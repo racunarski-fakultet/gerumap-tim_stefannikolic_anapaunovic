@@ -20,7 +20,7 @@ public class TermPainter extends ElementPainter{
     @Override
     public void draw(Graphics2D g) {
         ((Ellipse2D)shape).setFrame(termElement.getPosition().getFirst(), termElement.getPosition().getSecond(), termElement.getSize().getFirst(), termElement.getSize().getSecond());
-        g.setPaint(element.getColor());
+        g.setPaint(Color.BLACK);
         g.setStroke(new BasicStroke(element.getStroke()));
         g.draw(shape);
         g.setPaint(element.getColor());

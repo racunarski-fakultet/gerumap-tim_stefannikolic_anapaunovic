@@ -8,7 +8,6 @@ import dsw.rumap.app.maprepository.implementation.elements.RelationElement;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class DeleteElementState implements State {
@@ -18,7 +17,7 @@ public class DeleteElementState implements State {
     }
 
     @Override
-    public void stateMousePressed(int x, int y, MindMapView mindMapView, int clickCount) {
+    public void stateMousePressed(int x, int y, MindMapView mindMapView) {
         ElementPainter currentPainter = null;
         List<ElementPainter> toRemove = new ArrayList<>();
         for (ElementPainter ep :
@@ -47,7 +46,7 @@ public class DeleteElementState implements State {
             mindMapView.getModel().delete(rep.getElement());
         }
 
-        mindMapView.getSelectedElements().unselect(currentPainter.getElement());
+        mindMapView.getMapSelectionModel().unselect(currentPainter.getElement());
         mindMapView.removePainter(currentPainter);
         mindMapView.getModel().delete(currentPainter.getElement());
     }

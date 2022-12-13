@@ -4,9 +4,7 @@ package dsw.rumap.app.gui.swing.view;
 
 import dsw.rumap.app.gui.swing.controller.mapactions.MindMapMouseController;
 import dsw.rumap.app.gui.swing.view.painters.ElementPainter;
-import dsw.rumap.app.gui.swing.view.painters.RelationPainter;
 import dsw.rumap.app.gui.swing.view.painters.TermPainter;
-import dsw.rumap.app.maprepository.implementation.Element;
 import dsw.rumap.app.maprepository.implementation.elements.MapSelectionModel;
 import dsw.rumap.app.maprepository.implementation.MindMap;
 import dsw.rumap.app.observer.ISubscriber;
@@ -22,7 +20,7 @@ public class MindMapView extends JPanel implements ISubscriber {
     private MindMap model;
     private MapSelectionModel mapSelectionModel;
     private List<ElementPainter> painters;
-    private Rectangle2D selection;
+    private Rectangle2D selectionRec;
 
 
     public MindMapView(MindMap model){
@@ -37,6 +35,7 @@ public class MindMapView extends JPanel implements ISubscriber {
         this.addMouseListener(mmmC);
         this.addMouseMotionListener(mmmC);
         this.model.subscribe(this);
+        selectionRec = new Rectangle2D.Float(0,0,0,0);
     }
 
     public void addPainter(ElementPainter painter){
@@ -56,26 +55,31 @@ public class MindMapView extends JPanel implements ISubscriber {
         Graphics2D g2d = (Graphics2D) g;
         List<ElementPainter> terms = new ArrayList<>();
 
-        if(selection != null)
-            g2d.draw(selection);
+        if(selectionRec != null)
+            g2d.draw(selectionRec);
 
         for (ElementPainter ep :
                 painters) {
             if(ep instanceof TermPainter)
                 terms.add(ep);
-            else ep.draw(g2d);
+            else drawPainter(ep, g2d);
         }
 
         for (ElementPainter ep :
                 terms) {
-            if(mapSelectionModel.isSelected(ep.getElement())){
-                Color prev = ep.getElement().getColor();
-                ep.getElement().setColor(Color.RED);
-                ep.draw(g2d);
-                ep.getElement().setColor(prev);
-            }
-            else ep.draw(g2d);
+            drawPainter(ep, g2d);
         }
+    }
+
+    private void drawPainter(ElementPainter ep, Graphics2D g2d){
+        Color prev;
+        if(mapSelectionModel.isSelected(ep.getElement())){
+            prev = ep.getElement().getColor();
+            ep.getElement().setColor(Color.RED);
+            ep.draw(g2d);
+            ep.getElement().setColor(prev);
+        }
+        else ep.draw(g2d);
     }
 
     @Override
@@ -87,21 +91,18 @@ public class MindMapView extends JPanel implements ISubscriber {
     public List<ElementPainter> getPainters(){
         return painters;
     }
-    public MapSelectionModel getSelectedElements(){
+    public MapSelectionModel getMapSelectionModel(){
         return mapSelectionModel;
     }
     public MindMap getModel(){
         return this.model;
     }
 
-    public Rectangle2D getSelectionR(int x, int y, int h, int w) {
-        selection = new Rectangle2D.Float(x,y,h,w);
-        return selection;
+    public Rectangle2D getSelectionRec() {
+        return selectionRec;
     }
-    public void setCoordinates(int x,int y, int w, int h){
-        if(selection != null){
-            selection.setRect(x,y,w,h);
-            this.repaint();
-        }
+    public void setSelectionRec(int x, int y, int w, int h){
+        selectionRec.setRect(x,y,w,h);
+        this.repaint();
     }
 }

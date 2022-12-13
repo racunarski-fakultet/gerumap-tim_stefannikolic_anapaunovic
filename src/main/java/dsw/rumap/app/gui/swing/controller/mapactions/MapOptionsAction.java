@@ -1,6 +1,5 @@
 package dsw.rumap.app.gui.swing.controller.mapactions;
 
-import com.sun.tools.javac.Main;
 import dsw.rumap.app.gui.swing.controller.AbstractRumapActions;
 import dsw.rumap.app.gui.swing.view.MainFrame;
 import dsw.rumap.app.maprepository.implementation.Element;
@@ -53,7 +52,7 @@ public class MapOptionsAction extends AbstractRumapActions {
                         return;
                     }
                     for (Element element :
-                            MainFrame.getInstance().getProjectView().getCurrentMindMapView().getSelectedElements().getSelected()) {
+                            MainFrame.getInstance().getProjectView().getCurrentMindMapView().getMapSelectionModel().getSelected()) {
                         element.setStroke(strokeInt);
                         element.setColor(color);
                     }
@@ -97,6 +96,7 @@ public class MapOptionsAction extends AbstractRumapActions {
         colorPanel.add(colorLabel);
 
         colorChooser = new JColorChooser();
+        colorChooser.setColor(Color.CYAN);
         chooserPanel.add(colorChooser);
 
         centerPanel.add(strokePanel);

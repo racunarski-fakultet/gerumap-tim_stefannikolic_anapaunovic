@@ -13,6 +13,7 @@ import dsw.rumap.app.observer.ISubscriber;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +22,8 @@ public class MindMapView extends JPanel implements ISubscriber {
     private MindMap model;
     private MapSelectionModel mapSelectionModel;
     private List<ElementPainter> painters;
+    private Rectangle2D selection;
+
 
     public MindMapView(MindMap model){
         this.model=model;
@@ -52,6 +55,9 @@ public class MindMapView extends JPanel implements ISubscriber {
 
         Graphics2D g2d = (Graphics2D) g;
         List<ElementPainter> terms = new ArrayList<>();
+
+        if(selection != null)
+            g2d.draw(selection);
 
         for (ElementPainter ep :
                 painters) {
@@ -86,5 +92,16 @@ public class MindMapView extends JPanel implements ISubscriber {
     }
     public MindMap getModel(){
         return this.model;
+    }
+
+    public Rectangle2D getSelectionR(int x, int y, int h, int w) {
+        selection = new Rectangle2D.Float(x,y,h,w);
+        return selection;
+    }
+    public void setCoordinates(int x,int y, int w, int h){
+        if(selection != null){
+            selection.setRect(x,y,w,h);
+            this.repaint();
+        }
     }
 }

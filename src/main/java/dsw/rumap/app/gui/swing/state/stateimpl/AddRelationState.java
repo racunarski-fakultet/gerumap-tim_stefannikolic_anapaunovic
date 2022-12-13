@@ -22,7 +22,7 @@ public class AddRelationState implements State {
     }
 
     @Override
-    public void stateMousePressed(int x, int y, MindMapView mindMapView) {
+    public void stateMousePressed(int x, int y, MindMapView mindMapView, int clickCount) {
         MindMap mindMap = mindMapView.getModel();
         for (ElementPainter ep :
                 mindMapView.getPainters()) {

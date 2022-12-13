@@ -42,6 +42,11 @@ public class MapSelectionModel implements IPublisher {
         return selected;
     }
 
+    public void clear(){
+        selected.clear();
+        this.notify(this);
+    }
+
     @Override
     public void subscribe(ISubscriber sub) {
         this.subscribers.add(sub);

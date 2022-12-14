@@ -24,7 +24,7 @@ public class ProjectView extends JPanel implements ISubscriber {
     private JLabel author;
     private Project model;
     private JTabbedPane tabbedPane;
-    JScrollPane scrollPane;
+    //private MapScrollPane mapScrollPane;
     private NotificationType notificationType;
     private HashMap<Integer,MindMapView> mapViews;
     private StateManager stateManager;
@@ -35,7 +35,7 @@ public class ProjectView extends JPanel implements ISubscriber {
         label = new JLabel("Selektujte projekat");
         author = new JLabel("");
         tabbedPane = new JTabbedPane();
-        scrollPane = new JScrollPane();
+        //mapScrollPane = new MapScrollPane();
         BoxLayout box = new BoxLayout(this, BoxLayout.Y_AXIS);
         this.setLayout(box);
         this.add(Box.createVerticalStrut(5));
@@ -71,7 +71,7 @@ public class ProjectView extends JPanel implements ISubscriber {
             }
             else if(notificationType.equals(NotificationType.MAP_ADDED)){
                 MindMapView newMindMapView = new MindMapView(((MindMap) model.getChildren().get((int)info)));
-                tabbedPane.addTab(model.getChildren().get((int)info).getName(), new JScrollPane(newMindMapView));
+                tabbedPane.addTab(model.getChildren().get((int)info).getName(), new MapScrollPane(newMindMapView));
                 model.getChildren().get((int)info).subscribe(this);
                 mapViews.put(((MindMap) model.getChildren().get((int)info)).getKey(), newMindMapView);
             }
@@ -117,19 +117,19 @@ public class ProjectView extends JPanel implements ISubscriber {
             if (tabCounter < totalTabs) {
                 tabbedPane.setTitleAt(tabCounter, mindMap.getName());
                 if(mapViews.containsKey(key)){
-                    tabbedPane.setComponentAt(tabCounter, new JScrollPane(mapViews.get(key)));
+                    tabbedPane.setComponentAt(tabCounter, new MapScrollPane(mapViews.get(key)));
                 }
                 else {
-                    tabbedPane.setComponentAt(tabCounter, new JScrollPane(createMindMapView(mindMap)));
+                    tabbedPane.setComponentAt(tabCounter, new MapScrollPane(createMindMapView(mindMap)));
                 }
                 tabCounter++;
             }
             else {
                 if(mapViews.containsKey(key)){
-                    tabbedPane.addTab(mindMap.getName(), new JScrollPane(mapViews.get(key)));
+                    tabbedPane.addTab(mindMap.getName(), new MapScrollPane(mapViews.get(key)));
                 }
                 else {
-                    tabbedPane.addTab(mindMap.getName(), new JScrollPane(createMindMapView(mindMap)));
+                    tabbedPane.addTab(mindMap.getName(), new MapScrollPane(createMindMapView(mindMap)));
                 }
             }
         }
@@ -145,7 +145,7 @@ public class ProjectView extends JPanel implements ISubscriber {
 
     private MindMapView createMindMapView(MindMap mindMap){
         MindMapView mindMapView = new MindMapView(mindMap);
-        mapViews.put(mindMap.getKey(),mindMapView);
+        mapViews.put(mindMap.getKey(), mindMapView);
         return mindMapView;
     }
 

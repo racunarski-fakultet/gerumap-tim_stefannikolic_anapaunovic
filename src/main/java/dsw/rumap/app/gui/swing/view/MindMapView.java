@@ -21,13 +21,13 @@ import java.util.List;
 
 public class MindMapView extends JPanel implements ISubscriber, AdjustmentListener {
 
-    private MindMap model;
+    private final MindMap model;
     private MapSelectionModel mapSelectionModel;
     private List<ElementPainter> painters;
     private Rectangle2D selectionRec;
     private AffineTransform affineTransform;
     private double scaleFactor;
-    private Pair<Double, Double> transform;
+    private Pair<Double, Double> translate;
 
 
     public MindMapView(MindMap model){
@@ -44,8 +44,8 @@ public class MindMapView extends JPanel implements ISubscriber, AdjustmentListen
         this.model.subscribe(this);
         selectionRec = new Rectangle2D.Float(0,0,0,0);
         affineTransform = new AffineTransform();
-        scaleFactor = (double) 1;
-        transform = new Pair(0, 0);
+        scaleFactor = 1;
+        translate = new Pair<Double, Double>((double) 0, (double) 0);
     }
 
     public void addPainter(ElementPainter painter){
@@ -90,8 +90,8 @@ public class MindMapView extends JPanel implements ISubscriber, AdjustmentListen
     }
 
     private void drawPainter(ElementPainter ep, Graphics2D g2d){
-        g2d.scale(scaleFactor, scaleFactor);
-        //g2d.setTransform(affineTransform);
+        //g2d.scale(scaleFactor, scaleFactor);
+        g2d.setTransform(affineTransform);
         System.out.println("drawPainter");
         Color prev;
         if(mapSelectionModel.isSelected(ep.getElement())){
@@ -128,19 +128,19 @@ public class MindMapView extends JPanel implements ISubscriber, AdjustmentListen
     }
 
     private void setUpTransformation(){
+        //affineTransform.translate(translate.getFirst(), translate.getSecond());
         //affineTransform.setToScale(scaleFactor, scaleFactor);
         affineTransform.scale(scaleFactor, scaleFactor);
-        //affineTransform.translate(1, 2);
         System.out.println("setUp");
         this.repaint();
     }
 
     public void zoomIn(){
-        scaleFactor *= 1.2;
+        scaleFactor = 1.2;
         System.out.println("zoomIn");
 
         if(scaleFactor > (double) 2){
-            scaleFactor = (double) 2;
+            scaleFactor = 2;
             System.out.println("preko 2");
             //todo greska
             return;
@@ -150,9 +150,9 @@ public class MindMapView extends JPanel implements ISubscriber, AdjustmentListen
 
     public void zoomOut(){
         System.out.println("zoomOut");
-        scaleFactor /= 1.2;
+        scaleFactor = 0.8;
 
-        if(scaleFactor < (double) 0.2){
+        if(scaleFactor < 0.2){
             scaleFactor = 0.2;
             //todo greska
             return;
@@ -162,6 +162,10 @@ public class MindMapView extends JPanel implements ISubscriber, AdjustmentListen
 
     @Override
     public void adjustmentValueChanged(AdjustmentEvent e) {
+//        if(((JScrollBar)e.getSource()).getOrientation() == 0)
+//            translate.setFirst((double)(e.getValue()));
+//        else translate.setSecond((double)(e.getValue()));
 
+//        setUpTransformation();
     }
 }

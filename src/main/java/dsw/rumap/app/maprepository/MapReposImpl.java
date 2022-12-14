@@ -3,12 +3,9 @@ package dsw.rumap.app.maprepository;
 import dsw.rumap.app.core.MapRepository;
 import dsw.rumap.app.maprepository.composite.MapNode;
 import dsw.rumap.app.maprepository.composite.MapNodeC;
-import dsw.rumap.app.maprepository.implementation.Element;
-import dsw.rumap.app.maprepository.implementation.MindMap;
 import dsw.rumap.app.maprepository.implementation.Project;
 import dsw.rumap.app.maprepository.implementation.ProjectExplorer;
 import dsw.rumap.app.maprepository.mapnodefactory.*;
-import lombok.Getter;
 
 public class MapReposImpl implements MapRepository {
 
@@ -39,9 +36,9 @@ public class MapReposImpl implements MapRepository {
     }
 
     @Override
-    public void setAutor(String autor, MapNode proj) {
+    public void setAuthor(String author, MapNode proj) {
         if(proj instanceof Project)
-            ((Project)proj).setAutor(autor);
+            ((Project)proj).setAuthor(author);
     }
 
     @Override

@@ -17,11 +17,11 @@ public class TermElement extends Element {
         super(name, parent);
     }
 
-    public TermElement(MapNode parent, int x, int y) {
-        super(parent);
+    public TermElement(String name, MapNode parent, int x, int y) {
+        super(name, parent);
         this.setStroke(3);
         position = new Pair<>(x, y);
-        size = new Pair<>(this.getName().length()*3+60, 30);
+        size = new Pair(this.getName().length()*7+60, 30);
         setColor(Color.CYAN);
     }
 

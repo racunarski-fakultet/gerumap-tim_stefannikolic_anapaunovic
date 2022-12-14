@@ -26,9 +26,8 @@ public class TermPainter extends ElementPainter{
         g.setPaint(element.getColor());
         g.fill(shape);
         g.setPaint(Color.WHITE);
-        g.setStroke(new BasicStroke(100));
-        g.setFont(new Font(Font.SERIF, Font.BOLD, 15));
-        g.drawString(element.getName(), ((TermElement)element).getPosition().getFirst()+((TermElement)element).getSize().getFirst()/8,
+        g.setFont(new Font(Font.SERIF, Font.BOLD, 16));
+        g.drawString(element.getName(), ((TermElement)element).getPosition().getFirst()+((TermElement)element).getSize().getFirst()/2-element.getName().length()*3-6,
                 ((TermElement)element).getPosition().getSecond()+((TermElement)element).getSize().getSecond()/2+5);
     }
 

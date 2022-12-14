@@ -17,6 +17,8 @@ public class ActionManager {
     private MoveElementAction moveElementAction;
     private SelectElementAction selectElementAction;
     private MapOptionsAction mapOptionsAction;
+    private ZoomInAction zoomInAction;
+    private ZoomOutAction zoomOutAction;
 
     public ActionManager(){
         initialiseActions();
@@ -34,5 +36,7 @@ public class ActionManager {
         this.moveElementAction = new MoveElementAction();
         this.selectElementAction = new SelectElementAction();
         this.mapOptionsAction = new MapOptionsAction();
+        this.zoomInAction = new ZoomInAction();
+        this.zoomOutAction = new ZoomOutAction();
     }
 }

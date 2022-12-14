@@ -27,9 +27,9 @@ public class RelationPainter extends ElementPainter{
         if(relationElement.getToTerm() == null)
             setBounds();
         else {
-            relationElement.getStart().setFirst(relationElement.getFromTerm().getPosition().getFirst()+35);
+            relationElement.getStart().setFirst(relationElement.getFromTerm().getPosition().getFirst() + relationElement.getFromTerm().getSize().getFirst()/2);
             relationElement.getStart().setSecond(relationElement.getFromTerm().getPosition().getSecond()+15);
-            relationElement.getEnd().setFirst(relationElement.getToTerm().getPosition().getFirst()+35);
+            relationElement.getEnd().setFirst(relationElement.getToTerm().getPosition().getFirst() + relationElement.getToTerm().getSize().getFirst()/2);
             relationElement.getEnd().setSecond(relationElement.getToTerm().getPosition().getSecond()+15);
         }
 

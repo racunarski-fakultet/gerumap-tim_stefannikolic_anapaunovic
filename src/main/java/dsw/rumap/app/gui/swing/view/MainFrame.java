@@ -8,23 +8,32 @@ import dsw.rumap.app.gui.swing.tree.MapTreeImpl;
 import dsw.rumap.app.msggenerator.Message;
 import dsw.rumap.app.msggenerator.MessageType;
 import dsw.rumap.app.msggenerator.Problem;
+import dsw.rumap.app.observer.IPublisher;
 import dsw.rumap.app.observer.ISubscriber;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowListener;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
-public class MainFrame extends JFrame implements ISubscriber {
+public class MainFrame extends JFrame implements ISubscriber, IPublisher {
     private static MainFrame instance;
     private ActionManager actionManager;
     private JMenuBar menu;
     private JToolBar menuToolBar;
     private JToolBar mindMapToolBar;
     private MapTree mapTree;
+    private JPanel eastPanel;
     private ProjectView projectView;
+    private List<ISubscriber> subscriberList;
 
     private MainFrame(){}
 
@@ -44,6 +53,7 @@ public class MainFrame extends JFrame implements ISubscriber {
     }
 
     private void initialiseGUI(){
+        subscriberList = new ArrayList<>();
         Toolkit kit = Toolkit.getDefaultToolkit();
         Dimension screenSize = kit.getScreenSize();
         int screenHeight = screenSize.height;
@@ -56,6 +66,7 @@ public class MainFrame extends JFrame implements ISubscriber {
         setJMenuBar(menu);
 
         menuToolBar = new MenuToolbar();
+        //menuToolBar.setVisible(false);
         this.add(menuToolBar, BorderLayout.NORTH);
 
         mindMapToolBar = new MindMapToolBar();
@@ -64,7 +75,7 @@ public class MainFrame extends JFrame implements ISubscriber {
         Button optionsBtn = new Button("Options");
         optionsBtn.setPreferredSize(new Dimension(33, 33));
         optionsBtn.addActionListener(actionManager.getMapOptionsAction());
-        JPanel eastPanel = new JPanel(new BorderLayout());
+        eastPanel = new JPanel(new BorderLayout());
         eastPanel.add(mindMapToolBar, BorderLayout.NORTH);
         eastPanel.add(optionsBtn, BorderLayout.SOUTH);
 
@@ -100,5 +111,37 @@ public class MainFrame extends JFrame implements ISubscriber {
         else if(type.equals(MessageType.ERROR)){
             JOptionPane.showMessageDialog(this,message,"Error",JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+    @Override
+    public void subscribe(ISubscriber sub) {
+        this.subscriberList.add(sub);
+    }
+
+    @Override
+    public void unsubscribe(ISubscriber sub) {
+        this.subscriberList.remove(sub);
+    }
+
+    @Override
+    public void notify(Object notification) {
+        for (ISubscriber sub :
+                subscriberList) {
+            sub.update(notification);
+        }
+    }
+
+    @Override
+    public void paint(Graphics g) {
+        super.paint(g);
+        notify(this);
+    }
+
+    public void hideMMTB(){
+        this.eastPanel.setVisible(false);
+    }
+
+    public void showMMTB(){
+        this.eastPanel.setVisible(true);
     }
 }

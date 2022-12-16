@@ -7,17 +7,15 @@ import dsw.rumap.app.observer.notification.NotificationType;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Random;
-
 @Getter
 @Setter
 public class Project extends MapNodeC {
 
-    private String autor;
+    private String author;
 
     public Project(String name, MapNode parent) {
         super(name, parent);
-        this.autor = new String("[Unesite naziv autora]");
+        this.author = new String("[Insert author name]");
     }
 
     public Project(MapNode parent){
@@ -54,8 +52,8 @@ public class Project extends MapNodeC {
         }
     }
     
-    public void setAutor(String autor) {
-        this.autor = autor;
+    public void setAuthor(String author) {
+        this.author = author;
         this.notify(new MyNotification(NotificationType.UPDATE_AUTOR));
     }
     @Override

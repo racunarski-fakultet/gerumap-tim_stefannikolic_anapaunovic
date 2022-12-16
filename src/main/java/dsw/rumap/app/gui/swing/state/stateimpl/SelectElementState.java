@@ -3,7 +3,9 @@ package dsw.rumap.app.gui.swing.state.stateimpl;
 import dsw.rumap.app.gui.swing.state.State;
 import dsw.rumap.app.gui.swing.view.MindMapView;
 import dsw.rumap.app.gui.swing.view.painters.ElementPainter;
+import dsw.rumap.app.gui.swing.view.painters.RelationPainter;
 import dsw.rumap.app.maprepository.implementation.elements.MapSelectionModel;
+import dsw.rumap.app.maprepository.implementation.elements.RelationElement;
 import dsw.rumap.app.maprepository.implementation.elements.TermElement;
 
 import java.awt.*;
@@ -11,18 +13,23 @@ import java.awt.geom.Rectangle2D;
 
 public class SelectElementState implements State {
 
-    private Rectangle2D selectionRec;
-    private int x1;
-    private int y1;
+    private int startX;
+    private int startY;
     private boolean found = false;
+    
     @Override
-    public void execute() {
-
-    }
+    public void execute() {}
 
     @Override
-    public void stateMousePressed(int x, int y, MindMapView mindMapView, int clickCount) {
-        MapSelectionModel selectedElements = mindMapView.getSelectedElements();
+    public void stateMousePressed(int x, int y, MindMapView mindMapView) {
+
+        x -= mindMapView.getTranslate().getFirst();
+        y -= mindMapView.getTranslate().getSecond();
+
+        x /= mindMapView.getScale();
+        y /= mindMapView.getScale();
+
+        MapSelectionModel selectedElements = mindMapView.getMapSelectionModel();
         found = false;
         for (ElementPainter ep :
                 mindMapView.getPainters()) {
@@ -36,34 +43,59 @@ public class SelectElementState implements State {
             }
         }
         if(found == false){
-            selectionRec = mindMapView.getSelectionR(x,y,0,0);
+            mindMapView.setSelectionRec(x,y,0,0);
             selectedElements.clear();
-            this.x1 = x;
-            this.y1 = y;
+            this.startX = x;
+            this.startY = y;
         }
-    }
-
-    @Override
-    public void stateMouseReleased(int x, int y, MindMapView mindMapView) {
-        //if(mindMapView.getSelection() != null)
-          //  mindMapView.setLastCoordinates((int) mindMapView.getSelection().getX(), (int) mindMapView.getSelection().getY());
-        mindMapView.setCoordinates(0,0,0,0);//?
     }
 
     @Override
     public void stateMouseDragged(int x, int y, MindMapView mindMapView) {
+
+        x -= mindMapView.getTranslate().getFirst();
+        y -= mindMapView.getTranslate().getSecond();
+
+        x /= mindMapView.getScale();
+        y /= mindMapView.getScale();
+
         if (found == true)
             return;
 
-        mindMapView.setCoordinates(x1,y1,x-x1,y-y1);
-        for(ElementPainter painter: mindMapView.getPainters()){
-            TermElement element = (TermElement) painter.getElement();
+        if(x < startX && y < startY)
+            mindMapView.setSelectionRec(x, y, startX-x, startY-y);
+        else if(x < startX)
+            mindMapView.setSelectionRec(x, startY, startX-x,y-startY);
+        else if(y < startY)
+            mindMapView.setSelectionRec(startX, y,x-startX, startY-y);
+        else mindMapView.setSelectionRec(startX, startY, x-startX, y-startY);
 
-            if(selectionRec.intersects(element.getPosition().getFirst(),element.getPosition().getSecond(),element.getSize().getFirst(),element.getSize().getSecond())){
-                    mindMapView.getSelectedElements().select(element);
+        for(ElementPainter painter: mindMapView.getPainters()){
+            if(painter instanceof RelationPainter) {
+                RelationElement relationElement = (RelationElement) painter.getElement();
+                if (mindMapView.getSelectionRec().intersectsLine(relationElement.getStart().getFirst(), relationElement.getStart().getSecond(), relationElement.getEnd().getFirst(), relationElement.getEnd().getSecond()))
+                    mindMapView.getMapSelectionModel().select(relationElement);
+                else mindMapView.getMapSelectionModel().unselect(relationElement);
             }
-            else mindMapView.getSelectedElements().unselect(element);
+
+            else {
+                TermElement termElement = (TermElement) painter.getElement();
+                if (mindMapView.getSelectionRec().intersects(termElement.getPosition().getFirst(), termElement.getPosition().getSecond(), termElement.getSize().getFirst(), termElement.getSize().getSecond()))
+                    mindMapView.getMapSelectionModel().select(termElement);
+                else mindMapView.getMapSelectionModel().unselect(termElement);
+            }
         }
     }
+    
+    @Override
+    public void stateMouseReleased(int x, int y, MindMapView mindMapView) {
 
+        x -= mindMapView.getTranslate().getFirst();
+        y -= mindMapView.getTranslate().getSecond();
+
+        x /= mindMapView.getScale();
+        y /= mindMapView.getScale();
+
+        mindMapView.setSelectionRec(0,0,0,0);
+    }
 }

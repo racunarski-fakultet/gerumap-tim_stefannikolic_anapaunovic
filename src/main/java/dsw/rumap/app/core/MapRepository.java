@@ -9,7 +9,7 @@ public interface MapRepository {
     ProjectExplorer getProjectExplorer();
     public void addChild(MapNode parent, MapNode child);
     public void removeChild(MapNode parent, MapNode child);
-    public void setAutor(String autor, MapNode proj);
+    public void setAuthor(String author, MapNode proj);
     public MapNodeFactory getMapNodeFactory(MapNode parent);
     public boolean changeName(String name, MapNode node, MapNode parent);
 }

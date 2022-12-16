@@ -7,17 +7,19 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
-public class AddTermAction extends AbstractRumapActions {
+public class ZoomInAction extends AbstractRumapActions {
 
-    public AddTermAction() {
+    public ZoomInAction() {
         putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_D, ActionEvent.CTRL_MASK));
         putValue(SMALL_ICON, loadIcon("/images/delete.png"));
-        putValue(NAME, "AddTerm");
-        putValue(SHORT_DESCRIPTION, "New Term");
+        putValue(NAME, "ZoomIn");
+        putValue(SHORT_DESCRIPTION, "Zoom In");
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        MainFrame.getInstance().getProjectView().startAddTermState();
+        if(MainFrame.getInstance().getProjectView() == null || MainFrame.getInstance().getProjectView().getCurrentMindMapView() == null)
+            return;
+        MainFrame.getInstance().getProjectView().getCurrentMindMapView().zoomIn();
     }
 }

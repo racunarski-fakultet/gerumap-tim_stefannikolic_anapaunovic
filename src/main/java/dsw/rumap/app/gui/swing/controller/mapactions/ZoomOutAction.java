@@ -7,17 +7,19 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
-public class AddTermAction extends AbstractRumapActions {
+public class ZoomOutAction extends AbstractRumapActions {
 
-    public AddTermAction() {
+    public ZoomOutAction() {
         putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_D, ActionEvent.CTRL_MASK));
         putValue(SMALL_ICON, loadIcon("/images/delete.png"));
-        putValue(NAME, "AddTerm");
-        putValue(SHORT_DESCRIPTION, "New Term");
+        putValue(NAME, "ZoomOut");
+        putValue(SHORT_DESCRIPTION, "Zoom Out");
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        MainFrame.getInstance().getProjectView().startAddTermState();
+        if(MainFrame.getInstance().getProjectView() == null || MainFrame.getInstance().getProjectView().getCurrentMindMapView() == null)
+            return;
+        MainFrame.getInstance().getProjectView().getCurrentMindMapView().zoomOut();
     }
 }

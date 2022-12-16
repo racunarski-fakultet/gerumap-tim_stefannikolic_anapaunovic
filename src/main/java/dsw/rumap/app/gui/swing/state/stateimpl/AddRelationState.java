@@ -22,8 +22,15 @@ public class AddRelationState implements State {
     }
 
     @Override
-    public void stateMousePressed(int x, int y, MindMapView mindMapView, int clickCount) {
+    public void stateMousePressed(int x, int y, MindMapView mindMapView) {
         MindMap mindMap = mindMapView.getModel();
+
+        x -= mindMapView.getTranslate().getFirst();
+        y -= mindMapView.getTranslate().getSecond();
+
+        x /= mindMapView.getScale();
+        y /= mindMapView.getScale();
+
         for (ElementPainter ep :
                 mindMapView.getPainters()) {
             if(ep.elementAt(new Point(x, y))) {
@@ -36,15 +43,28 @@ public class AddRelationState implements State {
         }
     }
 
-
     @Override
     public void stateMouseDragged(int x, int y, MindMapView mindMapView) {
+
+        x -= mindMapView.getTranslate().getFirst();
+        y -= mindMapView.getTranslate().getSecond();
+
+        x /= mindMapView.getScale();
+        y /= mindMapView.getScale();
+
         if(currentEP == null) return;
         ((RelationElement) currentEP.getElement()).setEnd(new Pair<>(x, y));
     }
 
     @Override
     public void stateMouseReleased(int x, int y, MindMapView mindMapView) {
+
+        x -= mindMapView.getTranslate().getFirst();
+        y -= mindMapView.getTranslate().getSecond();
+
+        x /= mindMapView.getScale();
+        y /= mindMapView.getScale();
+
         if(currentEP == null) return;
         boolean found = false;
         for (ElementPainter ep :
@@ -57,7 +77,7 @@ public class AddRelationState implements State {
             }
         }
 
-        if(!found){
+        if(!found || ((RelationElement) currentEP.getElement()).getFromTerm() == ((RelationElement) currentEP.getElement()).getToTerm()){
             mindMapView.removePainter(currentEP);
             mindMapView.getModel().delete(currentEP.getElement());
         }

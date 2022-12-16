@@ -1,7 +1,6 @@
 package dsw.rumap.app.gui.swing.view;
 
 import javax.swing.*;
-import java.awt.*;
 
 public class MindMapToolBar extends JToolBar {
     public MindMapToolBar() {
@@ -17,5 +16,9 @@ public class MindMapToolBar extends JToolBar {
         add(MainFrame.getInstance().getActionManager().getMoveElementAction());
         //addSeparator();
         add(MainFrame.getInstance().getActionManager().getDeleteElementAction());
+        //addSeparator();
+        add(MainFrame.getInstance().getActionManager().getZoomInAction());
+        //addSeparator();
+        add(MainFrame.getInstance().getActionManager().getZoomOutAction());
     }
 }

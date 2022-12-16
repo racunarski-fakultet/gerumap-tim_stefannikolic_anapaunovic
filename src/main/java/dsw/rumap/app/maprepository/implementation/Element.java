@@ -11,7 +11,6 @@ import lombok.Setter;
 import java.awt.*;
 
 @Getter
-@Setter
 public abstract class Element extends MapNode {
 
     private Integer stroke;

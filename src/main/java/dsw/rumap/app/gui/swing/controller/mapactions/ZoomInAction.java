@@ -18,6 +18,8 @@ public class ZoomInAction extends AbstractRumapActions {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        if(MainFrame.getInstance().getProjectView() == null || MainFrame.getInstance().getProjectView().getCurrentMindMapView() == null)
+            return;
         MainFrame.getInstance().getProjectView().getCurrentMindMapView().zoomIn();
     }
 }

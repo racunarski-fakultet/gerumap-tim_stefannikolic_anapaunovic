@@ -18,6 +18,13 @@ public class DeleteElementState implements State {
 
     @Override
     public void stateMousePressed(int x, int y, MindMapView mindMapView) {
+
+        x -= mindMapView.getTranslate().getFirst();
+        y -= mindMapView.getTranslate().getSecond();
+
+        x /= mindMapView.getScale();
+        y /= mindMapView.getScale();
+
         ElementPainter currentPainter = null;
         List<ElementPainter> toRemove = new ArrayList<>();
         for (ElementPainter ep :
@@ -51,14 +58,14 @@ public class DeleteElementState implements State {
         mindMapView.getModel().delete(currentPainter.getElement());
     }
 
+    @Override
+    public void stateMouseDragged(int x, int y, MindMapView mindMapView) {
+
+    }
 
     @Override
     public void stateMouseReleased(int x, int y, MindMapView mindMapView) {
 
     }
 
-    @Override
-    public void stateMouseDragged(int x, int y, MindMapView mindMapView) {
-
-    }
 }

@@ -1,6 +1,7 @@
 package dsw.rumap.app.gui.swing.view.painters;
 
 
+import dsw.rumap.app.gui.swing.view.MainFrame;
 import dsw.rumap.app.maprepository.implementation.Element;
 import dsw.rumap.app.maprepository.implementation.elements.RelationElement;
 
@@ -34,8 +35,22 @@ public class RelationPainter extends ElementPainter{
         }
 
         setBounds();
-        g.setPaint(element.getColor());
-        g.setStroke(new BasicStroke(element.getStroke()));
+        if(MainFrame.getInstance().getProjectView().getCurrentMindMapView().getMapSelectionModel().isSelected(this.getElement())){
+
+            float[] dash1 = { 5f, 0f, 5f };
+            BasicStroke bs1 = new BasicStroke(element.getStroke(),
+                    BasicStroke.CAP_BUTT,
+                    BasicStroke.JOIN_ROUND,
+                    1.0f,
+                    dash1,
+                    2f);
+            g.setStroke(bs1);
+            g.setPaint(Color.RED);
+        }
+        else {
+            g.setPaint(Color.GREEN);
+            g.setStroke(new BasicStroke(element.getStroke()));
+        }
         g.draw(shape);
         g.setPaint(element.getColor());
         g.fill(shape);

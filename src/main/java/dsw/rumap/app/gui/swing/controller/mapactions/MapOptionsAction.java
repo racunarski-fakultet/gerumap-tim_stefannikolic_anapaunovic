@@ -1,8 +1,10 @@
 package dsw.rumap.app.gui.swing.controller.mapactions;
 
+import dsw.rumap.app.AppCore;
 import dsw.rumap.app.gui.swing.controller.AbstractRumapActions;
 import dsw.rumap.app.gui.swing.view.MainFrame;
 import dsw.rumap.app.maprepository.implementation.Element;
+import dsw.rumap.app.msggenerator.Problem;
 import lombok.Getter;
 
 import javax.swing.*;
@@ -47,8 +49,8 @@ public class MapOptionsAction extends AbstractRumapActions {
                 Color color = getColorChooser().getColor();
                 try {
                     Integer strokeInt = Integer.parseInt(stroke);
-                    if(MainFrame.getInstance().getProjectView().getCurrentMindMapView() == null){
-                        //todo greska
+                    if(MainFrame.getInstance().getProjectView() == null || MainFrame.getInstance().getProjectView().getCurrentMindMapView() == null){
+                        AppCore.getInstance().getMsgGenerator().createMessage(Problem.ELEMENTS_ARE_NOT_SELECTED);
                         return;
                     }
                     for (Element element :
@@ -59,8 +61,7 @@ public class MapOptionsAction extends AbstractRumapActions {
 
                 }
                 catch (NumberFormatException n){
-                    //todo popup da za vrednost strok-a mora da se unese broj
-                    System.out.println("Mora broj");
+                    AppCore.getInstance().getMsgGenerator().createMessage(Problem.STROKE_HAS_TO_BE_NUMBER);
                 }
                 close();
             }

@@ -1,5 +1,6 @@
 package dsw.rumap.app.gui.swing.view;
 
+import com.sun.tools.javac.Main;
 import dsw.rumap.app.AppCore;
 import dsw.rumap.app.gui.swing.state.StateManager;
 import dsw.rumap.app.maprepository.composite.MapNode;
@@ -14,6 +15,8 @@ import lombok.Setter;
 
 
 import javax.swing.*;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.util.HashMap;
 
 @Getter
@@ -99,15 +102,16 @@ public class ProjectView extends JPanel implements ISubscriber {
         this.model = model;
         this.model.subscribe(this);
         this.fillView(model);
+        MainFrame.getInstance().showMMTB();
     }
 
     private void fillView(Project model) {
-
+        MainFrame.getInstance().showMMTB();
         this.label.setText(model.getName());
         this.author.setText("Author: " + model.getAuthor());
 
-        Integer totalTabs = tabbedPane.getTabCount();
-        Integer tabCounter = 0;
+        int totalTabs = tabbedPane.getTabCount();
+        int tabCounter = 0;
         for (MapNode mapNode : model.getChildren()) {
 
             MindMap mindMap = (MindMap) mapNode;
@@ -117,7 +121,7 @@ public class ProjectView extends JPanel implements ISubscriber {
             if (tabCounter < totalTabs) {
                 tabbedPane.setTitleAt(tabCounter, mindMap.getName());
                 if(mapViews.containsKey(key)){
-                    tabbedPane.setComponentAt(tabCounter, new MapScrollPane(mapViews.get(key)));
+                    tabbedPane.setComponentAt(tabCounter, mapViews.get(key));
                 }
                 else {
                     tabbedPane.setComponentAt(tabCounter, new MapScrollPane(createMindMapView(mindMap)));
@@ -126,7 +130,7 @@ public class ProjectView extends JPanel implements ISubscriber {
             }
             else {
                 if(mapViews.containsKey(key)){
-                    tabbedPane.addTab(mindMap.getName(), new MapScrollPane(mapViews.get(key)));
+                    tabbedPane.addTab(mindMap.getName(), mapViews.get(key));
                 }
                 else {
                     tabbedPane.addTab(mindMap.getName(), new MapScrollPane(createMindMapView(mindMap)));
@@ -134,7 +138,7 @@ public class ProjectView extends JPanel implements ISubscriber {
             }
         }
 
-        Integer deleteInd = tabCounter;
+        int deleteInd = tabCounter;
         while (tabCounter < totalTabs) {
             tabbedPane.remove(deleteInd);
             tabCounter++;
@@ -153,10 +157,17 @@ public class ProjectView extends JPanel implements ISubscriber {
         this.label.setText("[Select Project]");
         this.author.setText("");
         this.tabbedPane.removeAll();
+        MainFrame.getInstance().hideMMTB();
     }
 
     public MindMapView getCurrentMindMapView() {
-        return (MindMapView) ((JScrollPane) tabbedPane.getSelectedComponent()).getViewport().getView();
+        if(tabbedPane.getSelectedComponent() == null || ((MapScrollPane) (tabbedPane.getSelectedComponent())).getMindMapView() == null)
+            return null;
+        return ((MapScrollPane) (tabbedPane.getSelectedComponent())).getMindMapView();
+    }
+
+    public MapScrollPane getCurrentMapScrollPane(){
+        return ((MapScrollPane) (tabbedPane.getSelectedComponent()));
     }
 
     public void startAddRelationState(){this.stateManager.setAddRelationState();}
@@ -178,4 +189,6 @@ public class ProjectView extends JPanel implements ISubscriber {
     public void medMouseDragged(int x, int y, MindMapView mindMapView){ this.stateManager.getCurrentState().stateMouseDragged(x, y, mindMapView);}
 
     public void medMouseReleased(int x, int y, MindMapView mindMapView){ this.stateManager.getCurrentState().stateMouseReleased(x, y, mindMapView);}
+
+
 }

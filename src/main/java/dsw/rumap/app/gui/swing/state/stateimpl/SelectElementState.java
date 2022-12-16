@@ -22,6 +22,13 @@ public class SelectElementState implements State {
 
     @Override
     public void stateMousePressed(int x, int y, MindMapView mindMapView) {
+
+        x -= mindMapView.getTranslate().getFirst();
+        y -= mindMapView.getTranslate().getSecond();
+
+        x /= mindMapView.getScale();
+        y /= mindMapView.getScale();
+
         MapSelectionModel selectedElements = mindMapView.getMapSelectionModel();
         found = false;
         for (ElementPainter ep :
@@ -45,6 +52,13 @@ public class SelectElementState implements State {
 
     @Override
     public void stateMouseDragged(int x, int y, MindMapView mindMapView) {
+
+        x -= mindMapView.getTranslate().getFirst();
+        y -= mindMapView.getTranslate().getSecond();
+
+        x /= mindMapView.getScale();
+        y /= mindMapView.getScale();
+
         if (found == true)
             return;
 
@@ -61,18 +75,27 @@ public class SelectElementState implements State {
                 RelationElement relationElement = (RelationElement) painter.getElement();
                 if (mindMapView.getSelectionRec().intersectsLine(relationElement.getStart().getFirst(), relationElement.getStart().getSecond(), relationElement.getEnd().getFirst(), relationElement.getEnd().getSecond()))
                     mindMapView.getMapSelectionModel().select(relationElement);
+                else mindMapView.getMapSelectionModel().unselect(relationElement);
             }
 
             else {
                 TermElement termElement = (TermElement) painter.getElement();
                 if (mindMapView.getSelectionRec().intersects(termElement.getPosition().getFirst(), termElement.getPosition().getSecond(), termElement.getSize().getFirst(), termElement.getSize().getSecond()))
                     mindMapView.getMapSelectionModel().select(termElement);
+                else mindMapView.getMapSelectionModel().unselect(termElement);
             }
         }
     }
     
     @Override
     public void stateMouseReleased(int x, int y, MindMapView mindMapView) {
+
+        x -= mindMapView.getTranslate().getFirst();
+        y -= mindMapView.getTranslate().getSecond();
+
+        x /= mindMapView.getScale();
+        y /= mindMapView.getScale();
+
         mindMapView.setSelectionRec(0,0,0,0);
     }
 }

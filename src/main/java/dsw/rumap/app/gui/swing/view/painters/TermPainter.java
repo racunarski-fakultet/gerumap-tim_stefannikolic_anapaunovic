@@ -1,5 +1,6 @@
 package dsw.rumap.app.gui.swing.view.painters;
 
+import dsw.rumap.app.gui.swing.view.MainFrame;
 import dsw.rumap.app.gui.swing.view.MindMapView;
 import dsw.rumap.app.maprepository.implementation.Element;
 import dsw.rumap.app.maprepository.implementation.elements.TermElement;
@@ -20,8 +21,15 @@ public class TermPainter extends ElementPainter{
     @Override
     public void draw(Graphics2D g) {
         ((Ellipse2D)shape).setFrame(termElement.getPosition().getFirst(), termElement.getPosition().getSecond(), termElement.getSize().getFirst(), termElement.getSize().getSecond());
-        g.setPaint(Color.BLACK);
-        g.setStroke(new BasicStroke(element.getStroke()));
+
+        if(MainFrame.getInstance().getProjectView().getCurrentMindMapView().getMapSelectionModel().isSelected(this.getElement())){
+            g.setStroke(new BasicStroke(element.getStroke()+2));
+            g.setPaint(Color.RED);
+        }
+        else {
+            g.setPaint(Color.BLACK);
+            g.setStroke(new BasicStroke(element.getStroke()));
+        }
         g.draw(shape);
         g.setPaint(element.getColor());
         g.fill(shape);

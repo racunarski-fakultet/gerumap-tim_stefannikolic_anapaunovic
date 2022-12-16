@@ -35,10 +35,19 @@ public class MessageGeneratorImpl implements MessageGenerator {
             message = new Message(MessageType.INFORMATION, event);
 
         else if(event.equals(Problem.NODE_CANNOT_HAVE_CHILDREN))
-            message = new Message(MessageType.ERROR,event);
+            message = new Message(MessageType.ERROR, event);
 
-        else if(event.equals(Problem.SELECTED_NODE_IS_NOT_PROJECT))
-            message = new Message(MessageType.ERROR,event);
+        else if(event.equals(Problem.STROKE_HAS_TO_BE_NUMBER))
+            message = new Message(MessageType.ERROR, event);
+
+        else if(event.equals(Problem.ELEMENTS_ARE_NOT_SELECTED))
+            message = new Message(MessageType.ERROR, event);
+
+        else if(event.equals(Problem.ZOOM_IS_AT_MAX))
+            message = new Message(MessageType.INFORMATION, event);
+
+        else if(event.equals(Problem.ZOOM_IS_AT_MIN))
+            message = new Message(MessageType.INFORMATION, event);
 
         this.notify(message);
     }

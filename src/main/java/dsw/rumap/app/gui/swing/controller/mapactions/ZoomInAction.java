@@ -11,7 +11,7 @@ public class ZoomInAction extends AbstractRumapActions {
 
     public ZoomInAction() {
         putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_D, ActionEvent.CTRL_MASK));
-        putValue(SMALL_ICON, loadIcon("/images/delete.png"));
+        putValue(SMALL_ICON, loadIcon("/images/zoom.png"));
         putValue(NAME, "ZoomIn");
         putValue(SHORT_DESCRIPTION, "Zoom In");
     }

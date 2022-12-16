@@ -11,7 +11,7 @@ public class ZoomOutAction extends AbstractRumapActions {
 
     public ZoomOutAction() {
         putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_D, ActionEvent.CTRL_MASK));
-        putValue(SMALL_ICON, loadIcon("/images/delete.png"));
+        putValue(SMALL_ICON, loadIcon("/images/zoom-out.png"));
         putValue(NAME, "ZoomOut");
         putValue(SHORT_DESCRIPTION, "Zoom Out");
     }

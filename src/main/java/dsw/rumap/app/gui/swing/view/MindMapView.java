@@ -96,6 +96,11 @@ public class MindMapView extends JPanel implements ISubscriber, IPublisher, Adju
 
         MainFrame.getInstance().getProjectView().getCurrentMapScrollPane().getHorizontalScrollBar().setMaximum(((int)(20*Math.pow(affineTransform.getScaleX(), 5))+ Math.max(100, getFPoints().getFirst())) / step);
         MainFrame.getInstance().getProjectView().getCurrentMapScrollPane().getVerticalScrollBar().setMaximum(((int)(20*Math.pow(affineTransform.getScaleX(), 5))+ Math.max(100, getFPoints().getSecond())) / step);
+        System.out.println("H scroll: "+MainFrame.getInstance().getProjectView().getCurrentMapScrollPane().getHorizontalScrollBar().getMaximum()*5);
+        System.out.println("V scroll: "+MainFrame.getInstance().getProjectView().getCurrentMapScrollPane().getVerticalScrollBar().getMaximum()*5);
+        System.out.println("razlika x: "+ (MainFrame.getInstance().getProjectView().getCurrentMapScrollPane().getHorizontalScrollBar().getMaximum()*5 - getFPoints().getFirst()));
+        System.out.println("max x: "+getFPoints().getFirst());
+        System.out.println("max y: "+getFPoints().getSecond());
 
 
         float[] dash1 = {2f, 0f, 2f};
@@ -205,18 +210,15 @@ public class MindMapView extends JPanel implements ISubscriber, IPublisher, Adju
 
     @Override
     public void adjustmentValueChanged(AdjustmentEvent e) {
-        //int step = 5;
         if (((JScrollBar) e.getSource()).getOrientation() == 0) {
             double prevX = affineTransform.getTranslateX() + (oldHscValue - e.getValue()) * step * (Math.pow(affineTransform.getScaleX(), 5));
             affineTransform.translate((oldHscValue - e.getValue()) * step * Math.pow(affineTransform.getScaleX(), 5), 0);
             affineTransform.translate((prevX - affineTransform.getTranslateX()), 0);
-            //translate.setFirst((double) (e.getValue()));
             oldHscValue = e.getValue();
         } else {
             double prevY = affineTransform.getTranslateY() + (oldVscValue - e.getValue()) * step * Math.pow(affineTransform.getScaleX(), 5);
             affineTransform.translate(0, (oldVscValue - e.getValue()) * step * Math.pow(affineTransform.getScaleX(), 5));
             affineTransform.translate(0, (prevY - affineTransform.getTranslateY()));
-            //translate.setSecond((double) (e.getValue()));
             oldVscValue = e.getValue();
         }
 
@@ -232,12 +234,14 @@ public class MindMapView extends JPanel implements ISubscriber, IPublisher, Adju
 
     @Override
     public void subscribe(ISubscriber sub) {
-        this.subscribers.add(sub);
+        if(!subscribers.contains(sub))
+            this.subscribers.add(sub);
     }
 
     @Override
     public void unsubscribe(ISubscriber sub) {
-        this.subscribers.remove(sub);
+        if(subscribers.contains(sub))
+            this.subscribers.remove(sub);
     }
 
     @Override

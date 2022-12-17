@@ -32,3 +32,16 @@
 [INFORMATION] [17.12.2022 21:01] Maksimalno je odzumirano.
 [ERROR] [17.12.2022 21:13] Morate selektovati polje.
 [INFORMATION] [17.12.2022 21:13] Unešeno ime već postoji.
+[INFORMATION] [17.12.2022 21:44] Unešeno ime već postoji.
+[INFORMATION] [17.12.2022 21:44] Maksimalno je odzumirano.
+[INFORMATION] [17.12.2022 21:45] Unešeno ime već postoji.
+[INFORMATION] [17.12.2022 21:45] Unešeno ime već postoji.
+[WARNING] [17.12.2022 21:47] Morate uneti ime u polje.
+[INFORMATION] [17.12.2022 21:47] Maksimalno je odzumirano.
+[INFORMATION] [17.12.2022 21:48] Unešeno ime već postoji.
+[INFORMATION] [17.12.2022 21:50] Maksimalno je zomirano.
+[INFORMATION] [17.12.2022 21:53] Maksimalno je zomirano.
+[WARNING] [17.12.2022 22:01] Morate uneti ime u polje.
+[INFORMATION] [17.12.2022 22:01] Maksimalno je zomirano.
+[INFORMATION] [17.12.2022 22:06] Maksimalno je odzumirano.
+[INFORMATION] [17.12.2022 22:08] Unešeno ime već postoji.

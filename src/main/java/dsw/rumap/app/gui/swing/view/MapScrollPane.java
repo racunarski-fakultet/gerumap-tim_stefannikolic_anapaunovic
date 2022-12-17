@@ -30,7 +30,6 @@ public class MapScrollPane extends JPanel implements ISubscriber, ComponentListe
         horizontalScrollBar.setVisible(true);
         verticalScrollBar.setVisible(true);
         mindMapView.subscribe(this);
-        System.out.println(verticalScrollBar.getMaximum());
 
     }
 

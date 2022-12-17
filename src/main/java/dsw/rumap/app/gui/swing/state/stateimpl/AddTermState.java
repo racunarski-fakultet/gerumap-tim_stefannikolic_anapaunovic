@@ -49,8 +49,6 @@ public class AddTermState implements State {
         //TODO treba da se prodje kroz listu cvorova u stablu da se nadje taj i da se doda
         //MainFrame.getInstance().getMapTree().addChild(mindMap, element);
 
-        //mindMapView.bul = true;
-        System.out.println("-------------------------------------------------------------------------Clicked at: " + x + ":" + y);
     }
 
 

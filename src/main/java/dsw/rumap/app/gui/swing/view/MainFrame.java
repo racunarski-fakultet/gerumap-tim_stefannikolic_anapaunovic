@@ -66,7 +66,6 @@ public class MainFrame extends JFrame implements ISubscriber, IPublisher {
         setJMenuBar(menu);
 
         menuToolBar = new MenuToolbar();
-        //menuToolBar.setVisible(false);
         this.add(menuToolBar, BorderLayout.NORTH);
 
         mindMapToolBar = new MindMapToolBar();
@@ -80,6 +79,7 @@ public class MainFrame extends JFrame implements ISubscriber, IPublisher {
         eastPanel.add(optionsBtn, BorderLayout.SOUTH);
 
         this.add(eastPanel, BorderLayout.EAST);
+        eastPanel.setVisible(false);
 
 
         JTree explorerTree = mapTree.generateTree(AppCore.getInstance().getMapRepository().getProjectExplorer());
@@ -127,7 +127,8 @@ public class MainFrame extends JFrame implements ISubscriber, IPublisher {
     public void notify(Object notification) {
         for (ISubscriber sub :
                 subscriberList) {
-            sub.update(notification);
+            if(sub != null)
+                sub.update(notification);
         }
     }
 

@@ -13,6 +13,8 @@ import dsw.rumap.app.maprepository.implementation.elements.TermElement;
 import dsw.rumap.app.msggenerator.Problem;
 import dsw.rumap.app.observer.IPublisher;
 import dsw.rumap.app.observer.ISubscriber;
+import dsw.rumap.app.observer.notification.MyNotification;
+import dsw.rumap.app.observer.notification.NotificationType;
 
 import javax.swing.*;
 import java.awt.*;
@@ -31,7 +33,6 @@ public class MindMapView extends JPanel implements ISubscriber, IPublisher, Adju
     private AffineTransform affineTransform;
     private double scaleFactor;
     private Pair<Double, Double> translate;
-    public boolean bul = false;
     List<ISubscriber> subscribers;
     private int oldVscValue;
     private int oldHscValue;
@@ -121,8 +122,20 @@ public class MindMapView extends JPanel implements ISubscriber, IPublisher, Adju
 
     @Override
     public void update(Object notification) {
-        this.repaint();
-        SwingUtilities.updateComponentTreeUI(this);
+
+        NotificationType notificationType;
+
+        if(notification instanceof MyNotification) {
+            notificationType = ((MyNotification) notification).getType();
+            if(notificationType.equals(NotificationType.MAP_DELETED)){
+                model.unsubscribe(this);
+                MainFrame.getInstance().unsubscribe(this);
+            }
+        }
+        else {
+            this.repaint();
+            SwingUtilities.updateComponentTreeUI(this);
+        }
     }
 
     public List<ElementPainter> getPainters(){
@@ -168,7 +181,6 @@ public class MindMapView extends JPanel implements ISubscriber, IPublisher, Adju
 
     public void zoomIn(){
         scaleFactor = 1.05;
-        bul = true;
 
         if(affineTransform.getScaleX() >= 1.9){
             AppCore.getInstance().getMsgGenerator().createMessage(Problem.ZOOM_IS_AT_MAX);

@@ -16,7 +16,7 @@ public class MapTreeSelectionListener implements TreeSelectionListener {
         TreePath treepath = e.getPath();
         MapTreeNode treeNodeSelected = (MapTreeNode) treepath.getLastPathComponent();
         //System.out.println("Selected node: " + treeNodeSelected);
-        System.out.println("Path to selected node: " + treepath);
+        //System.out.println("Path to selected node: " + treepath);
 
 
     }

@@ -48,7 +48,7 @@ public class RelationPainter extends ElementPainter{
             g.setPaint(Color.RED);
         }
         else {
-            g.setPaint(Color.GREEN);
+            g.setPaint(element.getColor());
             g.setStroke(new BasicStroke(element.getStroke()));
         }
         g.draw(shape);

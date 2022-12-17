@@ -26,7 +26,6 @@ public abstract class MapNode implements IPublisher {
 
     public MapNode(MapNode parent){}
 
-
     @Override
     public boolean equals(Object obj){
         if(obj != null && obj instanceof MapNode){
@@ -52,7 +51,6 @@ public abstract class MapNode implements IPublisher {
     public void unsubscribe(ISubscriber sub) {
         if(subscribers.contains(sub))subscribers.remove(sub);
     }
-
 
     @Override
     public void notify(Object notification) {

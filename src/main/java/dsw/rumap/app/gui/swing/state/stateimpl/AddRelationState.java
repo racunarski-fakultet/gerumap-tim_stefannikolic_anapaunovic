@@ -25,11 +25,8 @@ public class AddRelationState implements State {
     public void stateMousePressed(int x, int y, MindMapView mindMapView) {
         MindMap mindMap = mindMapView.getModel();
 
-        x -= mindMapView.getTranslate().getFirst();
-        y -= mindMapView.getTranslate().getSecond();
-
-        x /= mindMapView.getPcScale()*mindMapView.getScale();
-        y /= mindMapView.getPcScale()*mindMapView.getScale();
+        x = mindMapView.correctMouseX(x);
+        y = mindMapView.correctMouseY(y);
 
         for (ElementPainter ep :
                 mindMapView.getPainters()) {
@@ -46,11 +43,8 @@ public class AddRelationState implements State {
     @Override
     public void stateMouseDragged(int x, int y, MindMapView mindMapView) {
 
-        x -= mindMapView.getTranslate().getFirst();
-        y -= mindMapView.getTranslate().getSecond();
-
-        x /= mindMapView.getPcScale()*mindMapView.getScale();
-        y /= mindMapView.getPcScale()*mindMapView.getScale();
+        x = mindMapView.correctMouseX(x);
+        y = mindMapView.correctMouseY(y);
 
         if(currentEP == null) return;
         ((RelationElement) currentEP.getElement()).setEnd(new Pair<>(x, y));
@@ -59,11 +53,8 @@ public class AddRelationState implements State {
     @Override
     public void stateMouseReleased(int x, int y, MindMapView mindMapView) {
 
-        x -= mindMapView.getTranslate().getFirst();
-        y -= mindMapView.getTranslate().getSecond();
-
-        x /= mindMapView.getPcScale()*mindMapView.getScale();
-        y /= mindMapView.getPcScale()*mindMapView.getScale();
+        x = mindMapView.correctMouseX(x);
+        y = mindMapView.correctMouseY(y);
 
         if(currentEP == null) return;
         boolean found = false;

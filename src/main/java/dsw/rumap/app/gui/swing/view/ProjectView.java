@@ -35,7 +35,7 @@ public class ProjectView extends JPanel implements ISubscriber {
 
 
     public ProjectView(){
-        label = new JLabel("Selektujte projekat");
+        label = new JLabel("Select project");
         author = new JLabel("");
         tabbedPane = new JTabbedPane();
         //mapScrollPane = new MapScrollPane();
@@ -121,7 +121,7 @@ public class ProjectView extends JPanel implements ISubscriber {
             if (tabCounter < totalTabs) {
                 tabbedPane.setTitleAt(tabCounter, mindMap.getName());
                 if(mapViews.containsKey(key)){
-                    tabbedPane.setComponentAt(tabCounter, mapViews.get(key));
+                    tabbedPane.setComponentAt(tabCounter, new MapScrollPane(mapViews.get(key)));
                 }
                 else {
                     tabbedPane.setComponentAt(tabCounter, new MapScrollPane(createMindMapView(mindMap)));
@@ -130,7 +130,7 @@ public class ProjectView extends JPanel implements ISubscriber {
             }
             else {
                 if(mapViews.containsKey(key)){
-                    tabbedPane.addTab(mindMap.getName(), mapViews.get(key));
+                    tabbedPane.addTab(mindMap.getName(), new MapScrollPane(mapViews.get(key)));
                 }
                 else {
                     tabbedPane.addTab(mindMap.getName(), new MapScrollPane(createMindMapView(mindMap)));

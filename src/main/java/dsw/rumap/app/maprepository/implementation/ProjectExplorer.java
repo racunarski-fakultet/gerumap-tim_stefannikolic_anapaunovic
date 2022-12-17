@@ -15,7 +15,7 @@ public class ProjectExplorer extends MapNodeC {
     @Override
     public Integer makeNameForChild() {
         Integer nameNumber = this.getChildren().size() + 1;
-        while (this.checkName("Project" + nameNumber) == false) {
+        while (!this.checkName("Project" + nameNumber)) {
             nameNumber++;
         }
         return nameNumber;
@@ -23,21 +23,19 @@ public class ProjectExplorer extends MapNodeC {
 
     @Override
     public void add(MapNode child) {
-        if(child != null && child instanceof Project &&
+        if(child instanceof Project &&
                 !(this.getChildren().contains(child))){
             this.getChildren().add(child);
             //this.notify(this);
         }
-        return;
     }
 
     @Override
     public void delete(MapNode child) {
-        if(child != null && child instanceof Project &&
+        if(child instanceof Project &&
                 this.getChildren().contains(child)){
             this.getChildren().remove(child);
             this.notify(this);
-            System.out.println(this.getChildren().size());
         }
         this.notify(this);
     }

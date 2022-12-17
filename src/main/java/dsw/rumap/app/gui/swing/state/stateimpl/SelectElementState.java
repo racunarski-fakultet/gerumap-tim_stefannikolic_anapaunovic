@@ -7,9 +7,7 @@ import dsw.rumap.app.gui.swing.view.painters.RelationPainter;
 import dsw.rumap.app.maprepository.implementation.elements.MapSelectionModel;
 import dsw.rumap.app.maprepository.implementation.elements.RelationElement;
 import dsw.rumap.app.maprepository.implementation.elements.TermElement;
-
 import java.awt.*;
-import java.awt.geom.Rectangle2D;
 
 public class SelectElementState implements State {
 
@@ -23,11 +21,8 @@ public class SelectElementState implements State {
     @Override
     public void stateMousePressed(int x, int y, MindMapView mindMapView) {
 
-        x -= mindMapView.getTranslate().getFirst();
-        y -= mindMapView.getTranslate().getSecond();
-
-        x /= mindMapView.getScale();
-        y /= mindMapView.getScale();
+        x = mindMapView.correctMouseX(x);
+        y = mindMapView.correctMouseY(y);
 
         MapSelectionModel selectedElements = mindMapView.getMapSelectionModel();
         found = false;
@@ -42,7 +37,7 @@ public class SelectElementState implements State {
                 break;
             }
         }
-        if(found == false){
+        if(!found){
             mindMapView.setSelectionRec(x,y,0,0);
             selectedElements.clear();
             this.startX = x;
@@ -53,13 +48,10 @@ public class SelectElementState implements State {
     @Override
     public void stateMouseDragged(int x, int y, MindMapView mindMapView) {
 
-        x -= mindMapView.getTranslate().getFirst();
-        y -= mindMapView.getTranslate().getSecond();
+        x = mindMapView.correctMouseX(x);
+        y = mindMapView.correctMouseY(y);
 
-        x /= mindMapView.getScale();
-        y /= mindMapView.getScale();
-
-        if (found == true)
+        if (found)
             return;
 
         if(x < startX && y < startY)
@@ -89,13 +81,6 @@ public class SelectElementState implements State {
     
     @Override
     public void stateMouseReleased(int x, int y, MindMapView mindMapView) {
-
-        x -= mindMapView.getTranslate().getFirst();
-        y -= mindMapView.getTranslate().getSecond();
-
-        x /= mindMapView.getScale();
-        y /= mindMapView.getScale();
-
         mindMapView.setSelectionRec(0,0,0,0);
     }
 }

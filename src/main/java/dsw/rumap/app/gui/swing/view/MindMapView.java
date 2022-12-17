@@ -36,44 +36,45 @@ public class MindMapView extends JPanel implements ISubscriber, IPublisher, Adju
     List<ISubscriber> subscribers;
     private int oldVscValue;
     private int oldHscValue;
+    private double pcScale;
+    private boolean setPcScale;
+    int step;
 
 
-
-    public MindMapView(MindMap model){
+    public MindMapView(MindMap model) {
         BorderLayout borderLayout = new BorderLayout();
         this.setLayout(borderLayout);
         subscribers = new ArrayList<ISubscriber>();
-        this.model=model;
+        this.model = model;
         this.mapSelectionModel = new MapSelectionModel();
         mapSelectionModel.subscribe(this);
         int width = MainFrame.getInstance().getProjectView().getWidth();
         int height = MainFrame.getInstance().getProjectView().getHeight();
         //this.setPreferredSize(new Dimension(3000,1200));
-        this.setMinimumSize(new Dimension(5000,3500));
+        this.setMinimumSize(new Dimension(5000, 3500));
         //this.setMaximumSize(new Dimension(3000,1200));
         painters = new ArrayList<>();
         MindMapMouseController mmmC = new MindMapMouseController(this);
         this.addMouseListener(mmmC);
         this.addMouseMotionListener(mmmC);
         this.model.subscribe(this);
-        selectionRec = new Rectangle2D.Float(0,0,0,0);
+        selectionRec = new Rectangle2D.Float(0, 0, 0, 0);
         affineTransform = new AffineTransform();
-        affineTransform.scale(1,1);
-        scaleFactor = 1;
         oldVscValue = 0;
         oldHscValue = 0;
-
+        step = 5;
         translate = new Pair<Double, Double>((double) 0, (double) 0);
         MainFrame.getInstance().subscribe(this);
+        setPcScale = true;
 
     }
 
-    public void addPainter(ElementPainter painter){
+    public void addPainter(ElementPainter painter) {
         painters.add(painter);
         painter.getElement().subscribe(this);
     }
 
-    public void removePainter(ElementPainter painter){
+    public void removePainter(ElementPainter painter) {
         painters.remove(painter);
         painter.getElement().unsubscribe(this);
     }
@@ -84,14 +85,20 @@ public class MindMapView extends JPanel implements ISubscriber, IPublisher, Adju
 
         Graphics2D g2d = (Graphics2D) g;
         List<ElementPainter> terms = new ArrayList<>();
-
+        if (setPcScale) {
+            affineTransform = g2d.getTransform();
+            System.out.println(affineTransform.getScaleX());
+            pcScale = affineTransform.getScaleX();
+            step /= pcScale;
+            setPcScale = false;
+        }
         g2d.setTransform(affineTransform);
 
-        MainFrame.getInstance().getProjectView().getCurrentMapScrollPane().getHorizontalScrollBar().setMaximum((10+Math.max(100, getFPoints().getFirst()))/5);
-        MainFrame.getInstance().getProjectView().getCurrentMapScrollPane().getVerticalScrollBar().setMaximum((10+Math.max(100, getFPoints().getSecond()))/5);
+        MainFrame.getInstance().getProjectView().getCurrentMapScrollPane().getHorizontalScrollBar().setMaximum(((int)(20*Math.pow(affineTransform.getScaleX(), 5))+ Math.max(100, getFPoints().getFirst())) / step);
+        MainFrame.getInstance().getProjectView().getCurrentMapScrollPane().getVerticalScrollBar().setMaximum(((int)(20*Math.pow(affineTransform.getScaleX(), 5))+ Math.max(100, getFPoints().getSecond())) / step);
 
 
-        float[] dash1 = { 2f, 0f, 2f };
+        float[] dash1 = {2f, 0f, 2f};
         BasicStroke bs1 = new BasicStroke(1,
                 BasicStroke.CAP_BUTT,
                 BasicStroke.JOIN_ROUND,
@@ -103,21 +110,17 @@ public class MindMapView extends JPanel implements ISubscriber, IPublisher, Adju
 
         for (ElementPainter ep :
                 painters) {
-            if(ep instanceof TermPainter)
+            if (ep instanceof TermPainter)
                 terms.add(ep);
-            else drawPainter(ep, g2d);
+            else ep.draw(g2d);
         }
 
         for (ElementPainter ep :
                 terms) {
-            drawPainter(ep, g2d);
+            ep.draw(g2d);
         }
-
-    }
-
-    private void drawPainter(ElementPainter ep, Graphics2D g2d){
-
-        ep.draw(g2d);
+        System.out.println("trans: "+affineTransform.getTranslateX()+":"+affineTransform.getTranslateY());
+        System.out.println("scale"+ affineTransform.getScaleX());
     }
 
     @Override
@@ -125,46 +128,47 @@ public class MindMapView extends JPanel implements ISubscriber, IPublisher, Adju
 
         NotificationType notificationType;
 
-        if(notification instanceof MyNotification) {
+        if (notification instanceof MyNotification) {
             notificationType = ((MyNotification) notification).getType();
-            if(notificationType.equals(NotificationType.MAP_DELETED)){
+            if (notificationType.equals(NotificationType.MAP_DELETED)) {
                 model.unsubscribe(this);
                 MainFrame.getInstance().unsubscribe(this);
             }
-        }
-        else {
+        } else {
             this.repaint();
             SwingUtilities.updateComponentTreeUI(this);
         }
     }
 
-    public List<ElementPainter> getPainters(){
+    public List<ElementPainter> getPainters() {
         return painters;
     }
-    public MapSelectionModel getMapSelectionModel(){
+
+    public MapSelectionModel getMapSelectionModel() {
         return mapSelectionModel;
     }
-    public MindMap getModel(){
+
+    public MindMap getModel() {
         return this.model;
     }
 
     public Rectangle2D getSelectionRec() {
         return selectionRec;
     }
-    public void setSelectionRec(int x, int y, int w, int h){
-        selectionRec.setRect(x,y,w,h);
+
+    public void setSelectionRec(int x, int y, int w, int h) {
+        selectionRec.setRect(x, y, w, h);
         this.repaint();
     }
 
-    private void setUpTransformation(){
+    private void setUpTransformation() {
 
-        double prevX = affineTransform.getTranslateX();
-        double prevY = affineTransform.getTranslateY();
         affineTransform.scale(scaleFactor, scaleFactor);
 
-        if(Math.abs(affineTransform.getScaleX()-1) < 0.01){
+        if(Math.abs(affineTransform.getScaleX()-pcScale) < 0.01){
             AffineTransform newTransform = new AffineTransform();
             newTransform.translate(affineTransform.getTranslateX(), affineTransform.getTranslateY());
+            newTransform.scale(pcScale, pcScale);
             affineTransform.setTransform(newTransform);
         }
 
@@ -179,20 +183,20 @@ public class MindMapView extends JPanel implements ISubscriber, IPublisher, Adju
         this.repaint();
     }
 
-    public void zoomIn(){
+    public void zoomIn() {
         scaleFactor = 1.05;
 
-        if(affineTransform.getScaleX() >= 1.9){
+        if (affineTransform.getScaleX() >= 1.9) {
             AppCore.getInstance().getMsgGenerator().createMessage(Problem.ZOOM_IS_AT_MAX);
             return;
         }
         setUpTransformation();
     }
 
-    public void zoomOut(){
+    public void zoomOut() {
         scaleFactor = 0.95238;
 
-        if(affineTransform.getScaleX() <= 0.2){
+        if (affineTransform.getScaleX() <= 0.2 * pcScale) {
             AppCore.getInstance().getMsgGenerator().createMessage(Problem.ZOOM_IS_AT_MIN);
             return;
         }
@@ -201,24 +205,22 @@ public class MindMapView extends JPanel implements ISubscriber, IPublisher, Adju
 
     @Override
     public void adjustmentValueChanged(AdjustmentEvent e) {
-        int step = 5;
-        if(((JScrollBar)e.getSource()).getOrientation() == 0) {
-            double prevX = affineTransform.getTranslateX()+(oldHscValue - e.getValue())*step*affineTransform.getScaleX()*affineTransform.getScaleX();
-            affineTransform.translate((oldHscValue - e.getValue())*affineTransform.getScaleX()*step*affineTransform.getScaleX(), 0);
-            affineTransform.translate((prevX-affineTransform.getTranslateX()), 0);
-            translate.setFirst((double)(e.getValue()));
+        //int step = 5;
+        if (((JScrollBar) e.getSource()).getOrientation() == 0) {
+            double prevX = affineTransform.getTranslateX() + (oldHscValue - e.getValue()) * step * (Math.pow(affineTransform.getScaleX(), 5));
+            affineTransform.translate((oldHscValue - e.getValue()) * step * Math.pow(affineTransform.getScaleX(), 5), 0);
+            affineTransform.translate((prevX - affineTransform.getTranslateX()), 0);
+            //translate.setFirst((double) (e.getValue()));
             oldHscValue = e.getValue();
-        }
-
-        else {
-            double prevY = affineTransform.getTranslateY()+(oldVscValue - e.getValue())*step*affineTransform.getScaleX()*affineTransform.getScaleX();
-            affineTransform.translate(0, (oldVscValue - e.getValue())*step*affineTransform.getScaleX()*affineTransform.getScaleX());
-            affineTransform.translate(0, (prevY-affineTransform.getTranslateY()));
-            translate.setSecond((double)(e.getValue()));
+        } else {
+            double prevY = affineTransform.getTranslateY() + (oldVscValue - e.getValue()) * step * Math.pow(affineTransform.getScaleX(), 5);
+            affineTransform.translate(0, (oldVscValue - e.getValue()) * step * Math.pow(affineTransform.getScaleX(), 5));
+            affineTransform.translate(0, (prevY - affineTransform.getTranslateY()));
+            //translate.setSecond((double) (e.getValue()));
             oldVscValue = e.getValue();
         }
 
-        if(MainFrame.getInstance().getProjectView().getCurrentMapScrollPane().getVerticalScrollBar().getValue() == 0 && MainFrame.getInstance().getProjectView().getCurrentMapScrollPane().getHorizontalScrollBar().getValue() == 0){
+        if (MainFrame.getInstance().getProjectView().getCurrentMapScrollPane().getVerticalScrollBar().getValue() == 0 && MainFrame.getInstance().getProjectView().getCurrentMapScrollPane().getHorizontalScrollBar().getValue() == 0) {
             AffineTransform at = new AffineTransform();
             at.scale(affineTransform.getScaleX(), affineTransform.getScaleY());
             affineTransform.setTransform(at);
@@ -242,31 +244,49 @@ public class MindMapView extends JPanel implements ISubscriber, IPublisher, Adju
     public void notify(Object notification) {
         for (ISubscriber sub :
                 subscribers) {
-            sub.update(notification);
+            if(sub != null)
+                sub.update(notification);
         }
     }
 
-    public Pair<Integer, Integer> getTranslate(){
-        return new Pair<Integer, Integer>((int)(affineTransform.getTranslateX()), (int)(affineTransform.getTranslateY()));
+    public Pair<Integer, Integer> getTranslate() {
+        return new Pair<Integer, Integer>((int) (affineTransform.getTranslateX()), (int) (affineTransform.getTranslateY()));
     }
 
-    public double getScale(){
+    public double getScale() {
         return affineTransform.getScaleX();
     }
 
-    private Pair<Integer, Integer> getFPoints(){
+    public double getPcScale() {
+        return pcScale;
+    }
+
+    private Pair<Integer, Integer> getFPoints() {
         int x = Integer.MIN_VALUE;
         int y = Integer.MIN_VALUE;
         for (ElementPainter ep :
                 painters) {
-            if(ep instanceof TermPainter){
+            if (ep instanceof TermPainter) {
                 TermElement te = (TermElement) ep.getElement();
-                if(te.getPosition().getFirst() > x)
+                if (te.getPosition().getFirst() > x)
                     x = te.getPosition().getFirst();
-                if(te.getPosition().getSecond() > y)
+                if (te.getPosition().getSecond() > y)
                     y = te.getPosition().getSecond();
             }
         }
         return new Pair<>(x, y);
     }
+
+    public int correctMouseX(int x){
+        x -= getTranslate().getFirst()/pcScale;
+        x *= getPcScale()/getScale();
+        return x;
+    }
+
+    public int correctMouseY(int y){
+        y -= getTranslate().getSecond()/pcScale;
+        y *= getPcScale()/getScale();
+        return y;
+    }
 }
+

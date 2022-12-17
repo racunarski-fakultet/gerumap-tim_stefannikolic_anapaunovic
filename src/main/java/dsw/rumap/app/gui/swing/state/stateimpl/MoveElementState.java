@@ -19,11 +19,8 @@ public class MoveElementState implements State {
     @Override
     public void stateMousePressed(int x, int y, MindMapView mindMapView) {
 
-        x -= mindMapView.getTranslate().getFirst();
-        y -= mindMapView.getTranslate().getSecond();
-
-        x /= mindMapView.getScale();
-        y /= mindMapView.getScale();
+        x = mindMapView.correctMouseX(x);
+        y = mindMapView.correctMouseY(y);
 
         startX = x;
         startY = y;
@@ -32,11 +29,8 @@ public class MoveElementState implements State {
     @Override
     public void stateMouseDragged(int x, int y, MindMapView mindMapView) {
 
-        x -= mindMapView.getTranslate().getFirst();
-        y -= mindMapView.getTranslate().getSecond();
-
-        x /= mindMapView.getScale();
-        y /= mindMapView.getScale();
+        x = mindMapView.correctMouseX(x);
+        y = mindMapView.correctMouseY(y);
 
         int moveX = x - startX;
         int moveY = y - startY;

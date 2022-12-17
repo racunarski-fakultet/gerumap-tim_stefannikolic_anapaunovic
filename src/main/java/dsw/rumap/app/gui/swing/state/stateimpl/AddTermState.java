@@ -2,7 +2,6 @@ package dsw.rumap.app.gui.swing.state.stateimpl;
 
 import dsw.rumap.app.AppCore;
 import dsw.rumap.app.gui.swing.state.State;
-import dsw.rumap.app.gui.swing.view.MainFrame;
 import dsw.rumap.app.gui.swing.view.MindMapView;
 import dsw.rumap.app.gui.swing.view.painters.ElementPainter;
 import dsw.rumap.app.gui.swing.view.painters.TermPainter;
@@ -17,19 +16,14 @@ import javax.swing.*;
 public class AddTermState implements State {
 
     @Override
-    public void execute() {
-
-    }
+    public void execute() {}
 
     @Override
     public void stateMousePressed(int x, int y, MindMapView mindMapView) {
         MindMap mindMap = mindMapView.getModel();
 
-        x -= mindMapView.getTranslate().getFirst();
-        y -= mindMapView.getTranslate().getSecond();
-
-        x /= mindMapView.getScale();
-        y /= mindMapView.getScale();
+        x = mindMapView.correctMouseX(x);
+        y = mindMapView.correctMouseY(y);
 
         String name = JOptionPane.showInputDialog("Unesite naziv pojma:");
         if(name == null)

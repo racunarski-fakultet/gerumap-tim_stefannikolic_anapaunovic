@@ -12,18 +12,13 @@ import java.util.List;
 
 public class DeleteElementState implements State {
     @Override
-    public void execute() {
-
-    }
+    public void execute() {}
 
     @Override
     public void stateMousePressed(int x, int y, MindMapView mindMapView) {
 
-        x -= mindMapView.getTranslate().getFirst();
-        y -= mindMapView.getTranslate().getSecond();
-
-        x /= mindMapView.getScale();
-        y /= mindMapView.getScale();
+        x = mindMapView.correctMouseX(x);
+        y = mindMapView.correctMouseY(y);
 
         ElementPainter currentPainter = null;
         List<ElementPainter> toRemove = new ArrayList<>();
@@ -59,13 +54,9 @@ public class DeleteElementState implements State {
     }
 
     @Override
-    public void stateMouseDragged(int x, int y, MindMapView mindMapView) {
-
-    }
+    public void stateMouseDragged(int x, int y, MindMapView mindMapView) {}
 
     @Override
-    public void stateMouseReleased(int x, int y, MindMapView mindMapView) {
-
-    }
+    public void stateMouseReleased(int x, int y, MindMapView mindMapView) {}
 
 }

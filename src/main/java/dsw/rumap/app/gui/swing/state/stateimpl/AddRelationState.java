@@ -28,8 +28,8 @@ public class AddRelationState implements State {
         x -= mindMapView.getTranslate().getFirst();
         y -= mindMapView.getTranslate().getSecond();
 
-        x /= mindMapView.getScale();
-        y /= mindMapView.getScale();
+        x /= mindMapView.getPcScale()*mindMapView.getScale();
+        y /= mindMapView.getPcScale()*mindMapView.getScale();
 
         for (ElementPainter ep :
                 mindMapView.getPainters()) {
@@ -49,8 +49,8 @@ public class AddRelationState implements State {
         x -= mindMapView.getTranslate().getFirst();
         y -= mindMapView.getTranslate().getSecond();
 
-        x /= mindMapView.getScale();
-        y /= mindMapView.getScale();
+        x /= mindMapView.getPcScale()*mindMapView.getScale();
+        y /= mindMapView.getPcScale()*mindMapView.getScale();
 
         if(currentEP == null) return;
         ((RelationElement) currentEP.getElement()).setEnd(new Pair<>(x, y));
@@ -62,8 +62,8 @@ public class AddRelationState implements State {
         x -= mindMapView.getTranslate().getFirst();
         y -= mindMapView.getTranslate().getSecond();
 
-        x /= mindMapView.getScale();
-        y /= mindMapView.getScale();
+        x /= mindMapView.getPcScale()*mindMapView.getScale();
+        y /= mindMapView.getPcScale()*mindMapView.getScale();
 
         if(currentEP == null) return;
         boolean found = false;

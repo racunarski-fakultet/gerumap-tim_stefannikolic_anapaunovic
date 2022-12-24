@@ -5,7 +5,10 @@ package dsw.rumap.app.gui.swing.view;
 import dsw.rumap.app.AppCore;
 import dsw.rumap.app.gui.swing.controller.mapactions.MindMapMouseController;
 import dsw.rumap.app.gui.swing.view.painters.ElementPainter;
+import dsw.rumap.app.gui.swing.view.painters.RelationPainter;
 import dsw.rumap.app.gui.swing.view.painters.TermPainter;
+import dsw.rumap.app.maprepository.composite.MapNode;
+import dsw.rumap.app.maprepository.implementation.Element;
 import dsw.rumap.app.maprepository.implementation.elements.MapSelectionModel;
 import dsw.rumap.app.maprepository.implementation.MindMap;
 import dsw.rumap.app.maprepository.implementation.elements.Pair;
@@ -69,15 +72,15 @@ public class MindMapView extends JPanel implements ISubscriber, IPublisher, Adju
 
     }
 
-    public void addPainter(ElementPainter painter) {
-        painters.add(painter);
-        painter.getElement().subscribe(this);
-    }
-
-    public void removePainter(ElementPainter painter) {
-        painters.remove(painter);
-        painter.getElement().unsubscribe(this);
-    }
+//    public void addPainter(ElementPainter painter) {
+//        painters.add(painter);
+//        painter.getElement().subscribe(this);
+//    }
+//
+//    public void removePainter(ElementPainter painter) {
+//        painters.remove(painter);
+//        painter.getElement().unsubscribe(this);
+//    }
 
     @Override
     protected void paintComponent(Graphics g) {
@@ -139,10 +142,32 @@ public class MindMapView extends JPanel implements ISubscriber, IPublisher, Adju
                 model.unsubscribe(this);
                 MainFrame.getInstance().unsubscribe(this);
             }
-        } else {
-            this.repaint();
-            SwingUtilities.updateComponentTreeUI(this);
+            else if(notificationType.equals(NotificationType.ELEMENT_DELETED)){
+                ElementPainter painterToRemove = null;
+                for (ElementPainter ep :
+                        painters) {
+                    if (ep.getElement().equals(((MyNotification) notification).getInformation())){
+                        painterToRemove = ep;
+                        break;
+                    }
+                }
+                if(painterToRemove != null){
+                    painters.remove(painterToRemove);
+                    ((MapNode) (((MyNotification) notification).getInformation())).unsubscribe(this);
+                }
+            }
+            else if(notificationType.equals(NotificationType.ELEMENT_ADDED)){
+                ElementPainter newPainter;
+                if(((MyNotification) notification).getInformation() instanceof TermElement){
+                    newPainter = new TermPainter(((Element) (((MyNotification) notification).getInformation())));
+                }
+                else newPainter = new RelationPainter(((Element) (((MyNotification) notification).getInformation())));
+                painters.add(newPainter);
+                ((MapNode) (((MyNotification) notification).getInformation())).subscribe(this);
+            }
         }
+        this.repaint();
+        SwingUtilities.updateComponentTreeUI(this);
     }
 
     public List<ElementPainter> getPainters() {

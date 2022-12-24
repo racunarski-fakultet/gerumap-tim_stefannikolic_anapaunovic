@@ -1,6 +1,7 @@
 package dsw.rumap.app.maprepository;
 
 import dsw.rumap.app.core.MapRepository;
+import dsw.rumap.app.maprepository.commands.CommandManager;
 import dsw.rumap.app.maprepository.composite.MapNode;
 import dsw.rumap.app.maprepository.composite.MapNodeC;
 import dsw.rumap.app.maprepository.implementation.Project;
@@ -11,10 +12,12 @@ public class MapReposImpl implements MapRepository {
 
     private FactoryUtil factoryUtil;
     private ProjectExplorer projectExplorer;
+    private CommandManager commandManager;
 
     public MapReposImpl(){
         projectExplorer = new ProjectExplorer("My Project Explorer");
         factoryUtil = new FactoryUtil();
+        commandManager = new CommandManager();
     }
 
     @Override
@@ -24,8 +27,9 @@ public class MapReposImpl implements MapRepository {
 
     @Override
     public void addChild(MapNode parent, MapNode child) {
-        if(parent instanceof MapNodeC)
+        if(parent instanceof MapNodeC) {
             ((MapNodeC) parent).add(child);
+        }
     }
 
     @Override
@@ -46,12 +50,17 @@ public class MapReposImpl implements MapRepository {
         if(parent == null)
             node.setName(name);
         else if(parent instanceof MapNodeC){
-            if(((MapNodeC) parent).checkName(name) != true){
+            if(!((MapNodeC) parent).checkName(name)){
                 return false;
             }
             else node.setName(name);
         }
         return true;
+    }
+
+    @Override
+    public CommandManager getCommandManager() {
+        return this.commandManager;
     }
 
     @Override

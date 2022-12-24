@@ -29,7 +29,7 @@ public class MindMap extends MapNodeC {
     @Override
     public Integer makeNameForChild() {
         Integer nameNumber = this.getChildren().size() + 1;
-        while (this.checkName("Element" + nameNumber) == false) {
+        while (!this.checkName("Element" + nameNumber)) {
             nameNumber++;
         }
         return nameNumber;
@@ -37,19 +37,19 @@ public class MindMap extends MapNodeC {
 
     @Override
     public void add(MapNode child) {
-        if(child != null && child instanceof Element &&
+        if(child instanceof Element &&
                 !(this.getChildren().contains(child))){
             this.getChildren().add(child);
-            this.notify(this);
+            this.notify(new MyNotification(NotificationType.ELEMENT_ADDED, child));
         }
     }
 
     @Override
     public void delete(MapNode child) {
-        if(child != null && child instanceof Element &&
+        if(child instanceof Element &&
                 this.getChildren().contains(child)){
+            this.notify(new MyNotification(NotificationType.ELEMENT_DELETED, child));
             this.getChildren().remove(child);
-            this.notify(this);
         }
     }
 

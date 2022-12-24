@@ -45,3 +45,5 @@
 [INFORMATION] [17.12.2022 22:01] Maksimalno je zomirano.
 [INFORMATION] [17.12.2022 22:06] Maksimalno je odzumirano.
 [INFORMATION] [17.12.2022 22:08] Unešeno ime već postoji.
+[ERROR] [24.12.2022 20:52] Morate selektovati polje.
+[INFORMATION] [24.12.2022 21:40] Unešeno ime već postoji.

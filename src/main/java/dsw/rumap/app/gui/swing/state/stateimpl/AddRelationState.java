@@ -1,9 +1,11 @@
 package dsw.rumap.app.gui.swing.state.stateimpl;
 
+import dsw.rumap.app.AppCore;
 import dsw.rumap.app.gui.swing.state.State;
 import dsw.rumap.app.gui.swing.view.MindMapView;
 import dsw.rumap.app.gui.swing.view.painters.ElementPainter;
-import dsw.rumap.app.gui.swing.view.painters.RelationPainter;
+import dsw.rumap.app.maprepository.commands.AddElementCommand;
+import dsw.rumap.app.maprepository.commands.Command;
 import dsw.rumap.app.maprepository.implementation.Element;
 import dsw.rumap.app.maprepository.implementation.MindMap;
 import dsw.rumap.app.maprepository.implementation.elements.Pair;
@@ -32,9 +34,12 @@ public class AddRelationState implements State {
                 mindMapView.getPainters()) {
             if(ep.elementAt(new Point(x, y))) {
                 Element tmpElement = new RelationElement(mindMap, ep.getElement(), x, y);
-                ElementPainter painter = new RelationPainter(tmpElement);
-                mindMapView.addPainter(painter);
-                currentEP = painter;
+                //AppCore.getInstance().getMapRepository().addChild(mindMap, tmpElement);
+                Command newCommand = new AddElementCommand(mindMap, tmpElement);
+                AppCore.getInstance().getMapRepository().getCommandManager().addCommand(newCommand);
+                //ElementPainter painter = new RelationPainter(tmpElement);
+                //mindMapView.addPainter(painter);
+                currentEP = mindMapView.getPainters().get(mindMapView.getPainters().size()-1);;
                 break;
             }
         }
@@ -69,8 +74,9 @@ public class AddRelationState implements State {
         }
 
         if(!found || ((RelationElement) currentEP.getElement()).getFromTerm() == ((RelationElement) currentEP.getElement()).getToTerm()){
-            mindMapView.removePainter(currentEP);
-            mindMapView.getModel().delete(currentEP.getElement());
+            //mindMapView.removePainter(currentEP);
+            //mindMapView.getModel().delete(currentEP.getElement());
+            AppCore.getInstance().getMapRepository().getCommandManager().permamentUndoCommand();
         }
         currentEP = null;
     }

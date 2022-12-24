@@ -7,5 +7,7 @@ public enum NotificationType {
     UPDATE_MAP_NAME,
     MAP_ADDED,
     MAP_DELETED,
+    ELEMENT_DELETED,
+    ELEMENT_ADDED,
 
 }

@@ -1,10 +1,14 @@
 package dsw.rumap.app.gui.swing.state.stateimpl;
 
+import dsw.rumap.app.AppCore;
 import dsw.rumap.app.gui.swing.state.State;
 import dsw.rumap.app.gui.swing.view.MindMapView;
 import dsw.rumap.app.gui.swing.view.painters.ElementPainter;
 import dsw.rumap.app.gui.swing.view.painters.RelationPainter;
+import dsw.rumap.app.maprepository.commands.Command;
+import dsw.rumap.app.maprepository.commands.DeleteCommand;
 import dsw.rumap.app.maprepository.implementation.elements.RelationElement;
+import dsw.rumap.app.maprepository.implementation.elements.TermElement;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -42,15 +46,23 @@ public class DeleteElementState implements State {
             }
         }
 
-        for (ElementPainter rep :
-                toRemove) {
-            mindMapView.removePainter(rep);
-            mindMapView.getModel().delete(rep.getElement());
-        }
+//        for (ElementPainter rep :
+//                toRemove) {
+//            mindMapView.getModel().delete(rep.getElement());
+//        }
 
         mindMapView.getMapSelectionModel().unselect(currentPainter.getElement());
-        mindMapView.removePainter(currentPainter);
-        mindMapView.getModel().delete(currentPainter.getElement());
+        //mindMapView.getModel().delete(currentPainter.getElement());
+
+        List<RelationElement> teToRemove = new ArrayList<>();
+
+        for (ElementPainter rep :
+                toRemove) {
+            teToRemove.add((RelationElement) rep.getElement());
+        }
+
+        Command newCommand = new DeleteCommand(mindMapView.getModel(), currentPainter.getElement(), teToRemove);
+        AppCore.getInstance().getMapRepository().getCommandManager().addCommand(newCommand);
     }
 
     @Override

@@ -19,6 +19,8 @@ public class ActionManager {
     private MapOptionsAction mapOptionsAction;
     private ZoomInAction zoomInAction;
     private ZoomOutAction zoomOutAction;
+    private UndoAction undoAction;
+    private RedoAction redoAction;
 
     public ActionManager(){
         initialiseActions();
@@ -38,5 +40,9 @@ public class ActionManager {
         this.mapOptionsAction = new MapOptionsAction();
         this.zoomInAction = new ZoomInAction();
         this.zoomOutAction = new ZoomOutAction();
+        this.undoAction = new UndoAction();
+        undoAction.setEnabled(false);
+        this.redoAction = new RedoAction();
+        this.redoAction.setEnabled(false);
     }
 }

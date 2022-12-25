@@ -21,8 +21,6 @@ public class DeleteElementState implements State {
     @Override
     public void stateMousePressed(int x, int y, MindMapView mindMapView) {
 
-        x = mindMapView.correctMouseX(x);
-        y = mindMapView.correctMouseY(y);
 
         ElementPainter currentPainter = null;
         List<ElementPainter> toRemove = new ArrayList<>();

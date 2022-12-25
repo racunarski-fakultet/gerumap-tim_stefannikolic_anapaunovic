@@ -22,8 +22,6 @@ public class AddTermState implements State {
     public void stateMousePressed(int x, int y, MindMapView mindMapView) {
         MindMap mindMap = mindMapView.getModel();
 
-        x = mindMapView.correctMouseX(x);
-        y = mindMapView.correctMouseY(y);
 
         String name = JOptionPane.showInputDialog("Unesite naziv pojma:");
         if(name == null)

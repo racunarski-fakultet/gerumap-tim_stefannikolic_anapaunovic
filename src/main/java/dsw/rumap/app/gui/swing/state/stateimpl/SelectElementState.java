@@ -21,9 +21,6 @@ public class SelectElementState implements State {
     @Override
     public void stateMousePressed(int x, int y, MindMapView mindMapView) {
 
-        x = mindMapView.correctMouseX(x);
-        y = mindMapView.correctMouseY(y);
-
         MapSelectionModel selectedElements = mindMapView.getMapSelectionModel();
         found = false;
         for (ElementPainter ep :
@@ -47,9 +44,6 @@ public class SelectElementState implements State {
 
     @Override
     public void stateMouseDragged(int x, int y, MindMapView mindMapView) {
-
-        x = mindMapView.correctMouseX(x);
-        y = mindMapView.correctMouseY(y);
 
         if (found)
             return;

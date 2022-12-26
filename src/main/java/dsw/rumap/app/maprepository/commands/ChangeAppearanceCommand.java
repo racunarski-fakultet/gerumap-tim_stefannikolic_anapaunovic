@@ -9,11 +9,11 @@ import java.util.List;
 
 public class ChangeAppearanceCommand implements Command{
 
-    private Color newColor;
+    private Integer newColor;
     private Integer newStroke;
-    private HashMap<Element, Pair<Color, Integer>> map;
+    private HashMap<Element, Pair<Integer, Integer>> map;
 
-    public ChangeAppearanceCommand(Color newColor, Integer newStroke, List<Element> selected) {
+    public ChangeAppearanceCommand(Integer newColor, Integer newStroke, List<Element> selected) {
         this.newColor = newColor;
         this.newStroke = newStroke;
         map = new HashMap<>();
@@ -25,7 +25,7 @@ public class ChangeAppearanceCommand implements Command{
 
     @Override
     public void doCommand() {
-        map.forEach((element, colorIntegerPair) -> {
+        map.forEach((element, colorStrokePair) -> {
             element.setColor(newColor);
             element.setStroke(newStroke);
         });
@@ -33,9 +33,9 @@ public class ChangeAppearanceCommand implements Command{
 
     @Override
     public void undoCommand() {
-        map.forEach(((element, colorIntegerPair) -> {
-            element.setColor(colorIntegerPair.getFirst());
-            element.setStroke(colorIntegerPair.getSecond());
+        map.forEach(((element, colorStrokePair) -> {
+            element.setColor(colorStrokePair.getFirst());
+            element.setStroke(colorStrokePair.getSecond());
         }));
     }
 }

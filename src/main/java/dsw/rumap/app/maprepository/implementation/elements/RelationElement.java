@@ -25,7 +25,7 @@ public class RelationElement extends Element {
         this.start = new Pair<>(x, y);
         this.end = start;
         this.fromTerm = (TermElement) fromTerm;
-        setColor(Color.GREEN);
+        setColor(Color.GREEN.getRGB());
         setStroke(3);
     }
 

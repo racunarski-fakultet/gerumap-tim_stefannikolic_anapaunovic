@@ -58,9 +58,10 @@ public class MapOptionsAction extends AbstractRumapActions {
                         AppCore.getInstance().getMsgGenerator().createMessage(Problem.ELEMENTS_ARE_NOT_SELECTED);
                         return;
                     }
-
-                    Command newCommand = new ChangeAppearanceCommand(color, strokeInt, MainFrame.getInstance().getProjectView().getCurrentMindMapView().getMapSelectionModel().getSelected());
+                    Command newCommand = new ChangeAppearanceCommand(color.getRGB(), strokeInt, MainFrame.getInstance().getProjectView().getCurrentMindMapView().getMapSelectionModel().getSelected());
                     AppCore.getInstance().getMapRepository().getCommandManager().addCommand(newCommand);
+                    strokeTextField.setText("3");
+                    colorChooser.setColor(Color.CYAN);
                 }
                 catch (NumberFormatException n){
                     AppCore.getInstance().getMsgGenerator().createMessage(Problem.STROKE_HAS_TO_BE_NUMBER);

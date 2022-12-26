@@ -21,6 +21,9 @@ public class ActionManager {
     private ZoomOutAction zoomOutAction;
     private UndoAction undoAction;
     private RedoAction redoAction;
+    private SaveProjectAction saveProjectAction;
+    private SaveProjectAsAction saveProjectAsAction;
+    private LoadProjectAction loadProjectAction;
 
     public ActionManager(){
         initialiseActions();
@@ -41,8 +44,11 @@ public class ActionManager {
         this.zoomInAction = new ZoomInAction();
         this.zoomOutAction = new ZoomOutAction();
         this.undoAction = new UndoAction();
-        undoAction.setEnabled(false);
         this.redoAction = new RedoAction();
+        this.undoAction.setEnabled(false);
         this.redoAction.setEnabled(false);
+        this.loadProjectAction = new LoadProjectAction();
+        this.saveProjectAction = new SaveProjectAction();
+        this.saveProjectAsAction = new SaveProjectAsAction();
     }
 }

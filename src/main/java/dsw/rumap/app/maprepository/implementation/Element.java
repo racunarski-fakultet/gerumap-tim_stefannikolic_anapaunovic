@@ -14,7 +14,7 @@ import java.awt.*;
 public abstract class Element extends MapNode {
 
     private Integer stroke;
-    private Color color;
+    private Integer color;
 
     public Element(String name, MapNode parent) {
         super(name, parent);
@@ -38,7 +38,7 @@ public abstract class Element extends MapNode {
         this.notify(this);
     }
 
-    public void setColor(Color color) {
+    public void setColor(Integer color) {
         this.color = color;
         this.notify(this);
     }

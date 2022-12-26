@@ -10,7 +10,7 @@ public abstract class MapNodeC extends MapNode{
 
     public MapNodeC(String name, MapNode parent) {
         super(name, parent);
-        this.children = new ArrayList<MapNode>();
+        this.children = new ArrayList<>();
     }
 
     public MapNodeC(MapNode parent){

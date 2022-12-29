@@ -2,6 +2,7 @@ package dsw.rumap.app.gui.swing.state.stateimpl;
 
 import dsw.rumap.app.AppCore;
 import dsw.rumap.app.gui.swing.state.State;
+import dsw.rumap.app.gui.swing.view.MainFrame;
 import dsw.rumap.app.gui.swing.view.MindMapView;
 import dsw.rumap.app.maprepository.commands.Command;
 import dsw.rumap.app.maprepository.commands.MoveCommand;
@@ -46,6 +47,6 @@ public class MoveElementState implements State {
     public void stateMouseReleased(int x, int y, MindMapView mindMapView) {
 
         Command newCommand = new MoveCommand(mindMapView.getMapSelectionModel().getSelected(), x-startX, y-startY);
-        AppCore.getInstance().getMapRepository().getCommandManager().addCommand(newCommand);
+        MainFrame.getInstance().getProjectView().getCurrentMindMapView().getModel().getCommandManager().addCommand(newCommand);
     }
 }

@@ -1,5 +1,6 @@
 package dsw.rumap.app.maprepository.implementation;
 
+import dsw.rumap.app.maprepository.commands.CommandManager;
 import dsw.rumap.app.maprepository.composite.MapNode;
 import dsw.rumap.app.maprepository.composite.MapNodeC;
 import dsw.rumap.app.observer.notification.MyNotification;
@@ -15,10 +16,13 @@ public class MindMap extends MapNodeC {
 
     private boolean template;
     private Integer key;
+    private transient CommandManager commandManager;
 
     public MindMap(String name, MapNode parent) {
         super(name, parent);
         key = new Random().nextInt();
+        commandManager = new CommandManager();
+        type = "MindMap";
     }
 
     public MindMap(MapNode parent){

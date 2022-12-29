@@ -2,6 +2,7 @@ package dsw.rumap.app.gui.swing.controller.mapactions;
 
 import dsw.rumap.app.AppCore;
 import dsw.rumap.app.gui.swing.controller.AbstractRumapActions;
+import dsw.rumap.app.gui.swing.view.MainFrame;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -18,6 +19,6 @@ public class UndoAction extends AbstractRumapActions {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        AppCore.getInstance().getMapRepository().getCommandManager().undoCommand();
+        MainFrame.getInstance().getProjectView().getCurrentMindMapView().getModel().getCommandManager().undoCommand();
     }
 }

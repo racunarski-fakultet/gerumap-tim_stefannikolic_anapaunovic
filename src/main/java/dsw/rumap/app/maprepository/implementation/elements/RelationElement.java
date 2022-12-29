@@ -27,6 +27,7 @@ public class RelationElement extends Element {
         this.fromTerm = (TermElement) fromTerm;
         setColor(Color.GREEN.getRGB());
         setStroke(3);
+        type = "RelationElement";
     }
 
     public void setEnd(Pair<Integer, Integer> end){

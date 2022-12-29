@@ -7,6 +7,7 @@ import dsw.rumap.app.maprepository.composite.MapNode;
 import dsw.rumap.app.maprepository.implementation.MindMap;
 import dsw.rumap.app.maprepository.implementation.Project;
 import dsw.rumap.app.maprepository.implementation.ProjectExplorer;
+import dsw.rumap.app.observer.IPublisher;
 import dsw.rumap.app.observer.ISubscriber;
 import dsw.rumap.app.observer.notification.MyNotification;
 import dsw.rumap.app.observer.notification.NotificationType;
@@ -15,13 +16,17 @@ import lombok.Setter;
 
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 @Getter
 @Setter
-public class ProjectView extends JPanel implements ISubscriber {
+public class ProjectView extends JPanel implements ISubscriber, IPublisher, ChangeListener {
 
     private JLabel label;
     private JLabel author;
@@ -32,12 +37,14 @@ public class ProjectView extends JPanel implements ISubscriber {
     private HashMap<Integer,MindMapView> mapViews;
     private StateManager stateManager;
     private MindMapView currentMindMapView;
+    private List<ISubscriber> subscribers;
 
 
     public ProjectView(){
         label = new JLabel("Select project");
         author = new JLabel("");
         tabbedPane = new JTabbedPane();
+        tabbedPane.addChangeListener(this);
         //mapScrollPane = new MapScrollPane();
         BoxLayout box = new BoxLayout(this, BoxLayout.Y_AXIS);
         this.setLayout(box);
@@ -51,6 +58,7 @@ public class ProjectView extends JPanel implements ISubscriber {
         mapViews = new HashMap<>();
         stateManager = new StateManager();
         currentMindMapView = null;
+        subscribers = new ArrayList<>();
     }
 
     @Override
@@ -77,6 +85,7 @@ public class ProjectView extends JPanel implements ISubscriber {
                 tabbedPane.addTab(model.getChildren().get((int)info).getName(), new MapScrollPane(newMindMapView));
                 model.getChildren().get((int)info).subscribe(this);
                 mapViews.put(((MindMap) model.getChildren().get((int)info)).getKey(), newMindMapView);
+                notify(this);
             }
             else if(notificationType.equals(NotificationType.MAP_DELETED)){
                 tabbedPane.remove((int) info);
@@ -136,6 +145,7 @@ public class ProjectView extends JPanel implements ISubscriber {
                     tabbedPane.addTab(mindMap.getName(), new MapScrollPane(createMindMapView(mindMap)));
                 }
             }
+            this.revalidateUndoRedo();
         }
 
         int deleteInd = tabCounter;
@@ -191,4 +201,37 @@ public class ProjectView extends JPanel implements ISubscriber {
     public void medMouseReleased(int x, int y, MindMapView mindMapView){ this.stateManager.getCurrentState().stateMouseReleased(x, y, mindMapView);}
 
 
+    @Override
+    public void subscribe(ISubscriber sub) {
+        subscribers.add(sub);
+    }
+
+    @Override
+    public void unsubscribe(ISubscriber sub) {
+        subscribers.remove(sub);
+    }
+
+    @Override
+    public void notify(Object notification) {
+        for (ISubscriber sub :
+                subscribers) {
+            if(sub != null)
+                sub.update(notification);
+        }
+    }
+
+    @Override
+    public void stateChanged(ChangeEvent e) {
+        notify(this);
+        revalidateUndoRedo();
+    }
+
+    private void revalidateUndoRedo(){
+        if(getCurrentMindMapView() != null)
+            getCurrentMindMapView().getModel().getCommandManager().revalidateActions();
+        else {
+            MainFrame.getInstance().getActionManager().getUndoAction().setEnabled(false);
+            MainFrame.getInstance().getActionManager().getRedoAction().setEnabled(false);
+        }
+    }
 }

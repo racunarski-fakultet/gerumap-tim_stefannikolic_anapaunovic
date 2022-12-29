@@ -5,6 +5,8 @@ import dsw.rumap.app.gui.swing.view.MainFrame;
 import dsw.rumap.app.maprepository.implementation.Project;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.io.File;
@@ -21,10 +23,13 @@ public class LoadProjectAction extends AbstractRumapActions{
     @Override
     public void actionPerformed(ActionEvent e) {
         JFileChooser jfc = new JFileChooser();
+        jfc.addChoosableFileFilter(new FileNameExtensionFilter("JSON file", "json"));
+        jfc.setAcceptAllFileFilterUsed(false);
         if(jfc.showOpenDialog(MainFrame.getInstance()) == JFileChooser.APPROVE_OPTION){
             File file = jfc.getSelectedFile();
             Project project = AppCore.getInstance().getSerializer().loadProject(file);
             MainFrame.getInstance().getMapTree().loadProject(project);
+            AppCore.getInstance().getMapRepository().loadProject(project);
         }
     }
 }

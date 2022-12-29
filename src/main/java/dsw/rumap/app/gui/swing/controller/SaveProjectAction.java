@@ -5,6 +5,7 @@ import dsw.rumap.app.gui.swing.view.MainFrame;
 import dsw.rumap.app.maprepository.implementation.Project;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.io.File;
@@ -27,6 +28,9 @@ public class SaveProjectAction extends AbstractRumapActions {
 
         Project project = ((Project) MainFrame.getInstance().getMapTree().getSelectedNode().getMapNode());
         JFileChooser jfc = new JFileChooser();
+        //jfc.setAcceptAllFileFilterUsed(false);
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("JSON files", "json");
+        jfc.addChoosableFileFilter(filter);
         File projectFile = null;
 
         if (!project.isChanged()) {

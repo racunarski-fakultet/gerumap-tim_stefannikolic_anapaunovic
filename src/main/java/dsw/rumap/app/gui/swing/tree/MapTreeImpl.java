@@ -66,9 +66,8 @@ public class MapTreeImpl implements MapTree {
 
     @Override
     public void loadProject(Project project) {
-        MapTreeNode projectTreeNode = new MapTreeNode((MapNode) project);
+        MapTreeNode projectTreeNode = new MapTreeNode(project);
         mapTreeModel.getRoot().add(projectTreeNode);
-        AppCore.getInstance().getMapRepository().getProjectExplorer().add(project);
         this.refresh();
     }
 

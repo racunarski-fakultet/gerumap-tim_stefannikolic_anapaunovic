@@ -59,7 +59,7 @@ public class MapOptionsAction extends AbstractRumapActions {
                         return;
                     }
                     Command newCommand = new ChangeAppearanceCommand(color.getRGB(), strokeInt, MainFrame.getInstance().getProjectView().getCurrentMindMapView().getMapSelectionModel().getSelected());
-                    AppCore.getInstance().getMapRepository().getCommandManager().addCommand(newCommand);
+                    MainFrame.getInstance().getProjectView().getCurrentMindMapView().getModel().getCommandManager().addCommand(newCommand);
                     strokeTextField.setText("3");
                     colorChooser.setColor(Color.CYAN);
                 }

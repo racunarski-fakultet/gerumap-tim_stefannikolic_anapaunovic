@@ -24,23 +24,38 @@ public class CommandManager {
     public void doCommand(){
         if(currentCommand < commands.size()) {
             commands.get(currentCommand++).doCommand();
-            AppCore.getInstance().getGui().enableUndoAction(true);
+            enableUndo(true);
         }
         if(currentCommand == commands.size())
-            AppCore.getInstance().getGui().enableRedoAction(false);
+            enableRedo(false);
     }
 
     public void undoCommand(){
         if(currentCommand > 0) {
             commands.get(--currentCommand).undoCommand();
-            AppCore.getInstance().getGui().enableRedoAction(true);
+            enableRedo(true);
         }
         if(currentCommand == 0)
-            AppCore.getInstance().getGui().enableUndoAction(false);
+            enableUndo(false);
     }
 
-    public void permamentUndoCommand(){
+    public void permanentUndoCommand(){
         commands.get(--currentCommand).undoCommand();
         commands.remove(currentCommand);
+    }
+
+    public void revalidateActions(){
+        if(currentCommand == 0) enableUndo(false);
+        else enableUndo(true);
+        if(currentCommand < commands.size()) enableRedo(true);
+        else enableRedo(false);
+    }
+
+    public void enableUndo(boolean bool){
+        AppCore.getInstance().getGui().enableUndoAction(bool);
+    }
+
+    public void enableRedo(boolean bool){
+        AppCore.getInstance().getGui().enableRedoAction(bool);
     }
 }

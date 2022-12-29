@@ -5,11 +5,13 @@ import dsw.rumap.app.gui.swing.controller.ActionManager;
 import dsw.rumap.app.gui.swing.controller.mapactions.MapOptionsAction;
 import dsw.rumap.app.gui.swing.tree.MapTree;
 import dsw.rumap.app.gui.swing.tree.MapTreeImpl;
+import dsw.rumap.app.maprepository.implementation.Project;
 import dsw.rumap.app.msggenerator.Message;
 import dsw.rumap.app.msggenerator.MessageType;
 import dsw.rumap.app.msggenerator.Problem;
 import dsw.rumap.app.observer.IPublisher;
 import dsw.rumap.app.observer.ISubscriber;
+import dsw.rumap.app.observer.notification.MyNotification;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -84,6 +86,7 @@ public class MainFrame extends JFrame implements ISubscriber, IPublisher {
 
         JTree explorerTree = mapTree.generateTree(AppCore.getInstance().getMapRepository().getProjectExplorer());
         projectView = new ProjectView();
+        projectView.subscribe(this);
 
         JScrollPane scPane = new JScrollPane(explorerTree);
         scPane.setMinimumSize(new Dimension(200, 150));
@@ -99,6 +102,12 @@ public class MainFrame extends JFrame implements ISubscriber, IPublisher {
 
     @Override
     public void update(Object notification) {
+
+        if(notification instanceof ProjectView)
+            this.repaint();
+
+        if(!(notification instanceof Message)) return;
+
         Problem message = ((Message)notification).getMessage();
         MessageType type = ((Message)notification).getType();
 

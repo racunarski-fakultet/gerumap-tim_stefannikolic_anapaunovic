@@ -19,6 +19,6 @@ public class RedoAction extends AbstractRumapActions {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        AppCore.getInstance().getMapRepository().getCommandManager().doCommand();
+        MainFrame.getInstance().getProjectView().getCurrentMindMapView().getModel().getCommandManager().doCommand();
     }
 }

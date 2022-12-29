@@ -1,7 +1,7 @@
 package dsw.rumap.app.gui.swing.state.stateimpl;
 
-import dsw.rumap.app.AppCore;
 import dsw.rumap.app.gui.swing.state.State;
+import dsw.rumap.app.gui.swing.view.MainFrame;
 import dsw.rumap.app.gui.swing.view.MindMapView;
 import dsw.rumap.app.gui.swing.view.painters.ElementPainter;
 import dsw.rumap.app.maprepository.commands.AddElementCommand;
@@ -33,7 +33,7 @@ public class AddRelationState implements State {
                 Element tmpElement = new RelationElement(mindMap, ep.getElement(), x, y);
                 //AppCore.getInstance().getMapRepository().addChild(mindMap, tmpElement);
                 Command newCommand = new AddElementCommand(mindMap, tmpElement);
-                AppCore.getInstance().getMapRepository().getCommandManager().addCommand(newCommand);
+                MainFrame.getInstance().getProjectView().getCurrentMindMapView().getModel().getCommandManager().addCommand(newCommand);
                 //ElementPainter painter = new RelationPainter(tmpElement);
                 //mindMapView.addPainter(painter);
                 currentEP = mindMapView.getPainters().get(mindMapView.getPainters().size()-1);;
@@ -56,6 +56,7 @@ public class AddRelationState implements State {
         boolean found = false;
         for (ElementPainter ep :
                 mindMapView.getPainters()) {
+            if(ep.getElement() instanceof RelationElement) continue;
             if(ep.elementAt(new Point(x, y))) {
                 ((RelationElement) currentEP.getElement()).setEnd(new Pair<>(x, y));
                 ((RelationElement) currentEP.getElement()).setToTerm((TermElement) ep.getElement());
@@ -67,7 +68,7 @@ public class AddRelationState implements State {
         if(!found || ((RelationElement) currentEP.getElement()).getFromTerm() == ((RelationElement) currentEP.getElement()).getToTerm()){
             //mindMapView.removePainter(currentEP);
             //mindMapView.getModel().delete(currentEP.getElement());
-            AppCore.getInstance().getMapRepository().getCommandManager().permamentUndoCommand();
+            MainFrame.getInstance().getProjectView().getCurrentMindMapView().getModel().getCommandManager().permanentUndoCommand();
         }
         currentEP = null;
     }

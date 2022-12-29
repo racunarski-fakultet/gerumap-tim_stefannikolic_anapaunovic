@@ -4,6 +4,7 @@ import dsw.rumap.app.core.MapRepository;
 import dsw.rumap.app.maprepository.commands.CommandManager;
 import dsw.rumap.app.maprepository.composite.MapNode;
 import dsw.rumap.app.maprepository.composite.MapNodeC;
+import dsw.rumap.app.maprepository.implementation.MindMap;
 import dsw.rumap.app.maprepository.implementation.Project;
 import dsw.rumap.app.maprepository.implementation.ProjectExplorer;
 import dsw.rumap.app.maprepository.mapnodefactory.*;
@@ -12,12 +13,10 @@ public class MapReposImpl implements MapRepository {
 
     private FactoryUtil factoryUtil;
     private ProjectExplorer projectExplorer;
-    private CommandManager commandManager;
 
     public MapReposImpl(){
         projectExplorer = new ProjectExplorer("My Project Explorer");
         factoryUtil = new FactoryUtil();
-        commandManager = new CommandManager();
     }
 
     @Override
@@ -59,15 +58,24 @@ public class MapReposImpl implements MapRepository {
     }
 
     @Override
-    public CommandManager getCommandManager() {
-        return this.commandManager;
-    }
-
-    @Override
     public MapNodeFactory getMapNodeFactory(MapNode parent){
         if(!(parent instanceof MapNodeC)) return null;
         else return factoryUtil.getMapNodeFactory(parent);
     }
 
-
+    @Override
+    public void loadProject(Project project){
+        this.projectExplorer.add(project);
+        project.setParent(this.projectExplorer);
+        for (MapNode mindMap :
+                project.getChildren()) {
+            mindMap.setParent(project);
+            ((MindMap) mindMap).setCommandManager(new CommandManager());
+            MapNodeC mindMapC = (MapNodeC) mindMap;
+            for (MapNode element :
+                    mindMapC.getChildren()) {
+                element.setParent(mindMap);
+            }
+        }
+    }
 }

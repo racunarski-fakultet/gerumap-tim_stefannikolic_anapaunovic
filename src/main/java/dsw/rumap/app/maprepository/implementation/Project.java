@@ -2,6 +2,7 @@ package dsw.rumap.app.maprepository.implementation;
 
 import dsw.rumap.app.maprepository.composite.MapNode;
 import dsw.rumap.app.maprepository.composite.MapNodeC;
+import dsw.rumap.app.observer.ISubscriber;
 import dsw.rumap.app.observer.notification.MyNotification;
 import dsw.rumap.app.observer.notification.NotificationType;
 import lombok.Getter;
@@ -11,7 +12,7 @@ import java.io.File;
 
 @Getter
 @Setter
-public class Project extends MapNodeC {
+public class Project extends MapNodeC implements ISubscriber {
 
     private String author;
     private String filePath;
@@ -21,6 +22,7 @@ public class Project extends MapNodeC {
         super(name, parent);
         this.author = new String("[Insert author name]");
         changed = true;
+        type = "Project";
     }
 
     public Project(MapNode parent){
@@ -43,6 +45,11 @@ public class Project extends MapNodeC {
             this.getChildren().add(child);
             this.notify(new MyNotification(NotificationType.MAP_ADDED,this.getChildren().size()-1));
             changed = true;
+            child.subscribe(this);
+            for (MapNode element :
+                    ((MindMap) child).getChildren()) {
+                element.subscribe(this);
+            }
         }
     }
 
@@ -51,8 +58,13 @@ public class Project extends MapNodeC {
         if(child instanceof MindMap &&
                 this.getChildren().contains(child)){
             this.notify(new MyNotification(NotificationType.MAP_DELETED,this.getChildren().indexOf(child)));
-            this.getChildren().remove(child);
             changed = true;
+            child.unsubscribe(this);
+            for (MapNode element :
+                    ((MindMap) child).getChildren()) {
+                element.unsubscribe(this);
+            }
+            this.getChildren().remove(child);
         }
     }
     
@@ -67,9 +79,16 @@ public class Project extends MapNodeC {
         this.notify(new MyNotification(NotificationType.UPDATE_NAME));
         changed = true;
     }
-
     public void setFilePath(String filePath) {
         this.filePath = filePath;
         changed = true;
+    }
+
+    @Override
+    public void update(Object notification) {
+        this.changed = true;
+        if(notification instanceof MyNotification &&
+                ((MyNotification) notification).getType() == NotificationType.ELEMENT_ADDED)
+            ((MapNode)((MyNotification) notification).getInformation()).subscribe(this);
     }
 }

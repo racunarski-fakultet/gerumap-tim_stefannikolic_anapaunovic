@@ -2,6 +2,7 @@ package dsw.rumap.app.gui.swing.state.stateimpl;
 
 import dsw.rumap.app.AppCore;
 import dsw.rumap.app.gui.swing.state.State;
+import dsw.rumap.app.gui.swing.view.MainFrame;
 import dsw.rumap.app.gui.swing.view.MindMapView;
 import dsw.rumap.app.maprepository.commands.AddElementCommand;
 import dsw.rumap.app.maprepository.commands.Command;
@@ -37,7 +38,7 @@ public class AddTermState implements State {
 
         Element element = new TermElement(name, mindMap, x-30, y-15);
         Command newCommand = new AddElementCommand(mindMap, element);
-        AppCore.getInstance().getMapRepository().getCommandManager().addCommand(newCommand);
+        MainFrame.getInstance().getProjectView().getCurrentMindMapView().getModel().getCommandManager().addCommand(newCommand);
         //AppCore.getInstance().getMapRepository().addChild(mindMap, element);
         //ElementPainter painter = new TermPainter(element);
         //mindMapView.addPainter(painter);

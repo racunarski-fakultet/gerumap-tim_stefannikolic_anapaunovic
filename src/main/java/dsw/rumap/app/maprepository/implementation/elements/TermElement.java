@@ -26,6 +26,7 @@ public class TermElement extends Element {
         this.position = position;
         size = new Pair(this.getName().length()*7+60, 30);
         setColor(Color.CYAN.getRGB());
+        type = "TermElement";
     }
 
     public void setPosition(Integer x, Integer y) {

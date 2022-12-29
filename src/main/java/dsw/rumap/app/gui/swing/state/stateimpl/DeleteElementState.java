@@ -2,6 +2,7 @@ package dsw.rumap.app.gui.swing.state.stateimpl;
 
 import dsw.rumap.app.AppCore;
 import dsw.rumap.app.gui.swing.state.State;
+import dsw.rumap.app.gui.swing.view.MainFrame;
 import dsw.rumap.app.gui.swing.view.MindMapView;
 import dsw.rumap.app.gui.swing.view.painters.ElementPainter;
 import dsw.rumap.app.gui.swing.view.painters.RelationPainter;
@@ -60,7 +61,7 @@ public class DeleteElementState implements State {
         }
 
         Command newCommand = new DeleteCommand(mindMapView.getModel(), currentPainter.getElement(), teToRemove);
-        AppCore.getInstance().getMapRepository().getCommandManager().addCommand(newCommand);
+        MainFrame.getInstance().getProjectView().getCurrentMindMapView().getModel().getCommandManager().addCommand(newCommand);
     }
 
     @Override

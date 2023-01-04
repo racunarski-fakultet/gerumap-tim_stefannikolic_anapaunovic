@@ -24,7 +24,7 @@ public class DeleteAction extends AbstractRumapActions{
     public void actionPerformed(ActionEvent e) {
         if(MainFrame.getInstance().getMapTree().getSelectedNode() != null) {
 
-            MapTreeNode selected = (MapTreeNode) MainFrame.getInstance().getMapTree().getSelectedNode();
+            MapTreeNode selected = MainFrame.getInstance().getMapTree().getSelectedNode();
 
             if(selected.getMapNode() instanceof ProjectExplorer){
                 AppCore.getInstance().getMsgGenerator().createMessage(Problem.NODE_CANNOT_BE_DELETED);

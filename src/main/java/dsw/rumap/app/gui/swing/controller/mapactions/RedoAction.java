@@ -12,7 +12,7 @@ public class RedoAction extends AbstractRumapActions {
 
     public RedoAction() {
         putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_D, ActionEvent.CTRL_MASK));
-        putValue(SMALL_ICON, loadIcon("/images/move.png"));
+        putValue(SMALL_ICON, loadIcon("/images/redo.png"));
         putValue(NAME, "MoveElement");
         putValue(SHORT_DESCRIPTION, "Move Element");
     }

@@ -10,21 +10,34 @@ import dsw.rumap.app.maprepository.implementation.MindMap;
 import dsw.rumap.app.maprepository.implementation.Project;
 import dsw.rumap.app.maprepository.implementation.elements.RelationElement;
 import dsw.rumap.app.maprepository.implementation.elements.TermElement;
-import dsw.rumap.app.maprepository.mapnodefactory.MapNodeFactory;
-import dsw.rumap.app.maprepository.mapnodefactory.MindMapFactory;
-
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.List;
 
 public class GsonSerializer implements Serializer {
 
-    private final Gson gson;
+    private Gson gson;
 
     public GsonSerializer() {
-        this.gson = new Gson();
+        setUpAdapters();
+    }
+
+    private void setUpAdapters(){
+        RuntimeTypeAdapterFactory<MapNode> mapNodeTypeFactory = RuntimeTypeAdapterFactory
+                .of(MapNode.class, "type", true)
+                .registerSubtype(Project.class)
+                .registerSubtype(MindMap.class)
+                .registerSubtype(Element.class)
+                .registerSubtype(TermElement.class)
+                .registerSubtype(RelationElement.class);
+
+        RuntimeTypeAdapterFactory<Element> elementTypeFactory = RuntimeTypeAdapterFactory
+                .of(Element.class, "type", true)
+                .registerSubtype(TermElement.class)
+                .registerSubtype(RelationElement.class);
+
+        gson = new GsonBuilder().registerTypeAdapterFactory(mapNodeTypeFactory).registerTypeAdapterFactory(elementTypeFactory).create();
     }
 
     @Override
@@ -39,20 +52,6 @@ public class GsonSerializer implements Serializer {
     @Override
     public Project loadProject(File file) {
         try (FileReader fileReader = new FileReader(file)){
-            RuntimeTypeAdapterFactory<MapNode> mapNodeTypeFactory = RuntimeTypeAdapterFactory
-                    .of(MapNode.class, "type", true)
-                    .registerSubtype(Project.class)
-                    .registerSubtype(MindMap.class)
-                    .registerSubtype(Element.class)
-                    .registerSubtype(TermElement.class)
-                    .registerSubtype(RelationElement.class);
-
-            RuntimeTypeAdapterFactory<Element> elementTypeFactory = RuntimeTypeAdapterFactory
-                    .of(Element.class, "type", true)
-                    .registerSubtype(TermElement.class)
-                    .registerSubtype(RelationElement.class);
-
-            Gson gson = new GsonBuilder().registerTypeAdapterFactory(mapNodeTypeFactory).registerTypeAdapterFactory(elementTypeFactory).create();
             return gson.fromJson(fileReader, new TypeToken<Project>(){}.getType());
         } catch (IOException exception) {
             exception.printStackTrace();
@@ -61,18 +60,18 @@ public class GsonSerializer implements Serializer {
     }
 
     @Override
-    public void saveMindMap(MindMap mindMap) {
-        try (FileWriter fileWriter = new FileWriter(new File(""))) {
-
+    public void saveMindMapTemplate(MindMap mindMap) {
+        try (FileWriter fileWriter = new FileWriter("src/main/resources/templateGallery/" + mindMap.getName() + ".json")) {
+            gson.toJson(mindMap, fileWriter);
         } catch (IOException exception) {
             exception.printStackTrace();
         }
     }
 
     @Override
-    public List<Element> loadMindMap(File file) {
+    public MindMap loadMindMapTemplate(File file) {
         try (FileReader fileReader = new FileReader(file)){
-            return null;
+            return gson.fromJson(fileReader, new TypeToken<MindMap>(){}.getType());
         } catch (IOException exception) {
             exception.printStackTrace();
             return null;

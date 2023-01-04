@@ -3,6 +3,7 @@ package dsw.rumap.app.gui.swing.controller;
 import dsw.rumap.app.AppCore;
 import dsw.rumap.app.gui.swing.view.MainFrame;
 import dsw.rumap.app.maprepository.implementation.Project;
+import org.apache.commons.io.FilenameUtils;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -28,8 +29,8 @@ public class SaveProjectAction extends AbstractRumapActions {
 
         Project project = ((Project) MainFrame.getInstance().getMapTree().getSelectedNode().getMapNode());
         JFileChooser jfc = new JFileChooser();
-        //jfc.setAcceptAllFileFilterUsed(false);
-        FileNameExtensionFilter filter = new FileNameExtensionFilter("JSON files", "json");
+
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("JSON files (*.json)", "json");
         jfc.addChoosableFileFilter(filter);
         File projectFile = null;
 
@@ -40,11 +41,11 @@ public class SaveProjectAction extends AbstractRumapActions {
         if(project.getFilePath() == null || project.getFilePath().isEmpty()){
             if(jfc.showSaveDialog(MainFrame.getInstance()) == JFileChooser.APPROVE_OPTION){
                 projectFile = jfc.getSelectedFile();
+                if(!FilenameUtils.getExtension(projectFile.getName()).equalsIgnoreCase("json"))
+                    projectFile = new File(projectFile.getParentFile(), FilenameUtils.getBaseName(projectFile.getName()) + ".json");
                 project.setFilePath(projectFile.getPath());
             }
-            else {
-                return;
-            }
+            else return;
         }
 
         AppCore.getInstance().getSerializer().saveProject(project);

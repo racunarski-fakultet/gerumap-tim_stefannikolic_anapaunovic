@@ -23,12 +23,15 @@ public class RenameAutorAction extends AbstractRumapActions {
     public void actionPerformed(ActionEvent e) {
 
         MapTreeNode selected = MainFrame.getInstance().getMapTree().getSelectedNode();
-        if(selected.getMapNode() instanceof Project){
+        if(selected == null)
+            AppCore.getInstance().getMsgGenerator().createMessage(Problem.NODE_IS_NOT_SELECTED);
+
+        else if(selected.getMapNode() instanceof Project){
             String autor = JOptionPane.showInputDialog("Unesite ime autora");
             if(autor == null)
                 return;
 
-            if(autor != null && !autor.isEmpty())
+            if(!autor.isEmpty())
                 AppCore.getInstance().getMapRepository().setAuthor(autor,selected.getMapNode());
             else {
                 AppCore.getInstance().getMsgGenerator().createMessage(Problem.NAME_CANNOT_BE_EMPTY);
@@ -36,8 +39,6 @@ public class RenameAutorAction extends AbstractRumapActions {
             };
 
         }
-        else if(selected == null)
-            AppCore.getInstance().getMsgGenerator().createMessage(Problem.NODE_IS_NOT_SELECTED);
 
         else AppCore.getInstance().getMsgGenerator().createMessage(Problem.SELECTED_NODE_IS_NOT_PROJECT);
     }

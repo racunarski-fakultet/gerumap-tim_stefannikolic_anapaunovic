@@ -20,7 +20,7 @@ public class FileLogger extends AbstractLogger {
     public void printMessage(Message message) {
         super.printMessage(message);
         try {
-            fw = new FileWriter("log.txt", true);
+            fw = new FileWriter("src/main/resources/log.txt", true);
             bw = new BufferedWriter(fw);
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
             bw.append("["+ type + "] ["+ dtf.format(message.getTimeStamp()) + "] "+ print + "\n");

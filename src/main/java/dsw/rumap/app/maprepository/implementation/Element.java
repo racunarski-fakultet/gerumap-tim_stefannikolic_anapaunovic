@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 @Getter
 public abstract class Element extends MapNode {
@@ -41,5 +42,9 @@ public abstract class Element extends MapNode {
     public void setColor(Integer color) {
         this.color = color;
         this.notify(this);
+    }
+
+    public void setUpLoadedElement(){
+        this.subscribers = new ArrayList<>();
     }
 }

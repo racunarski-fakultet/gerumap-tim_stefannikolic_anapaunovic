@@ -35,7 +35,6 @@ public class MindMapView extends JPanel implements ISubscriber, IPublisher, Adju
     private Rectangle2D selectionRec;
     private AffineTransform affineTransform;
     private double scaleFactor;
-    private Pair<Double, Double> translate;
     List<ISubscriber> subscribers;
     private int oldVscValue;
     private int oldHscValue;
@@ -66,10 +65,19 @@ public class MindMapView extends JPanel implements ISubscriber, IPublisher, Adju
         oldVscValue = 0;
         oldHscValue = 0;
         step = 5;
-        translate = new Pair<Double, Double>((double) 0, (double) 0);
         MainFrame.getInstance().subscribe(this);
         setPcScale = true;
-
+        for (MapNode mnElement :
+                this.model.getChildren()) {
+            Element element = (Element) mnElement;
+            ElementPainter newPainter;
+            if(element instanceof TermElement){
+                newPainter = new TermPainter(element);
+            }
+            else newPainter = new RelationPainter(element);
+            painters.add(newPainter);
+            mnElement.subscribe(this);
+        }
     }
 
 //    public void addPainter(ElementPainter painter) {
@@ -135,9 +143,11 @@ public class MindMapView extends JPanel implements ISubscriber, IPublisher, Adju
     public void update(Object notification) {
 
         NotificationType notificationType;
+        Object info;
 
         if (notification instanceof MyNotification) {
             notificationType = ((MyNotification) notification).getType();
+            info = ((MyNotification) notification).getInformation();
             if (notificationType.equals(NotificationType.MAP_DELETED)) {
                 model.unsubscribe(this);
                 MainFrame.getInstance().unsubscribe(this);
@@ -146,24 +156,24 @@ public class MindMapView extends JPanel implements ISubscriber, IPublisher, Adju
                 ElementPainter painterToRemove = null;
                 for (ElementPainter ep :
                         painters) {
-                    if (ep.getElement().equals(((MyNotification) notification).getInformation())){
+                    if (ep.getElement().equals(info)){
                         painterToRemove = ep;
                         break;
                     }
                 }
                 if(painterToRemove != null){
                     painters.remove(painterToRemove);
-                    ((MapNode) (((MyNotification) notification).getInformation())).unsubscribe(this);
+                    ((MapNode) (info)).unsubscribe(this);
                 }
             }
             else if(notificationType.equals(NotificationType.ELEMENT_ADDED)){
                 ElementPainter newPainter;
-                if(((MyNotification) notification).getInformation() instanceof TermElement){
-                    newPainter = new TermPainter(((Element) (((MyNotification) notification).getInformation())));
+                if(info instanceof TermElement){
+                    newPainter = new TermPainter(((Element) (info)));
                 }
-                else newPainter = new RelationPainter(((Element) (((MyNotification) notification).getInformation())));
+                else newPainter = new RelationPainter(((Element) (info)));
                 painters.add(newPainter);
-                ((MapNode) (((MyNotification) notification).getInformation())).subscribe(this);
+                ((MapNode) (info)).subscribe(this);
             }
         }
         this.repaint();

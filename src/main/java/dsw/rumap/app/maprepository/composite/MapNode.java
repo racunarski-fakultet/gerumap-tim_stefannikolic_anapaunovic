@@ -53,6 +53,7 @@ public abstract class MapNode implements IPublisher {
 
     @Override
     public void unsubscribe(ISubscriber sub) {
+        if(subscribers == null) return;
         subscribers.remove(sub);
     }
 

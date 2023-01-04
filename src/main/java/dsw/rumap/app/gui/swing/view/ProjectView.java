@@ -1,6 +1,5 @@
 package dsw.rumap.app.gui.swing.view;
 
-import com.sun.tools.javac.Main;
 import dsw.rumap.app.AppCore;
 import dsw.rumap.app.gui.swing.state.StateManager;
 import dsw.rumap.app.maprepository.composite.MapNode;
@@ -18,8 +17,7 @@ import lombok.Setter;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -32,12 +30,14 @@ public class ProjectView extends JPanel implements ISubscriber, IPublisher, Chan
     private JLabel author;
     private Project model;
     private JTabbedPane tabbedPane;
-    //private MapScrollPane mapScrollPane;
     private NotificationType notificationType;
-    private HashMap<Integer,MindMapView> mapViews;
+    private HashMap<Integer, MindMapView> mapViews;
     private StateManager stateManager;
     private MindMapView currentMindMapView;
     private List<ISubscriber> subscribers;
+    private JPanel templatePanel;
+    private JButton loadTemplateBtn;
+    private JButton saveAsTemplateBtn;
 
 
     public ProjectView(){
@@ -45,7 +45,14 @@ public class ProjectView extends JPanel implements ISubscriber, IPublisher, Chan
         author = new JLabel("");
         tabbedPane = new JTabbedPane();
         tabbedPane.addChangeListener(this);
-        //mapScrollPane = new MapScrollPane();
+        templatePanel = new JPanel(new GridLayout(1, 2, 10, 1));
+        templatePanel.setMaximumSize(new Dimension(this.getWidth(), 200));
+        loadTemplateBtn = new JButton("Load Map Template");
+        loadTemplateBtn.addActionListener(MainFrame.getInstance().getActionManager().getLoadMapTemplateAction());
+        saveAsTemplateBtn = new JButton("Save Map As Template");
+        saveAsTemplateBtn.addActionListener(MainFrame.getInstance().getActionManager().getSaveMapTemplateAction());
+        templatePanel.add(saveAsTemplateBtn);
+        templatePanel.add(loadTemplateBtn);
         BoxLayout box = new BoxLayout(this, BoxLayout.Y_AXIS);
         this.setLayout(box);
         this.add(Box.createVerticalStrut(5));
@@ -54,6 +61,8 @@ public class ProjectView extends JPanel implements ISubscriber, IPublisher, Chan
         this.add(author);
         this.add(Box.createVerticalStrut(5));
         this.add(tabbedPane);
+        this.add(Box.createVerticalStrut(2));
+        this.add(templatePanel);
         AppCore.getInstance().getMapRepository().getProjectExplorer().subscribe(this);
         mapViews = new HashMap<>();
         stateManager = new StateManager();
@@ -95,6 +104,8 @@ public class ProjectView extends JPanel implements ISubscriber, IPublisher, Chan
                 tabbedPane.setTitleAt((int)info, this.model.getChildren().get((int)info).getName());
             }
         }
+        this.revalidateMapActions();
+        //this.revalidateTreeSelection();
     }
 
     public void setModel(Project model){
@@ -111,12 +122,10 @@ public class ProjectView extends JPanel implements ISubscriber, IPublisher, Chan
         this.model = model;
         this.model.subscribe(this);
         this.fillView(model);
-        MainFrame.getInstance().showMMTB();
     }
 
     private void fillView(Project model) {
-        MainFrame.getInstance().showMMTB();
-        this.label.setText(model.getName());
+        this.label.setText("Project: " + model.getName());
         this.author.setText("Author: " + model.getAuthor());
 
         int totalTabs = tabbedPane.getTabCount();
@@ -145,7 +154,7 @@ public class ProjectView extends JPanel implements ISubscriber, IPublisher, Chan
                     tabbedPane.addTab(mindMap.getName(), new MapScrollPane(createMindMapView(mindMap)));
                 }
             }
-            this.revalidateUndoRedo();
+            //this.revalidateUndoRedo();
         }
 
         int deleteInd = tabCounter;
@@ -153,7 +162,8 @@ public class ProjectView extends JPanel implements ISubscriber, IPublisher, Chan
             tabbedPane.remove(deleteInd);
             tabCounter++;
         }
-
+        this.revalidateMapActions();
+        this.revalidateTreeSelection();
         SwingUtilities.updateComponentTreeUI(this);
     }
 
@@ -167,7 +177,7 @@ public class ProjectView extends JPanel implements ISubscriber, IPublisher, Chan
         this.label.setText("[Select Project]");
         this.author.setText("");
         this.tabbedPane.removeAll();
-        MainFrame.getInstance().hideMMTB();
+        this.revalidateMapActions();
     }
 
     public MindMapView getCurrentMindMapView() {
@@ -175,6 +185,15 @@ public class ProjectView extends JPanel implements ISubscriber, IPublisher, Chan
             return null;
         return ((MapScrollPane) (tabbedPane.getSelectedComponent())).getMindMapView();
     }
+
+    private void revalidateTreeSelection(){
+        if(this.getCurrentMindMapView() != null)
+            MainFrame.getInstance().getMapTree().setSelectedNode(this.getCurrentMindMapView().getModel());
+    }
+
+//    public void setCurrentMindMapView(MindMap mindMap){
+//        tabbedPane.setSelectedComponent();
+//    }
 
     public MapScrollPane getCurrentMapScrollPane(){
         return ((MapScrollPane) (tabbedPane.getSelectedComponent()));
@@ -233,5 +252,17 @@ public class ProjectView extends JPanel implements ISubscriber, IPublisher, Chan
             MainFrame.getInstance().getActionManager().getUndoAction().setEnabled(false);
             MainFrame.getInstance().getActionManager().getRedoAction().setEnabled(false);
         }
+    }
+
+    private void revalidateMapActions(){
+        if(this.getCurrentMindMapView() == null)
+            MainFrame.getInstance().hideMapActions();
+        else MainFrame.getInstance().showMapActions();
+    }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        this.templatePanel.setMaximumSize(new Dimension(this.getWidth(), 500));
     }
 }

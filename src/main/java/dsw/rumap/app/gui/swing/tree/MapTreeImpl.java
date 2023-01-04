@@ -14,11 +14,13 @@ import dsw.rumap.app.maprepository.implementation.ProjectExplorer;
 import lombok.Getter;
 
 import javax.swing.*;
+import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.DoubleSummaryStatistics;
+import java.util.Iterator;
 import java.util.Random;
 @Getter
 public class MapTreeImpl implements MapTree {
@@ -31,9 +33,7 @@ public class MapTreeImpl implements MapTree {
         MapTreeNode root = new MapTreeNode(projectExplorer);
         mapTreeModel = new MapTreeModel(root);
         mapTreeView = new MapTreeView(mapTreeModel);
-
         return mapTreeView;
-
     }
 
     @Override
@@ -46,10 +46,22 @@ public class MapTreeImpl implements MapTree {
         this.refresh();
     }
 
-
     @Override
     public MapTreeNode getSelectedNode() {
         return (MapTreeNode) mapTreeView.getLastSelectedPathComponent();
+    }
+    
+    @Override
+    public void setSelectedNode(MindMap mindMap){
+        Iterator<TreeNode> treeNodeIterator = this.getMapTreeModel().getRoot().children().asIterator();
+        while (treeNodeIterator.hasNext()){
+            System.out.println("asa");
+            if(treeNodeIterator instanceof MapTreeNode && ((MapTreeNode) treeNodeIterator).getMapNode().equals(mindMap)){
+                mapTreeView.setSelectionPath(new TreePath(((MapTreeNode) treeNodeIterator).getPath()));
+                break;
+            }
+            treeNodeIterator.next();
+        }
     }
 
     @Override

@@ -3,11 +3,13 @@ package dsw.rumap.app.maprepository.implementation;
 import dsw.rumap.app.maprepository.commands.CommandManager;
 import dsw.rumap.app.maprepository.composite.MapNode;
 import dsw.rumap.app.maprepository.composite.MapNodeC;
+import dsw.rumap.app.maprepository.implementation.elements.RelationElement;
 import dsw.rumap.app.observer.notification.MyNotification;
 import dsw.rumap.app.observer.notification.NotificationType;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 @Getter
@@ -27,7 +29,6 @@ public class MindMap extends MapNodeC {
 
     public MindMap(MapNode parent){
         this("MindMap" + ((MapNodeC)parent).makeNameForChild(), parent);
-        key = new Random().nextInt();
     }
 
     @Override
@@ -64,5 +65,9 @@ public class MindMap extends MapNodeC {
     }
     public Integer getKey() {
         return key;
+    }
+
+    public void setUpLoadedMindMap(){
+        this.subscribers = new ArrayList<>();
     }
 }

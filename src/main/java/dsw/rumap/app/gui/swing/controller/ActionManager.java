@@ -24,6 +24,9 @@ public class ActionManager {
     private SaveProjectAction saveProjectAction;
     private SaveProjectAsAction saveProjectAsAction;
     private LoadProjectAction loadProjectAction;
+    private SaveMapJPGAction saveMapJPGAction;
+    private SaveMapTemplateAction saveMapTemplateAction;
+    private LoadMapTemplateAction loadMapTemplateAction;
 
     public ActionManager(){
         initialiseActions();
@@ -50,5 +53,8 @@ public class ActionManager {
         this.loadProjectAction = new LoadProjectAction();
         this.saveProjectAction = new SaveProjectAction();
         this.saveProjectAsAction = new SaveProjectAsAction();
+        this.saveMapJPGAction = new SaveMapJPGAction();
+        this.saveMapTemplateAction = new SaveMapTemplateAction();
+        this.loadMapTemplateAction = new LoadMapTemplateAction();
     }
 }

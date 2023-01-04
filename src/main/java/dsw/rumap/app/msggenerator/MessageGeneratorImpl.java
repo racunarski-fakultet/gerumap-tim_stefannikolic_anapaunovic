@@ -21,7 +21,6 @@ public class MessageGeneratorImpl implements MessageGenerator {
     @Override
     public void createMessage(Problem event) {
 
-
         if(event.equals(Problem.NODE_CANNOT_BE_DELETED))
             message = new Message(MessageType.ERROR, event);
 
@@ -48,6 +47,9 @@ public class MessageGeneratorImpl implements MessageGenerator {
 
         else if(event.equals(Problem.ZOOM_IS_AT_MIN))
             message = new Message(MessageType.INFORMATION, event);
+
+        else if(event.equals(Problem.SELECTED_NODE_IS_NOT_PROJECT))
+            message = new Message(MessageType.ERROR, event);
 
         this.notify(message);
     }

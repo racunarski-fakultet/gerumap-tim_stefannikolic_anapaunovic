@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.File;
+import java.util.ArrayList;
 
 @Getter
 @Setter
@@ -90,5 +91,17 @@ public class Project extends MapNodeC implements ISubscriber {
         if(notification instanceof MyNotification &&
                 ((MyNotification) notification).getType() == NotificationType.ELEMENT_ADDED)
             ((MapNode)((MyNotification) notification).getInformation()).subscribe(this);
+    }
+
+    public void setUpLoadedProject(){
+        for (MapNode child :
+                this.getChildren()) {
+            child.subscribe(this);
+            for (MapNode element :
+                    ((MindMap) child).getChildren()) {
+                element.subscribe(this);
+            }
+        }
+        this.subscribers = new ArrayList<>();
     }
 }

@@ -4,6 +4,7 @@ import dsw.rumap.app.core.MapRepository;
 import dsw.rumap.app.maprepository.commands.CommandManager;
 import dsw.rumap.app.maprepository.composite.MapNode;
 import dsw.rumap.app.maprepository.composite.MapNodeC;
+import dsw.rumap.app.maprepository.implementation.Element;
 import dsw.rumap.app.maprepository.implementation.MindMap;
 import dsw.rumap.app.maprepository.implementation.Project;
 import dsw.rumap.app.maprepository.implementation.ProjectExplorer;
@@ -35,7 +36,6 @@ public class MapReposImpl implements MapRepository {
     public void removeChild(MapNode parent, MapNode child) {
         if(parent instanceof MapNodeC)
             ((MapNodeC) parent).delete(child);
-
     }
 
     @Override
@@ -72,10 +72,23 @@ public class MapReposImpl implements MapRepository {
             mindMap.setParent(project);
             ((MindMap) mindMap).setCommandManager(new CommandManager());
             MapNodeC mindMapC = (MapNodeC) mindMap;
+            ((MindMap) mindMap).setUpLoadedMindMap();
             for (MapNode element :
                     mindMapC.getChildren()) {
                 element.setParent(mindMap);
+                ((Element) element).setUpLoadedElement();
             }
+        }
+        project.setUpLoadedProject();
+    }
+
+    @Override
+    public void loadMapTemplate(MindMap loaded, MindMap current) {
+        for (MapNode element :
+                loaded.getChildren()) {
+            element.setParent(current);
+            ((Element) element).setUpLoadedElement();
+            current.add(element);
         }
     }
 }

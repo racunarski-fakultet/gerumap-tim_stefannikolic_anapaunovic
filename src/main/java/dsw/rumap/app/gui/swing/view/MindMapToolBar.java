@@ -21,6 +21,8 @@ public class MindMapToolBar extends JToolBar {
         //addSeparator();
         add(MainFrame.getInstance().getActionManager().getZoomOutAction());
         //addSeparator();
+        add(MainFrame.getInstance().getActionManager().getSaveMapJPGAction());
+        //addSeparator();
         add(MainFrame.getInstance().getActionManager().getUndoAction());
         //addSeparator();
         add(MainFrame.getInstance().getActionManager().getRedoAction());

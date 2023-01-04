@@ -98,11 +98,6 @@ public class MindMapView extends JPanel implements ISubscriber, IPublisher, Adju
 
         MainFrame.getInstance().getProjectView().getCurrentMapScrollPane().getHorizontalScrollBar().setMaximum(((int)(20*Math.pow(affineTransform.getScaleX(), 5))+ Math.max(100, getFPoints().getFirst())) / step);
         MainFrame.getInstance().getProjectView().getCurrentMapScrollPane().getVerticalScrollBar().setMaximum(((int)(20*Math.pow(affineTransform.getScaleX(), 5))+ Math.max(100, getFPoints().getSecond())) / step);
-        System.out.println("H scroll: "+MainFrame.getInstance().getProjectView().getCurrentMapScrollPane().getHorizontalScrollBar().getMaximum()*5);
-        System.out.println("V scroll: "+MainFrame.getInstance().getProjectView().getCurrentMapScrollPane().getVerticalScrollBar().getMaximum()*5);
-        System.out.println("razlika x: "+ (MainFrame.getInstance().getProjectView().getCurrentMapScrollPane().getHorizontalScrollBar().getMaximum()*5 - getFPoints().getFirst()));
-        System.out.println("max x: "+getFPoints().getFirst());
-        System.out.println("max y: "+getFPoints().getSecond());
 
 
         float[] dash1 = {2f, 0f, 2f};
@@ -328,6 +323,8 @@ public class MindMapView extends JPanel implements ISubscriber, IPublisher, Adju
         centralElement.setStroke(centralElement.getStroke()+5);
         centralElement.setPosition(this.getWidth(), this.getHeight());
         List<TermElement> toElements = new ArrayList<>();
+        List<TermElement> doneElements = new ArrayList<>();
+        doneElements.add(centralElement);
         for (MapNode mapNode :
                 this.model.getChildren()) {
             if(mapNode instanceof TermElement) continue;
@@ -338,8 +335,30 @@ public class MindMapView extends JPanel implements ISubscriber, IPublisher, Adju
         for(int i=0; i<toElements.size(); i++){
             TermElement termElement = toElements.get(i);
             termElement.setPosition((int)(centralElement.getPosition().getFirst()+100*Math.sin(i*2*Math.PI/toElements.size())), (int) (centralElement.getPosition().getSecond()+100*Math.cos(i*2*Math.PI/toElements.size())));
+            doneElements.add(termElement);
         }
 
+    }
+
+    public void connectToCentralRecursive(TermElement centralElement, List<TermElement> doneElements){
+        centralElement.setStroke(centralElement.getStroke()+5);
+        centralElement.setPosition(this.getWidth(), this.getHeight());
+        List<TermElement> toElements = new ArrayList<>();
+        doneElements.add(centralElement);
+        for (MapNode mapNode :
+                this.model.getChildren()) {
+            if(mapNode instanceof TermElement) continue;
+            RelationElement relationElement = (RelationElement) mapNode;
+            if(relationElement.getFromTerm() != centralElement) continue;
+            toElements.add(relationElement.getToTerm());
+        }
+        for(int i=0; i<toElements.size(); i++){
+            TermElement termElement = toElements.get(i);
+            if(doneElements.contains(termElement)) continue;
+            termElement.setPosition((int)(centralElement.getPosition().getFirst()+100*Math.sin(i*2*Math.PI/toElements.size())), (int) (centralElement.getPosition().getSecond()+100*Math.cos(i*2*Math.PI/toElements.size())));
+            doneElements.add(termElement);
+        }
+        //connectToCentralRecursive();
     }
 }
 

@@ -5,12 +5,13 @@ import dsw.rumap.app.gui.swing.view.MainFrame;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 
 public class ZoomInAction extends AbstractRumapActions {
 
     public ZoomInAction() {
-        putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_D, ActionEvent.CTRL_MASK));
+        //putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(InputEvent., ActionEvent.CTRL_MASK));
         putValue(SMALL_ICON, loadIcon("/images/zoom.png"));
         putValue(NAME, "ZoomIn");
         putValue(SHORT_DESCRIPTION, "Zoom In");

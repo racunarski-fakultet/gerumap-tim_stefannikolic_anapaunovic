@@ -27,6 +27,8 @@ public class ActionManager {
     private SaveMapJPGAction saveMapJPGAction;
     private SaveMapTemplateAction saveMapTemplateAction;
     private LoadMapTemplateAction loadMapTemplateAction;
+    private CentralizeTermAction centralizeTermAction;
+    private RenameElementAction renameElementAction;
 
     public ActionManager(){
         initialiseActions();
@@ -56,5 +58,7 @@ public class ActionManager {
         this.saveMapJPGAction = new SaveMapJPGAction();
         this.saveMapTemplateAction = new SaveMapTemplateAction();
         this.loadMapTemplateAction = new LoadMapTemplateAction();
+        this.centralizeTermAction = new CentralizeTermAction();
+        this.renameElementAction = new RenameElementAction();
     }
 }

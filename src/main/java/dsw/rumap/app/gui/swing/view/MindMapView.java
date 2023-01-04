@@ -12,6 +12,7 @@ import dsw.rumap.app.maprepository.implementation.Element;
 import dsw.rumap.app.maprepository.implementation.elements.MapSelectionModel;
 import dsw.rumap.app.maprepository.implementation.MindMap;
 import dsw.rumap.app.maprepository.implementation.elements.Pair;
+import dsw.rumap.app.maprepository.implementation.elements.RelationElement;
 import dsw.rumap.app.maprepository.implementation.elements.TermElement;
 import dsw.rumap.app.msggenerator.Problem;
 import dsw.rumap.app.observer.IPublisher;
@@ -46,7 +47,7 @@ public class MindMapView extends JPanel implements ISubscriber, IPublisher, Adju
     public MindMapView(MindMap model) {
         BorderLayout borderLayout = new BorderLayout();
         this.setLayout(borderLayout);
-        subscribers = new ArrayList<ISubscriber>();
+        subscribers = new ArrayList<>();
         this.model = model;
         this.mapSelectionModel = new MapSelectionModel();
         mapSelectionModel.subscribe(this);
@@ -79,16 +80,6 @@ public class MindMapView extends JPanel implements ISubscriber, IPublisher, Adju
             mnElement.subscribe(this);
         }
     }
-
-//    public void addPainter(ElementPainter painter) {
-//        painters.add(painter);
-//        painter.getElement().subscribe(this);
-//    }
-//
-//    public void removePainter(ElementPainter painter) {
-//        painters.remove(painter);
-//        painter.getElement().unsubscribe(this);
-//    }
 
     @Override
     protected void paintComponent(Graphics g) {
@@ -326,6 +317,29 @@ public class MindMapView extends JPanel implements ISubscriber, IPublisher, Adju
         y -= getTranslate().getSecond()/pcScale;
         y *= getPcScale()/getScale();
         return y;
+    }
+
+    public void centralizeTerm(){
+        if(mapSelectionModel.getSelected().size() != 1 || mapSelectionModel.getSelected().get(0) instanceof RelationElement){
+            AppCore.getInstance().getMsgGenerator().createMessage(Problem.SELECT_EXACTLY_ONE_TERM_TO_CENTRALIZE);
+            return;
+        }
+        TermElement centralElement = (TermElement) mapSelectionModel.getSelected().get(0);
+        centralElement.setStroke(centralElement.getStroke()+5);
+        centralElement.setPosition(this.getWidth(), this.getHeight());
+        List<TermElement> toElements = new ArrayList<>();
+        for (MapNode mapNode :
+                this.model.getChildren()) {
+            if(mapNode instanceof TermElement) continue;
+            RelationElement relationElement = (RelationElement) mapNode;
+            if(relationElement.getFromTerm() != centralElement) continue;
+            toElements.add(relationElement.getToTerm());
+        }
+        for(int i=0; i<toElements.size(); i++){
+            TermElement termElement = toElements.get(i);
+            termElement.setPosition((int)(centralElement.getPosition().getFirst()+100*Math.sin(i*2*Math.PI/toElements.size())), (int) (centralElement.getPosition().getSecond()+100*Math.cos(i*2*Math.PI/toElements.size())));
+        }
+
     }
 }
 

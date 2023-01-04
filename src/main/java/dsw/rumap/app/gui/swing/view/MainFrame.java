@@ -53,7 +53,7 @@ public class MainFrame extends JFrame implements ISubscriber, IPublisher {
         Dimension screenSize = kit.getScreenSize();
         int screenHeight = screenSize.height;
         int screenWidth = screenSize.width;
-        setSize(screenWidth/2, 600);
+        setSize(screenWidth/2, 650);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setTitle("RuMap");
@@ -104,14 +104,17 @@ public class MainFrame extends JFrame implements ISubscriber, IPublisher {
         Problem message = ((Message)notification).getMessage();
         MessageType type = ((Message)notification).getType();
 
-        if(type.equals(MessageType.INFORMATION)){
-            JOptionPane.showMessageDialog(this,message,"Information", JOptionPane.INFORMATION_MESSAGE);
-        }
-        else if(type.equals(MessageType.WARNING)){
-            JOptionPane.showMessageDialog(this,message,"Warning", JOptionPane.WARNING_MESSAGE);
-        }
-        else if(type.equals(MessageType.ERROR)){
-            JOptionPane.showMessageDialog(this,message,"Error",JOptionPane.ERROR_MESSAGE);
+        switch (type){
+            case ERROR:
+                JOptionPane.showMessageDialog(this,message,"Information", JOptionPane.ERROR_MESSAGE);
+                break;
+            case INFORMATION:
+                JOptionPane.showMessageDialog(this,message,"Warning", JOptionPane.INFORMATION_MESSAGE);
+                break;
+            case WARNING:
+                JOptionPane.showMessageDialog(this,message,"Warning", JOptionPane.WARNING_MESSAGE);
+                break;
+            default: return;
         }
     }
 

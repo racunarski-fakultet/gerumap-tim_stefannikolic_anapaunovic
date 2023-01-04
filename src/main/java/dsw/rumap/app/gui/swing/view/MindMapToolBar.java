@@ -9,6 +9,8 @@ public class MindMapToolBar extends JToolBar {
 
         add(MainFrame.getInstance().getActionManager().getAddTermAction());
         //addSeparator();
+        add(MainFrame.getInstance().getActionManager().getCentralizeTermAction());
+        //addSeparator();
         add(MainFrame.getInstance().getActionManager().getAddRelationAction());
         //addSeparator();
         add(MainFrame.getInstance().getActionManager().getSelectElementAction());

@@ -322,27 +322,13 @@ public class MindMapView extends JPanel implements ISubscriber, IPublisher, Adju
         TermElement centralElement = (TermElement) mapSelectionModel.getSelected().get(0);
         centralElement.setStroke(centralElement.getStroke()+5);
         centralElement.setPosition(this.getWidth(), this.getHeight());
-        List<TermElement> toElements = new ArrayList<>();
         List<TermElement> doneElements = new ArrayList<>();
         doneElements.add(centralElement);
-        for (MapNode mapNode :
-                this.model.getChildren()) {
-            if(mapNode instanceof TermElement) continue;
-            RelationElement relationElement = (RelationElement) mapNode;
-            if(relationElement.getFromTerm() != centralElement) continue;
-            toElements.add(relationElement.getToTerm());
-        }
-        for(int i=0; i<toElements.size(); i++){
-            TermElement termElement = toElements.get(i);
-            termElement.setPosition((int)(centralElement.getPosition().getFirst()+100*Math.sin(i*2*Math.PI/toElements.size())), (int) (centralElement.getPosition().getSecond()+100*Math.cos(i*2*Math.PI/toElements.size())));
-            doneElements.add(termElement);
-        }
+        connectToCentralRecursive(centralElement, doneElements, 200);
 
     }
 
-    public void connectToCentralRecursive(TermElement centralElement, List<TermElement> doneElements){
-        centralElement.setStroke(centralElement.getStroke()+5);
-        centralElement.setPosition(this.getWidth(), this.getHeight());
+    public void connectToCentralRecursive(TermElement centralElement, List<TermElement> doneElements, int distance){
         List<TermElement> toElements = new ArrayList<>();
         doneElements.add(centralElement);
         for (MapNode mapNode :
@@ -355,10 +341,10 @@ public class MindMapView extends JPanel implements ISubscriber, IPublisher, Adju
         for(int i=0; i<toElements.size(); i++){
             TermElement termElement = toElements.get(i);
             if(doneElements.contains(termElement)) continue;
-            termElement.setPosition((int)(centralElement.getPosition().getFirst()+100*Math.sin(i*2*Math.PI/toElements.size())), (int) (centralElement.getPosition().getSecond()+100*Math.cos(i*2*Math.PI/toElements.size())));
+            termElement.setPosition((int)(centralElement.getPosition().getFirst()+distance*Math.sin(i*2*Math.PI/toElements.size())), (int) (centralElement.getPosition().getSecond()+distance*Math.cos(i*2*Math.PI/toElements.size())));
             doneElements.add(termElement);
+            connectToCentralRecursive(termElement, doneElements, distance-40);
         }
-        //connectToCentralRecursive();
     }
 }
 

@@ -17,7 +17,7 @@ public class SaveMapTemplateAction extends AbstractRumapActions {
     JFileChooser jfc;
 
     public SaveMapTemplateAction() {
-        putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_D, ActionEvent.CTRL_MASK));
+        //putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_D, ActionEvent.CTRL_MASK));
         //putValue(SMALL_ICON, loadIcon("/images/move.png"));
         putValue(NAME, "SaveMapAsTemplate");
         putValue(SHORT_DESCRIPTION, "Save Map As Template");

@@ -4,6 +4,7 @@ import dsw.rumap.app.AppCore;
 import dsw.rumap.app.gui.swing.view.MainFrame;
 import dsw.rumap.app.maprepository.composite.MapNode;
 import dsw.rumap.app.maprepository.implementation.Project;
+import dsw.rumap.app.msggenerator.Problem;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
@@ -39,11 +40,11 @@ public class LoadProjectAction extends AbstractRumapActions{
                             JOptionPane.WARNING_MESSAGE);
                     if(newName == null || newName.isEmpty()){
                         cont = false;
-                        //todo greska ne moze biti prazno
+                        AppCore.getInstance().getMsgGenerator().createMessage(Problem.NAME_CANNOT_BE_EMPTY);
                     }
                     else if(!AppCore.getInstance().getMapRepository().getProjectExplorer().checkName(newName)){
                         cont = false;
-                        //todo greska to ime isto postoji
+                        AppCore.getInstance().getMsgGenerator().createMessage(Problem.NAME_ALREADY_EXISTS);
                     }
                     else project.setName(newName);
                 }

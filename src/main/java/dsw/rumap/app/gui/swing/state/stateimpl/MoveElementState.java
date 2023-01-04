@@ -33,14 +33,25 @@ public class MoveElementState implements State {
         int moveX = x - newStartX;
         int moveY = y - newStartY;
 
+        for(Element selected: mindMapView.getMapSelectionModel().getSelected()) {
+            if (selected instanceof TermElement) {
+                TermElement selectedTerm = (TermElement) selected;
+                if ((selectedTerm.getPosition().getFirst() + moveX) <= 0 || (selectedTerm.getPosition().getSecond() + moveY) <= 0) {
+                    newStartX = x;
+                    newStartY = y;
+                    return;
+                }
+            }
+        }
+
         for(Element selected: mindMapView.getMapSelectionModel().getSelected()){
             if(selected instanceof TermElement) {
                 TermElement selectedTerm = (TermElement) selected;
-                selectedTerm.setPosition(selectedTerm.getPosition().getFirst() + moveX, selectedTerm.getPosition().getSecond() + moveY);
+               selectedTerm.setPosition(selectedTerm.getPosition().getFirst() + moveX, selectedTerm.getPosition().getSecond() + moveY);
             }
-            newStartX = x;
-            newStartY = y;
         }
+        newStartX = x;
+        newStartY = y;
     }
 
     @Override

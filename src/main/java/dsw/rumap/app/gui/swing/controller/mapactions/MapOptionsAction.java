@@ -14,6 +14,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.util.HashMap;
 
@@ -25,7 +26,7 @@ public class MapOptionsAction extends AbstractRumapActions {
     private JColorChooser colorChooser;
 
     public MapOptionsAction() {
-        putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_O, ActionEvent.CTRL_MASK));
+        putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_DOWN_MASK));
         putValue(SMALL_ICON, loadIcon("/images/delete.png"));
         putValue(NAME, "Options");
         putValue(SHORT_DESCRIPTION, "Options");

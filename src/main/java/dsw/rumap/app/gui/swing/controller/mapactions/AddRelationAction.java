@@ -10,7 +10,7 @@ import java.awt.event.KeyEvent;
 public class AddRelationAction extends AbstractRumapActions {
 
     public AddRelationAction() {
-        putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_D, ActionEvent.CTRL_MASK));
+        //putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_N, ActionEvent.CTRL_MASK));
         putValue(SMALL_ICON, loadIcon("/images/link.png"));
         putValue(NAME, "AddReletion");
         putValue(SHORT_DESCRIPTION, "New Relation");

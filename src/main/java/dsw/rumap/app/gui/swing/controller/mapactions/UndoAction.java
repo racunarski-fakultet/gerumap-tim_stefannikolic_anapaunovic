@@ -11,10 +11,10 @@ import java.awt.event.KeyEvent;
 public class UndoAction extends AbstractRumapActions {
 
     public UndoAction() {
-        putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_D, ActionEvent.CTRL_MASK));
+        putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_Z, ActionEvent.CTRL_MASK));
         putValue(SMALL_ICON, loadIcon("/images/undo.png"));
-        putValue(NAME, "MoveElement");
-        putValue(SHORT_DESCRIPTION, "Move Element");
+        putValue(NAME, "Undo");
+        putValue(SHORT_DESCRIPTION, "Undo");
     }
 
     @Override

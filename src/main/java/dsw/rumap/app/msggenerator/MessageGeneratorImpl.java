@@ -21,36 +21,26 @@ public class MessageGeneratorImpl implements MessageGenerator {
     @Override
     public void createMessage(Problem event) {
 
-        if(event.equals(Problem.NODE_CANNOT_BE_DELETED))
-            message = new Message(MessageType.ERROR, event);
-
-        else if(event.equals(Problem.NODE_IS_NOT_SELECTED))
-            message = new Message(MessageType.ERROR, event);
-
-        else if(event.equals(Problem.NAME_CANNOT_BE_EMPTY))
-            message = new Message(MessageType.WARNING, event);
-
-        else if(event.equals(Problem.NAME_ALREADY_EXISTS))
-            message = new Message(MessageType.INFORMATION, event);
-
-        else if(event.equals(Problem.NODE_CANNOT_HAVE_CHILDREN))
-            message = new Message(MessageType.ERROR, event);
-
-        else if(event.equals(Problem.STROKE_HAS_TO_BE_NUMBER))
-            message = new Message(MessageType.ERROR, event);
-
-        else if(event.equals(Problem.ELEMENTS_ARE_NOT_SELECTED))
-            message = new Message(MessageType.ERROR, event);
-
-        else if(event.equals(Problem.ZOOM_IS_AT_MAX))
-            message = new Message(MessageType.INFORMATION, event);
-
-        else if(event.equals(Problem.ZOOM_IS_AT_MIN))
-            message = new Message(MessageType.INFORMATION, event);
-
-        else if(event.equals(Problem.SELECTED_NODE_IS_NOT_PROJECT))
-            message = new Message(MessageType.ERROR, event);
-
+        switch (event){
+            case SELECTED_NODE_IS_NOT_PROJECT:
+            case NODE_CANNOT_HAVE_CHILDREN:
+            case STROKE_HAS_TO_BE_NUMBER:
+            case ELEMENTS_ARE_NOT_SELECTED:
+            case NODE_IS_NOT_SELECTED:
+            case SELECT_EXACTLY_ONE_TERM_TO_CENTRALIZE:
+            case NODE_CANNOT_BE_DELETED:
+                message = new Message(MessageType.ERROR, event);
+                break;
+            case NAME_ALREADY_EXISTS:
+            case ZOOM_IS_AT_MAX:
+            case ZOOM_IS_AT_MIN:
+                message = new Message(MessageType.INFORMATION, event);
+                break;
+            case NAME_CANNOT_BE_EMPTY:
+                message = new Message(MessageType.WARNING, event);
+                break;
+            default: return;
+        }
         this.notify(message);
     }
 

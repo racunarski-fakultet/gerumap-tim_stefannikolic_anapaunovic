@@ -23,7 +23,7 @@ public class LoadMapTemplateAction extends AbstractRumapActions {
     MindMap loadedMindMap;
 
     public LoadMapTemplateAction() {
-        putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_D, ActionEvent.CTRL_MASK));
+        //putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_D, ActionEvent.CTRL_MASK));
         //putValue(SMALL_ICON, loadIcon("/images/move.png"));
         putValue(NAME, "LoadMapTemplate");
         putValue(SHORT_DESCRIPTION, "Load Map Template");
@@ -41,7 +41,6 @@ public class LoadMapTemplateAction extends AbstractRumapActions {
         }
         else return;
         if(MainFrame.getInstance().getProjectView().getCurrentMindMapView() == null){
-            //todo greska
             return;
         }
         AppCore.getInstance().getMapRepository().loadMapTemplate(loadedMindMap, MainFrame.getInstance().getProjectView().getCurrentMindMapView().getModel());

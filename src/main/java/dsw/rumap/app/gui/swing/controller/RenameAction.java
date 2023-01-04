@@ -15,7 +15,7 @@ import java.awt.event.KeyEvent;
 public class RenameAction extends AbstractRumapActions {
 
     public RenameAction() {
-        putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_M, ActionEvent.CTRL_MASK));
+        putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_R, ActionEvent.CTRL_MASK));
         putValue(SMALL_ICON, loadIcon("/images/rename.png"));
         putValue(NAME, "Rename");
         putValue(SHORT_DESCRIPTION, "Rename");

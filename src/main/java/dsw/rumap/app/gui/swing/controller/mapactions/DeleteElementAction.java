@@ -10,7 +10,7 @@ import java.awt.event.KeyEvent;
 public class DeleteElementAction extends AbstractRumapActions {
 
     public DeleteElementAction() {
-        putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_D, ActionEvent.CTRL_MASK));
+        //putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_D, ActionEvent.CTRL_MASK));
         putValue(SMALL_ICON, loadIcon("/images/delete.png"));
         putValue(NAME, "DeleteElement");
         putValue(SHORT_DESCRIPTION, "Delete Element");

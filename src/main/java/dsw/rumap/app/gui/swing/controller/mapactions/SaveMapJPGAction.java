@@ -1,8 +1,10 @@
 package dsw.rumap.app.gui.swing.controller.mapactions;
 
+import dsw.rumap.app.AppCore;
 import dsw.rumap.app.gui.swing.ScreenImage;
 import dsw.rumap.app.gui.swing.controller.AbstractRumapActions;
 import dsw.rumap.app.gui.swing.view.MainFrame;
+import dsw.rumap.app.msggenerator.Problem;
 import lombok.SneakyThrows;
 
 import javax.swing.*;
@@ -13,7 +15,7 @@ import java.awt.image.BufferedImage;
 public class SaveMapJPGAction extends AbstractRumapActions {
 
     public SaveMapJPGAction() {
-        putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_D, ActionEvent.CTRL_MASK));
+        //putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_D, ActionEvent.CTRL_MASK));
         putValue(SMALL_ICON, loadIcon("/images/capture.png"));
         putValue(NAME, "PrintMap");
         putValue(SHORT_DESCRIPTION, "Print Map");
@@ -27,7 +29,7 @@ public class SaveMapJPGAction extends AbstractRumapActions {
         MainFrame.getInstance().getProjectView().getCurrentMindMapView().print(ss.getGraphics());
         String name = JOptionPane.showInputDialog(MainFrame.getInstance(), "Enter ScreenShot name:", "ScreenShot Name Input", JOptionPane.INFORMATION_MESSAGE);
         if(name.isEmpty()){
-            //todo error
+            AppCore.getInstance().getMsgGenerator().createMessage(Problem.NAME_CANNOT_BE_EMPTY);
             return;
         }
 

@@ -2,7 +2,6 @@ package dsw.rumap.app.gui.swing.view;
 
 import dsw.rumap.app.AppCore;
 import dsw.rumap.app.gui.swing.controller.ActionManager;
-import dsw.rumap.app.gui.swing.controller.mapactions.MapOptionsAction;
 import dsw.rumap.app.gui.swing.tree.MapTree;
 import dsw.rumap.app.gui.swing.tree.MapTreeImpl;
 import dsw.rumap.app.msggenerator.Message;
@@ -15,10 +14,6 @@ import lombok.Setter;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,7 +53,7 @@ public class MainFrame extends JFrame implements ISubscriber, IPublisher {
         Dimension screenSize = kit.getScreenSize();
         int screenHeight = screenSize.height;
         int screenWidth = screenSize.width;
-        setSize(screenWidth/2, screenHeight/2);
+        setSize(screenWidth/2, 600);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setTitle("RuMap");
@@ -84,6 +79,7 @@ public class MainFrame extends JFrame implements ISubscriber, IPublisher {
 
         JTree explorerTree = mapTree.generateTree(AppCore.getInstance().getMapRepository().getProjectExplorer());
         projectView = new ProjectView();
+        projectView.subscribe(this);
 
         JScrollPane scPane = new JScrollPane(explorerTree);
         scPane.setMinimumSize(new Dimension(200, 150));
@@ -99,6 +95,12 @@ public class MainFrame extends JFrame implements ISubscriber, IPublisher {
 
     @Override
     public void update(Object notification) {
+
+        if(notification instanceof ProjectView)
+            this.repaint();
+
+        if(!(notification instanceof Message)) return;
+
         Problem message = ((Message)notification).getMessage();
         MessageType type = ((Message)notification).getType();
 
@@ -138,11 +140,13 @@ public class MainFrame extends JFrame implements ISubscriber, IPublisher {
         notify(this);
     }
 
-    public void hideMMTB(){
-        this.eastPanel.setVisible(false);
+    public void showMapActions(){
+        this.projectView.getTemplatePanel().setVisible(true);
+        this.eastPanel.setVisible(true);
     }
 
-    public void showMMTB(){
-        this.eastPanel.setVisible(true);
+    public void hideMapActions(){
+        this.projectView.getTemplatePanel().setVisible(false);
+        this.eastPanel.setVisible(false);
     }
 }

@@ -1,8 +1,11 @@
 package dsw.rumap.app.maprepository;
 
 import dsw.rumap.app.core.MapRepository;
+import dsw.rumap.app.maprepository.commands.CommandManager;
 import dsw.rumap.app.maprepository.composite.MapNode;
 import dsw.rumap.app.maprepository.composite.MapNodeC;
+import dsw.rumap.app.maprepository.implementation.Element;
+import dsw.rumap.app.maprepository.implementation.MindMap;
 import dsw.rumap.app.maprepository.implementation.Project;
 import dsw.rumap.app.maprepository.implementation.ProjectExplorer;
 import dsw.rumap.app.maprepository.mapnodefactory.*;
@@ -24,15 +27,15 @@ public class MapReposImpl implements MapRepository {
 
     @Override
     public void addChild(MapNode parent, MapNode child) {
-        if(parent instanceof MapNodeC)
+        if(parent instanceof MapNodeC) {
             ((MapNodeC) parent).add(child);
+        }
     }
 
     @Override
     public void removeChild(MapNode parent, MapNode child) {
         if(parent instanceof MapNodeC)
             ((MapNodeC) parent).delete(child);
-
     }
 
     @Override
@@ -46,7 +49,7 @@ public class MapReposImpl implements MapRepository {
         if(parent == null)
             node.setName(name);
         else if(parent instanceof MapNodeC){
-            if(((MapNodeC) parent).checkName(name) != true){
+            if(!((MapNodeC) parent).checkName(name)){
                 return false;
             }
             else node.setName(name);
@@ -60,5 +63,32 @@ public class MapReposImpl implements MapRepository {
         else return factoryUtil.getMapNodeFactory(parent);
     }
 
+    @Override
+    public void loadProject(Project project){
+        this.projectExplorer.add(project);
+        project.setParent(this.projectExplorer);
+        for (MapNode mindMap :
+                project.getChildren()) {
+            mindMap.setParent(project);
+            ((MindMap) mindMap).setCommandManager(new CommandManager());
+            MapNodeC mindMapC = (MapNodeC) mindMap;
+            ((MindMap) mindMap).setUpLoadedMindMap();
+            for (MapNode element :
+                    mindMapC.getChildren()) {
+                element.setParent(mindMap);
+                ((Element) element).setUpLoadedElement();
+            }
+        }
+        project.setUpLoadedProject();
+    }
 
+    @Override
+    public void loadMapTemplate(MindMap loaded, MindMap current) {
+        for (MapNode element :
+                loaded.getChildren()) {
+            element.setParent(current);
+            ((Element) element).setUpLoadedElement();
+            current.add(element);
+        }
+    }
 }

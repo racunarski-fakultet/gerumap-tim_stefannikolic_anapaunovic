@@ -2,9 +2,10 @@ package dsw.rumap.app.gui.swing.state.stateimpl;
 
 import dsw.rumap.app.AppCore;
 import dsw.rumap.app.gui.swing.state.State;
+import dsw.rumap.app.gui.swing.view.MainFrame;
 import dsw.rumap.app.gui.swing.view.MindMapView;
-import dsw.rumap.app.gui.swing.view.painters.ElementPainter;
-import dsw.rumap.app.gui.swing.view.painters.TermPainter;
+import dsw.rumap.app.maprepository.commands.AddElementCommand;
+import dsw.rumap.app.maprepository.commands.Command;
 import dsw.rumap.app.maprepository.implementation.Element;
 import dsw.rumap.app.maprepository.implementation.MindMap;
 import dsw.rumap.app.maprepository.implementation.elements.TermElement;
@@ -22,8 +23,6 @@ public class AddTermState implements State {
     public void stateMousePressed(int x, int y, MindMapView mindMapView) {
         MindMap mindMap = mindMapView.getModel();
 
-        x = mindMapView.correctMouseX(x);
-        y = mindMapView.correctMouseY(y);
 
         String name = JOptionPane.showInputDialog("Unesite naziv pojma:");
         if(name == null)
@@ -38,8 +37,11 @@ public class AddTermState implements State {
         }
 
         Element element = new TermElement(name, mindMap, x-30, y-15);
-        ElementPainter painter = new TermPainter(element);
-        mindMapView.addPainter(painter);
+        Command newCommand = new AddElementCommand(mindMap, element);
+        MainFrame.getInstance().getProjectView().getCurrentMindMapView().getModel().getCommandManager().addCommand(newCommand);
+        //AppCore.getInstance().getMapRepository().addChild(mindMap, element);
+        //ElementPainter painter = new TermPainter(element);
+        //mindMapView.addPainter(painter);
         //TODO treba da se prodje kroz listu cvorova u stablu da se nadje taj i da se doda
         //MainFrame.getInstance().getMapTree().addChild(mindMap, element);
 

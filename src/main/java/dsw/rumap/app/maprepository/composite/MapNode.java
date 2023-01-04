@@ -1,5 +1,6 @@
 package dsw.rumap.app.maprepository.composite;
 
+import com.google.gson.annotations.Expose;
 import dsw.rumap.app.observer.IPublisher;
 import dsw.rumap.app.observer.ISubscriber;
 import lombok.Getter;
@@ -13,22 +14,24 @@ import java.util.Objects;
 @Getter
 @Setter
 public abstract class MapNode implements IPublisher {
+    protected String type;
     private String name;
-    private MapNode parent;
+    private transient MapNode parent;
 
-    protected List<ISubscriber> subscribers;
+    protected transient List<ISubscriber> subscribers;
 
     public MapNode(String name, MapNode parent){
         this.name = name;
         this.parent = parent;
         this.subscribers = new ArrayList<>();
+        type = "MapNode";
     }
 
     public MapNode(MapNode parent){}
 
     @Override
     public boolean equals(Object obj){
-        if(obj != null && obj instanceof MapNode){
+        if(obj instanceof MapNode){
             MapNode object = (MapNode) obj;
             return this.getName().equals(object.getName());
         }
@@ -42,6 +45,7 @@ public abstract class MapNode implements IPublisher {
 
     @Override
     public void subscribe(ISubscriber sub) {
+        if(subscribers == null) return;
         if(!subscribers.contains(sub))
             this.subscribers.add(sub);
 
@@ -49,11 +53,13 @@ public abstract class MapNode implements IPublisher {
 
     @Override
     public void unsubscribe(ISubscriber sub) {
-        if(subscribers.contains(sub))subscribers.remove(sub);
+        if(subscribers == null) return;
+        subscribers.remove(sub);
     }
 
     @Override
     public void notify(Object notification) {
+        if(subscribers == null) return;
         if(subscribers.isEmpty())
             return;
         for (ISubscriber iSubscriber : subscribers) {

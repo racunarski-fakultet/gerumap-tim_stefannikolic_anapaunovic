@@ -17,6 +17,5 @@ public class ConsoleLogger extends AbstractLogger {
 
     @Override
     public void closeFileLogger() {
-        return;
     }
 }

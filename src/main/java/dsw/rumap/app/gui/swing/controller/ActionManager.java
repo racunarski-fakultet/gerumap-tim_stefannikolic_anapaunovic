@@ -19,6 +19,14 @@ public class ActionManager {
     private MapOptionsAction mapOptionsAction;
     private ZoomInAction zoomInAction;
     private ZoomOutAction zoomOutAction;
+    private UndoAction undoAction;
+    private RedoAction redoAction;
+    private SaveProjectAction saveProjectAction;
+    private SaveProjectAsAction saveProjectAsAction;
+    private LoadProjectAction loadProjectAction;
+    private SaveMapJPGAction saveMapJPGAction;
+    private SaveMapTemplateAction saveMapTemplateAction;
+    private LoadMapTemplateAction loadMapTemplateAction;
 
     public ActionManager(){
         initialiseActions();
@@ -38,5 +46,15 @@ public class ActionManager {
         this.mapOptionsAction = new MapOptionsAction();
         this.zoomInAction = new ZoomInAction();
         this.zoomOutAction = new ZoomOutAction();
+        this.undoAction = new UndoAction();
+        this.redoAction = new RedoAction();
+        this.undoAction.setEnabled(false);
+        this.redoAction.setEnabled(false);
+        this.loadProjectAction = new LoadProjectAction();
+        this.saveProjectAction = new SaveProjectAction();
+        this.saveProjectAsAction = new SaveProjectAsAction();
+        this.saveMapJPGAction = new SaveMapJPGAction();
+        this.saveMapTemplateAction = new SaveMapTemplateAction();
+        this.loadMapTemplateAction = new LoadMapTemplateAction();
     }
 }

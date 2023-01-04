@@ -23,7 +23,14 @@ public class TermPainter extends ElementPainter{
         ((Ellipse2D)shape).setFrame(termElement.getPosition().getFirst(), termElement.getPosition().getSecond(), termElement.getSize().getFirst(), termElement.getSize().getSecond());
 
         if(MainFrame.getInstance().getProjectView().getCurrentMindMapView().getMapSelectionModel().isSelected(this.getElement())){
-            g.setStroke(new BasicStroke(element.getStroke()+2));
+            float[] dash1 = { 5f, 0f, 5f };
+            BasicStroke bs1 = new BasicStroke(element.getStroke()+2,
+                    BasicStroke.CAP_BUTT,
+                    BasicStroke.JOIN_ROUND,
+                    1.0f,
+                    dash1,
+                    2f);
+            g.setStroke(bs1);
             g.setPaint(Color.RED);
         }
         else {
@@ -31,7 +38,7 @@ public class TermPainter extends ElementPainter{
             g.setStroke(new BasicStroke(element.getStroke()));
         }
         g.draw(shape);
-        g.setPaint(element.getColor());
+        g.setPaint(new Color(element.getColor()));
         g.fill(shape);
         g.setPaint(Color.WHITE);
         g.setFont(new Font(Font.SERIF, Font.BOLD, 16));

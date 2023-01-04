@@ -9,22 +9,23 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 @Getter
 public abstract class Element extends MapNode {
 
     private Integer stroke;
-    private Color color;
+    private Integer color;
 
     public Element(String name, MapNode parent) {
         super(name, parent);
-        ((MapNodeC) parent).add(this);
+        type = "Element";
+        //((MapNodeC) parent).add(this);
     }
 
     public Element(MapNode parent){
-
         this("Element" + ((MapNodeC)parent).makeNameForChild(), parent);
-        ((MapNodeC) parent).add(this);
+        //((MapNodeC) parent).add(this);
     }
 
     @Override
@@ -38,8 +39,12 @@ public abstract class Element extends MapNode {
         this.notify(this);
     }
 
-    public void setColor(Color color) {
+    public void setColor(Integer color) {
         this.color = color;
         this.notify(this);
+    }
+
+    public void setUpLoadedElement(){
+        this.subscribers = new ArrayList<>();
     }
 }

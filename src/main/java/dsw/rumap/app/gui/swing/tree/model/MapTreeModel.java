@@ -13,4 +13,10 @@ public class MapTreeModel extends DefaultTreeModel {
     public void setRoot(TreeNode root) {
         super.setRoot(root);
     }
+
+    @Override
+    public MapTreeNode getRoot(){
+        MapTreeNode root = (MapTreeNode) super.getRoot();
+        return root;
+    }
 }

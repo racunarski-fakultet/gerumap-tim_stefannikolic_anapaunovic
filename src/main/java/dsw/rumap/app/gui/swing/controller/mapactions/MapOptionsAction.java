@@ -3,7 +3,10 @@ package dsw.rumap.app.gui.swing.controller.mapactions;
 import dsw.rumap.app.AppCore;
 import dsw.rumap.app.gui.swing.controller.AbstractRumapActions;
 import dsw.rumap.app.gui.swing.view.MainFrame;
+import dsw.rumap.app.maprepository.commands.ChangeAppearanceCommand;
+import dsw.rumap.app.maprepository.commands.Command;
 import dsw.rumap.app.maprepository.implementation.Element;
+import dsw.rumap.app.maprepository.implementation.elements.Pair;
 import dsw.rumap.app.msggenerator.Problem;
 import lombok.Getter;
 
@@ -12,6 +15,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.util.HashMap;
+
 @Getter
 public class MapOptionsAction extends AbstractRumapActions {
 
@@ -53,12 +58,10 @@ public class MapOptionsAction extends AbstractRumapActions {
                         AppCore.getInstance().getMsgGenerator().createMessage(Problem.ELEMENTS_ARE_NOT_SELECTED);
                         return;
                     }
-                    for (Element element :
-                            MainFrame.getInstance().getProjectView().getCurrentMindMapView().getMapSelectionModel().getSelected()) {
-                        element.setStroke(strokeInt);
-                        element.setColor(color);
-                    }
-
+                    Command newCommand = new ChangeAppearanceCommand(color.getRGB(), strokeInt, MainFrame.getInstance().getProjectView().getCurrentMindMapView().getMapSelectionModel().getSelected());
+                    MainFrame.getInstance().getProjectView().getCurrentMindMapView().getModel().getCommandManager().addCommand(newCommand);
+                    strokeTextField.setText("3");
+                    colorChooser.setColor(Color.CYAN);
                 }
                 catch (NumberFormatException n){
                     AppCore.getInstance().getMsgGenerator().createMessage(Problem.STROKE_HAS_TO_BE_NUMBER);

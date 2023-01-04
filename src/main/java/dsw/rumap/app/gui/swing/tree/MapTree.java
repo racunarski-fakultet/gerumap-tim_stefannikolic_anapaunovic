@@ -3,12 +3,16 @@ package dsw.rumap.app.gui.swing.tree;
 import dsw.rumap.app.gui.swing.tree.model.MapTreeNode;
 import dsw.rumap.app.gui.swing.tree.view.MapTreeView;
 import dsw.rumap.app.maprepository.composite.MapNode;
+import dsw.rumap.app.maprepository.implementation.MindMap;
+import dsw.rumap.app.maprepository.implementation.Project;
 import dsw.rumap.app.maprepository.implementation.ProjectExplorer;
 
 public interface MapTree {
-    public MapTreeView generateTree(ProjectExplorer projectExplorer);
-    public void addChild(MapTreeNode parent, MapNode child);
-    public MapTreeNode getSelectedNode();
-    public void refresh();
-    public void removeTreeNode(MapTreeNode mapTreeNode);
+    MapTreeView generateTree(ProjectExplorer projectExplorer);
+    void addChild(MapTreeNode parent, MapNode child);
+    MapTreeNode getSelectedNode();
+    void refresh();
+    void removeTreeNode(MapTreeNode mapTreeNode);
+    void loadProject(Project project);
+    void setSelectedNode(MindMap mindMap);
 }

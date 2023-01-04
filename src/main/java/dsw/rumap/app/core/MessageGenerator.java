@@ -6,5 +6,5 @@ import dsw.rumap.app.observer.IPublisher;
 
 public interface MessageGenerator extends IPublisher {
 
-    public void createMessage(Problem event);
+    void createMessage(Problem event);
 }

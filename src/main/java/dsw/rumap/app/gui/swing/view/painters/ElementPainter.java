@@ -6,6 +6,7 @@ import dsw.rumap.app.observer.ISubscriber;
 import lombok.Getter;
 
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
 @Getter
@@ -19,6 +20,9 @@ public abstract class ElementPainter {
     }
 
     public abstract void draw(Graphics2D g);
-    public boolean elementAt(Point pos) { return shape.contains(pos); }
+    public boolean elementAt(Point pos) {
+        //return shape.contains(pos);
+        return shape.intersects(new Rectangle2D.Float((float) pos.getX()-2, (float) pos.getY()-2, 4, 4));
+    }
 
 }

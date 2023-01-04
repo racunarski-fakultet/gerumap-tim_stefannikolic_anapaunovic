@@ -36,7 +36,6 @@ public class RelationPainter extends ElementPainter{
 
         setBounds();
         if(MainFrame.getInstance().getProjectView().getCurrentMindMapView().getMapSelectionModel().isSelected(this.getElement())){
-
             float[] dash1 = { 5f, 0f, 5f };
             BasicStroke bs1 = new BasicStroke(element.getStroke(),
                     BasicStroke.CAP_BUTT,
@@ -48,11 +47,11 @@ public class RelationPainter extends ElementPainter{
             g.setPaint(Color.RED);
         }
         else {
-            g.setPaint(element.getColor());
+            g.setPaint(new Color(element.getColor()));
             g.setStroke(new BasicStroke(element.getStroke()));
         }
         g.draw(shape);
-        g.setPaint(element.getColor());
+        g.setPaint(new Color(element.getColor()));
         g.fill(shape);
     }
 }

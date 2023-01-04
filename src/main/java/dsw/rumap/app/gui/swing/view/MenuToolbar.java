@@ -14,6 +14,9 @@ public class MenuToolbar extends JToolBar {
         add(MainFrame.getInstance().getActionManager().getRenameNode());
         add(MainFrame.getInstance().getActionManager().getRenameAutor());
         add(MainFrame.getInstance().getActionManager().getDeleteAction());
+        add(MainFrame.getInstance().getActionManager().getLoadProjectAction());
+        add(MainFrame.getInstance().getActionManager().getSaveProjectAction());
+        add(MainFrame.getInstance().getActionManager().getSaveProjectAsAction());
         add(MainFrame.getInstance().getActionManager().getInfoAction());
 
     }

@@ -1,12 +1,15 @@
 package dsw.rumap.app.maprepository.implementation;
 
+import dsw.rumap.app.maprepository.commands.CommandManager;
 import dsw.rumap.app.maprepository.composite.MapNode;
 import dsw.rumap.app.maprepository.composite.MapNodeC;
+import dsw.rumap.app.maprepository.implementation.elements.RelationElement;
 import dsw.rumap.app.observer.notification.MyNotification;
 import dsw.rumap.app.observer.notification.NotificationType;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 @Getter
@@ -15,21 +18,23 @@ public class MindMap extends MapNodeC {
 
     private boolean template;
     private Integer key;
+    private transient CommandManager commandManager;
 
     public MindMap(String name, MapNode parent) {
         super(name, parent);
         key = new Random().nextInt();
+        commandManager = new CommandManager();
+        type = "MindMap";
     }
 
     public MindMap(MapNode parent){
         this("MindMap" + ((MapNodeC)parent).makeNameForChild(), parent);
-        key = new Random().nextInt();
     }
 
     @Override
     public Integer makeNameForChild() {
         Integer nameNumber = this.getChildren().size() + 1;
-        while (this.checkName("Element" + nameNumber) == false) {
+        while (!this.checkName("Element" + nameNumber)) {
             nameNumber++;
         }
         return nameNumber;
@@ -37,19 +42,19 @@ public class MindMap extends MapNodeC {
 
     @Override
     public void add(MapNode child) {
-        if(child != null && child instanceof Element &&
+        if(child instanceof Element &&
                 !(this.getChildren().contains(child))){
             this.getChildren().add(child);
-            this.notify(this);
+            this.notify(new MyNotification(NotificationType.ELEMENT_ADDED, child));
         }
     }
 
     @Override
     public void delete(MapNode child) {
-        if(child != null && child instanceof Element &&
+        if(child instanceof Element &&
                 this.getChildren().contains(child)){
+            this.notify(new MyNotification(NotificationType.ELEMENT_DELETED, child));
             this.getChildren().remove(child);
-            this.notify(this);
         }
     }
 
@@ -60,5 +65,9 @@ public class MindMap extends MapNodeC {
     }
     public Integer getKey() {
         return key;
+    }
+
+    public void setUpLoadedMindMap(){
+        this.subscribers = new ArrayList<>();
     }
 }

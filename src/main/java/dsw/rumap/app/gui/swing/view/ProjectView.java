@@ -1,12 +1,12 @@
 package dsw.rumap.app.gui.swing.view;
 
-import com.sun.tools.javac.Main;
 import dsw.rumap.app.AppCore;
 import dsw.rumap.app.gui.swing.state.StateManager;
 import dsw.rumap.app.maprepository.composite.MapNode;
 import dsw.rumap.app.maprepository.implementation.MindMap;
 import dsw.rumap.app.maprepository.implementation.Project;
 import dsw.rumap.app.maprepository.implementation.ProjectExplorer;
+import dsw.rumap.app.observer.IPublisher;
 import dsw.rumap.app.observer.ISubscriber;
 import dsw.rumap.app.observer.notification.MyNotification;
 import dsw.rumap.app.observer.notification.NotificationType;
@@ -15,30 +15,44 @@ import lombok.Setter;
 
 
 import javax.swing.*;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import java.awt.*;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 @Getter
 @Setter
-public class ProjectView extends JPanel implements ISubscriber {
+public class ProjectView extends JPanel implements ISubscriber, IPublisher, ChangeListener {
 
     private JLabel label;
     private JLabel author;
     private Project model;
     private JTabbedPane tabbedPane;
-    //private MapScrollPane mapScrollPane;
     private NotificationType notificationType;
-    private HashMap<Integer,MindMapView> mapViews;
+    private HashMap<Integer, MindMapView> mapViews;
     private StateManager stateManager;
     private MindMapView currentMindMapView;
+    private List<ISubscriber> subscribers;
+    private JPanel templatePanel;
+    private JButton loadTemplateBtn;
+    private JButton saveAsTemplateBtn;
 
 
     public ProjectView(){
         label = new JLabel("Select project");
         author = new JLabel("");
         tabbedPane = new JTabbedPane();
-        //mapScrollPane = new MapScrollPane();
+        tabbedPane.addChangeListener(this);
+        templatePanel = new JPanel(new GridLayout(1, 2, 10, 1));
+        templatePanel.setMaximumSize(new Dimension(this.getWidth(), 200));
+        loadTemplateBtn = new JButton("Load Map Template");
+        loadTemplateBtn.addActionListener(MainFrame.getInstance().getActionManager().getLoadMapTemplateAction());
+        saveAsTemplateBtn = new JButton("Save Map As Template");
+        saveAsTemplateBtn.addActionListener(MainFrame.getInstance().getActionManager().getSaveMapTemplateAction());
+        templatePanel.add(saveAsTemplateBtn);
+        templatePanel.add(loadTemplateBtn);
         BoxLayout box = new BoxLayout(this, BoxLayout.Y_AXIS);
         this.setLayout(box);
         this.add(Box.createVerticalStrut(5));
@@ -47,10 +61,13 @@ public class ProjectView extends JPanel implements ISubscriber {
         this.add(author);
         this.add(Box.createVerticalStrut(5));
         this.add(tabbedPane);
+        this.add(Box.createVerticalStrut(2));
+        this.add(templatePanel);
         AppCore.getInstance().getMapRepository().getProjectExplorer().subscribe(this);
         mapViews = new HashMap<>();
         stateManager = new StateManager();
         currentMindMapView = null;
+        subscribers = new ArrayList<>();
     }
 
     @Override
@@ -77,6 +94,7 @@ public class ProjectView extends JPanel implements ISubscriber {
                 tabbedPane.addTab(model.getChildren().get((int)info).getName(), new MapScrollPane(newMindMapView));
                 model.getChildren().get((int)info).subscribe(this);
                 mapViews.put(((MindMap) model.getChildren().get((int)info)).getKey(), newMindMapView);
+                notify(this);
             }
             else if(notificationType.equals(NotificationType.MAP_DELETED)){
                 tabbedPane.remove((int) info);
@@ -86,6 +104,8 @@ public class ProjectView extends JPanel implements ISubscriber {
                 tabbedPane.setTitleAt((int)info, this.model.getChildren().get((int)info).getName());
             }
         }
+        this.revalidateMapActions();
+        //this.revalidateTreeSelection();
     }
 
     public void setModel(Project model){
@@ -102,12 +122,10 @@ public class ProjectView extends JPanel implements ISubscriber {
         this.model = model;
         this.model.subscribe(this);
         this.fillView(model);
-        MainFrame.getInstance().showMMTB();
     }
 
     private void fillView(Project model) {
-        MainFrame.getInstance().showMMTB();
-        this.label.setText(model.getName());
+        this.label.setText("Project: " + model.getName());
         this.author.setText("Author: " + model.getAuthor());
 
         int totalTabs = tabbedPane.getTabCount();
@@ -136,6 +154,7 @@ public class ProjectView extends JPanel implements ISubscriber {
                     tabbedPane.addTab(mindMap.getName(), new MapScrollPane(createMindMapView(mindMap)));
                 }
             }
+            //this.revalidateUndoRedo();
         }
 
         int deleteInd = tabCounter;
@@ -143,7 +162,8 @@ public class ProjectView extends JPanel implements ISubscriber {
             tabbedPane.remove(deleteInd);
             tabCounter++;
         }
-
+        this.revalidateMapActions();
+        this.revalidateTreeSelection();
         SwingUtilities.updateComponentTreeUI(this);
     }
 
@@ -157,7 +177,7 @@ public class ProjectView extends JPanel implements ISubscriber {
         this.label.setText("[Select Project]");
         this.author.setText("");
         this.tabbedPane.removeAll();
-        MainFrame.getInstance().hideMMTB();
+        this.revalidateMapActions();
     }
 
     public MindMapView getCurrentMindMapView() {
@@ -165,6 +185,15 @@ public class ProjectView extends JPanel implements ISubscriber {
             return null;
         return ((MapScrollPane) (tabbedPane.getSelectedComponent())).getMindMapView();
     }
+
+    private void revalidateTreeSelection(){
+        if(this.getCurrentMindMapView() != null)
+            MainFrame.getInstance().getMapTree().setSelectedNode(this.getCurrentMindMapView().getModel());
+    }
+
+//    public void setCurrentMindMapView(MindMap mindMap){
+//        tabbedPane.setSelectedComponent();
+//    }
 
     public MapScrollPane getCurrentMapScrollPane(){
         return ((MapScrollPane) (tabbedPane.getSelectedComponent()));
@@ -191,4 +220,49 @@ public class ProjectView extends JPanel implements ISubscriber {
     public void medMouseReleased(int x, int y, MindMapView mindMapView){ this.stateManager.getCurrentState().stateMouseReleased(x, y, mindMapView);}
 
 
+    @Override
+    public void subscribe(ISubscriber sub) {
+        subscribers.add(sub);
+    }
+
+    @Override
+    public void unsubscribe(ISubscriber sub) {
+        subscribers.remove(sub);
+    }
+
+    @Override
+    public void notify(Object notification) {
+        for (ISubscriber sub :
+                subscribers) {
+            if(sub != null)
+                sub.update(notification);
+        }
+    }
+
+    @Override
+    public void stateChanged(ChangeEvent e) {
+        notify(this);
+        revalidateUndoRedo();
+    }
+
+    private void revalidateUndoRedo(){
+        if(getCurrentMindMapView() != null)
+            getCurrentMindMapView().getModel().getCommandManager().revalidateActions();
+        else {
+            MainFrame.getInstance().getActionManager().getUndoAction().setEnabled(false);
+            MainFrame.getInstance().getActionManager().getRedoAction().setEnabled(false);
+        }
+    }
+
+    private void revalidateMapActions(){
+        if(this.getCurrentMindMapView() == null)
+            MainFrame.getInstance().hideMapActions();
+        else MainFrame.getInstance().showMapActions();
+    }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        this.templatePanel.setMaximumSize(new Dimension(this.getWidth(), 500));
+    }
 }

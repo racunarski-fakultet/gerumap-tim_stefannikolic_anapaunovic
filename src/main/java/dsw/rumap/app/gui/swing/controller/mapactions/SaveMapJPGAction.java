@@ -24,7 +24,7 @@ public class SaveMapJPGAction extends AbstractRumapActions {
     @SneakyThrows
     @Override
     public void actionPerformed(ActionEvent e) {
-        BufferedImage ss = new BufferedImage(MainFrame.getInstance().getProjectView().getCurrentMindMapView().getWidth()+500, MainFrame.getInstance().getProjectView().getCurrentMindMapView().getHeight()+500, BufferedImage.TYPE_INT_RGB);
+        BufferedImage ss = new BufferedImage(MainFrame.getInstance().getProjectView().getCurrentMindMapView().getWidth(), MainFrame.getInstance().getProjectView().getCurrentMindMapView().getHeight(), BufferedImage.TYPE_INT_RGB);
         BufferedImage bimage = ScreenImage.createImage(MainFrame.getInstance().getProjectView().getCurrentMapScrollPane());
         MainFrame.getInstance().getProjectView().getCurrentMindMapView().print(ss.getGraphics());
         String name = JOptionPane.showInputDialog(MainFrame.getInstance(), "Enter ScreenShot name:", "ScreenShot Name Input", JOptionPane.INFORMATION_MESSAGE);
